@@ -1,0 +1,67 @@
+#!/bin/bash -x
+#
+# Copyright 2019-present Open Networking Foundation
+#
+# SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+exec 3>&1
+exec &>>/var/log/simple-ovs-cni.log
+
+PATH="$CNI_PATH:$(dirname "${BASH_SOURCE[0]}"):$PATH"
+CNI_CONF=$(cat /dev/stdin)
+
+get_bridge() {
+	echo "br-$(echo $CNI_CONF | jq -r '.name')"
+}
+
+ipam() {
+	local plugin=$(echo $CNI_CONF | jq -r '.ipam.type')
+	local res=$(echo $"$CNI_CONF" | "$plugin" | jq -c '.')
+	echo $res
+}
+
+add_br_and_port() {
+	mkdir -p /var/run/netns/
+        ln -sfT $CNI_NETNS /var/run/netns/$CNI_CONTAINERID
+
+	local bridge=$(get_bridge)
+	local ip=$1
+
+	ovs-vsctl --may-exist add-br $bridge
+	ovs-vsctl add-port $bridge $CNI_IFNAME -- set Interface $CNI_IFNAME type=internal
+
+	ip link set $CNI_IFNAME netns $CNI_CONTAINERID
+        ip netns exec $CNI_CONTAINERID ip addr add $ip dev $CNI_IFNAME
+        ip netns exec $CNI_CONTAINERID ip link set $CNI_IFNAME up
+}
+
+delete_br_and_port() {
+	local bridge="br-$(echo $CNI_CONF | jq -r '.name')"
+	ovs-vsctl del-port $CNI_IFNAME
+	if [ -z "$(ovs-vsctl list-ports $bridge)" ]; then
+		ovs-vsctl del-br $bridge
+	fi
+}
+
+case $CNI_COMMAND in
+ADD)
+	res=$(ipam)
+	ip=$(echo $res | jq -r '.ips[0].address')
+	add_br_and_port $ip
+        echo '{"cniVersion":"0.3.1"}' | jq -c --arg ip $ip '.ips[0].address = $ip' >&3
+	;;
+DEL)
+	set +o errexit
+	ipam
+	delete_br_and_port
+	set -o errexit
+	;;
+*)
+	echo "CNI_COMMAND=[ADD|DEL] only supported"
+	exit 1
+	;;
+esac

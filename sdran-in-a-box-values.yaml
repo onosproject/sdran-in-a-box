@@ -1,0 +1,76 @@
+# Copyright 2020-present Open Networking Foundation
+#
+# SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
+
+# cassandra values
+cassandra:
+  config:
+    cluster_size: 1
+    seed_size: 1
+
+resources:
+  enabled: false
+
+config:
+  spgwc:
+    pfcp: true
+    ueIpPool:
+      ip: 10.250.0.0
+  upf:
+    name: "oaisim"
+    sriov:
+      enabled: false
+    hugepage:
+      enabled: false
+    cniPlugin: simpleovs
+    ipam: static
+    cfgFiles:
+      upf.json:
+        mode: af_packet
+  mme:
+    cfgFiles:
+      config.json:
+        mme:
+          mcc:
+            dig1: 2
+            dig2: 0
+            dig3: 8
+          mnc:
+            dig1: 0
+            dig2: 1
+            dig3: -1
+          apnlist:
+            internet: "spgwc"
+  hss:
+    bootstrap:
+      users:
+        - apn: "internet"
+          key: "465b5ce8b199b49faa5f0a2ee238a6bc"
+          opc: "d4416644f6154936193433dd20a0ace0"
+          sqn: 96
+          imsiStart: "208014567891201"
+          msisdnStart: "1122334455"
+          count: 10
+  oai-enb-cu:
+    networks:
+      f1:
+        interface: lo
+        address: 127.0.0.2
+      s1mme:
+        interface: eno1
+      s1u:
+        interface: enb
+  oai-enb-du:
+    mode: nfapi #or local_L1 for USRP and BasicSim
+    networks:
+      f1:
+        interface: lo
+        address: 127.0.0.3
+      nfapi:
+        interface: lo
+        address: 127.0.0.3
+  oai-ue:
+    networks:
+      nfapi:
+        interface: lo
+        address: 127.0.0.4
