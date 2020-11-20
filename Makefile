@@ -14,7 +14,7 @@ SRIABVALUES			?= $(SRIABDIR)/sdran-in-a-box-values.yaml
 CHARTDIR			?= $(WORKSPACE)/helm-charts
 AETHERCHARTDIR		?= $(CHARTDIR)/aether-helm-charts
 SDRANCHARTDIR		?= $(CHARTDIR)/sdran-helm-charts
-OAICHARTDIR			?= $(CHARTDIR)/oai-helm-charts
+OAICHARTDIR			?= $(CHARTDIR)/sdran-helm-charts
 
 KUBESPRAY_VERSION	?= release-2.14
 DOCKER_VERSION		?= 19.03
