@@ -5,12 +5,12 @@
 SHELL				:= /bin/bash
 BUILD				?= /tmp/build
 M					?= $(BUILD)/milestones
-SRIABDIR			:= $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
+RIABDIR				:= $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 WORKSPACE			?= $(HOME)
-SCRIPTDIR			?= $(SRIABDIR)/scripts
-RESOURCEDIR			?= $(SRIABDIR)/resources
-VENV				?= $(BUILD)/venv/sriab
-SRIABVALUES			?= $(SRIABDIR)/sdran-in-a-box-values.yaml
+SCRIPTDIR			?= $(RIABDIR)/scripts
+RESOURCEDIR			?= $(RIABDIR)/resources
+VENV				?= $(BUILD)/venv/riab
+RIABVALUES			?= $(RIABDIR)/sdran-in-a-box-values.yaml
 CHARTDIR			?= $(WORKSPACE)/helm-charts
 AETHERCHARTDIR		?= $(CHARTDIR)/aether-helm-charts
 SDRANCHARTDIR		?= $(CHARTDIR)/sdran-helm-charts
@@ -30,9 +30,9 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: sriab clean
+.PHONY: riab clean
 
-sriab: $(M)/system-check $(M)/helm-ready $(M)/oai-ue
+riab: $(M)/system-check $(M)/helm-ready $(M)/oai-ue
 
 $(M):
 	mkdir -p $(M)
@@ -155,13 +155,13 @@ $(M)/omec: | $(M)/helm-ready $(M)/fabric
 	helm dep up $(AETHERCHARTDIR)/omec/omec-control-plane
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
-		--values $(SRIABVALUES) \
+		--values $(RIABVALUES) \
 		omec-control-plane \
 		$(AETHERCHARTDIR)/omec/omec-control-plane && \
 	kubectl wait pod -n omec --for=condition=Ready -l release=omec-control-plane --timeout=300s && \
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
-		--values $(SRIABVALUES) \
+		--values $(RIABVALUES) \
 		omec-user-plane \
 		$(AETHERCHARTDIR)/omec/omec-user-plane && \
 	kubectl wait pod -n omec --for=condition=Ready -l release=omec-user-plane --timeout=300s
@@ -170,7 +170,7 @@ $(M)/omec: | $(M)/helm-ready $(M)/fabric
 $(M)/oai-enb-cu: | $(M)/omec
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
-		--values $(SRIABVALUES) \
+		--values $(RIABVALUES) \
 		oai-enb-cu \
 		$(OAICHARTDIR)/oai-enb-cu && \
 		kubectl wait pod -n omec --for=condition=Ready -l release=oai-enb-cu --timeout=100s
@@ -179,7 +179,7 @@ $(M)/oai-enb-cu: | $(M)/omec
 $(M)/oai-enb-du: | $(M)/oai-enb-cu
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
-		--values $(SRIABVALUES) \
+		--values $(RIABVALUES) \
 		oai-enb-du \
 		$(OAICHARTDIR)/oai-enb-du && \
 		kubectl wait pod -n omec --for=condition=Ready -l release=oai-enb-du --timeout=100s
@@ -188,7 +188,7 @@ $(M)/oai-enb-du: | $(M)/oai-enb-cu
 $(M)/oai-ue: | $(M)/oai-enb-du
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
-		--values $(SRIABVALUES) \
+		--values $(RIABVALUES) \
 		oai-ue \
 		$(OAICHARTDIR)/oai-ue && \
 		kubectl wait pod -n omec --for=condition=Ready -l release=oai-ue --timeout=100s
