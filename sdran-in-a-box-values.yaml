@@ -57,7 +57,7 @@ config:
         interface: lo
         address: 127.0.0.2
       s1mme:
-        interface: eno1
+        interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
       s1u:
         interface: enb
   oai-enb-du:
@@ -74,3 +74,28 @@ config:
       nfapi:
         interface: lo
         address: 127.0.0.4
+  onos-e2t:
+    enabled: "yes"
+    networks:
+      e2:
+        address: 127.0.0.1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
+        port: 36421
+
+onos-topo:
+  image:
+   pullPolicy: Always
+onos-config:
+  image:
+    pullPolicy: Always
+onos-e2t:
+  image:
+    pullPolicy: Always
+onos-e2sub:
+  image:
+    pullPolicy: Always
+onos-sdran-cli:
+  image:
+    pullPolicy: Always
+onos-kpimon:
+  image:
+    pullPolicy: Always
