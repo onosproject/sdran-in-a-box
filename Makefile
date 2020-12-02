@@ -48,12 +48,10 @@ $(M)/repos: | $(M)
 	@if [[ ! -d "$(AETHERCHARTDIR)" ]]; then \
                 echo "aether-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires HTTPS key"; \
 				git clone https://gerrit.opencord.org/aether-helm-charts $(AETHERCHARTDIR) || true; \
-                exit 1; \
 	fi
 	@if [[ ! -d "$(SDRANCHARTDIR)" ]]; then \
-                echo "sdfran-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires Github credential"; \
+                echo "sdran-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires Github credential"; \
 				git clone https://github.com/onosproject/sdran-helm-charts $(SDRANCHARTDIR) || true; \
-                exit 1; \
 	fi
 	touch $@
 
@@ -138,6 +136,9 @@ $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubesp
 $(M)/helm-ready: | $(M)/k8s-ready
 	helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
 	helm repo add cord https://charts.opencord.org
+	@echo "Username for ONF SDRAN private chart: "; read SDRAN_USERNAME;
+	@echo "Password for ONF SDRAN private chart"; read SDRAN_PASSWORD;
+	helm repo add sdran https://sdrancharts.onosproject.org --username $(SDRAN_USERNAME) --password $(SDRAN_PASSWORD)
 	touch $@
 
 /opt/cni/bin/simpleovs: | $(M)/k8s-ready
@@ -170,6 +171,7 @@ $(M)/atomix: | $(M)/helm-ready
 	touch $@
 
 $(M)/ric: | $(M)/helm-ready $(M)/atomix
+	cd $(SDRANCHARTDIR)/sd-ran; helm dep update
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
 		--values $(RIABVALUES) \
