@@ -47,12 +47,12 @@ $(M)/repos: | $(M)
 	cd $(CHARTDIR)
 	@if [[ ! -d "$(AETHERCHARTDIR)" ]]; then \
                 echo "aether-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires HTTPS key"; \
-				git clone https://gerrit.opencord.org/aether-helm-charts; \
+				git clone https://gerrit.opencord.org/aether-helm-charts $(AETHERCHARTDIR) || true; \
                 exit 1; \
 	fi
 	@if [[ ! -d "$(SDRANCHARTDIR)" ]]; then \
                 echo "sdfran-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires Github credential"; \
-				git clone https://github.com/onosproject/sdran-helm-charts; \
+				git clone https://github.com/onosproject/sdran-helm-charts $(SDRANCHARTDIR) || true; \
                 exit 1; \
 	fi
 	touch $@
