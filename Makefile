@@ -275,16 +275,16 @@ clean: reset-test
 	kubectl delete net-attach-def core-net || true
 	sudo ovs-vsctl del-br br-access-net || true
 	sudo ovs-vsctl del-br br-core-net || true
-	sudo apt remove --purge openvswitch-switch -y
+	sudo apt remove --purge openvswitch-switch -y || true
+	sudo ip a del 127.0.0.2/8 dev lo || true
+	sudo ip a del 127.0.0.4/8 dev lo || true
+	sudo ip a del 127.0.0.3/8 dev lo || true
 	source "$(VENV)/bin/activate" && cd $(BUILD)/kubespray; \
-	ansible-playbook -b -i inventory/local/hosts.ini reset.yml
+	ansible-playbook -b -i inventory/local/hosts.ini reset.yml || true
 	@if [ -d /usr/local/etc/emulab ]; then \
 		mount | grep /mnt/extra/kubelet/pods | cut -d" " -f3 | sudo xargs umount; \
 		sudo rm -rf /mnt/extra/kubelet; \
 	fi
-	sudo ip a del 127.0.0.2/8 dev lo | true
-	sudo ip a del 127.0.0.4/8 dev lo | true
-	sudo ip a del 127.0.0.3/8 dev lo | true
 	rm -rf $(M)
 
 clean-all: clean
