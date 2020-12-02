@@ -286,3 +286,6 @@ clean: reset-test
 	sudo ip a del 127.0.0.4/8 dev lo | true
 	sudo ip a del 127.0.0.3/8 dev lo | true
 	rm -rf $(M)
+
+clean-all: clean
+	rm -rf $(CHARTDIR)
