@@ -31,7 +31,7 @@ os_release	:= $(shell lsb_release -r -s)
 
 .PHONY: riab-oai riab-ransim omec oai ric kpimon reset-oai reset-omec reset-atomix reset-ric reset-kpimon reset-oai-test reset-ransim-test reset-test clean
 
-riab-oai: $(M)/system-check $(M)/helm-ready omec ric oai kpimon
+riab-oai: $(M)/system-check $(M)/helm-ready omec ric oai
 riab-ransim: $(M)/system-check $(M)/helm-ready #TBD
 
 omec: $(M)/omec
@@ -136,9 +136,9 @@ $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubesp
 $(M)/helm-ready: | $(M)/k8s-ready
 	helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
 	helm repo add cord https://charts.opencord.org
-	@echo "Username for ONF SDRAN private chart: "; read SDRAN_USERNAME;
-	@echo "Password for ONF SDRAN private chart"; read SDRAN_PASSWORD;
-	helm repo add sdran https://sdrancharts.onosproject.org --username $(SDRAN_USERNAME) --password $(SDRAN_PASSWORD)
+	@read -r -p "Username for ONF SDRAN private chart: " SDRAN_USERNAME; \
+	read -r -p "Password for ONF SDRAN private chart: " SDRAN_PASSWORD; \
+	helm repo add sdran https://sdrancharts.onosproject.org --username $$SDRAN_USERNAME --password $$SDRAN_PASSWORD
 	touch $@
 
 /opt/cni/bin/simpleovs: | $(M)/k8s-ready
