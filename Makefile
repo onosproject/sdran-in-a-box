@@ -14,7 +14,6 @@ RIABVALUES			?= $(RIABDIR)/sdran-in-a-box-values.yaml
 CHARTDIR			?= $(WORKSPACE)/helm-charts
 AETHERCHARTDIR		?= $(CHARTDIR)/aether-helm-charts
 SDRANCHARTDIR		?= $(CHARTDIR)/sdran-helm-charts
-OAICHARTDIR			?= $(CHARTDIR)/sdran-helm-charts
 
 KUBESPRAY_VERSION	?= release-2.14
 DOCKER_VERSION		?= 19.03
@@ -30,14 +29,33 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab clean
+.PHONY: riab-oai riab-ransim omec oai ric kpimon reset-oai reset-omec reset-atomix reset-ric reset-kpimon reset-oai-test reset-ransim-test reset-test clean
 
-riab: $(M)/system-check $(M)/helm-ready $(M)/oai-ue
+riab-oai: $(M)/system-check $(M)/helm-ready omec ric oai
+riab-ransim: $(M)/system-check $(M)/helm-ready #TBD
+
+omec: $(M)/omec
+oai: $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
+ric: $(M)/ric
+kpimon: $(M)/kpimon
 
 $(M):
 	mkdir -p $(M)
 
-$(M)/system-check: | $(M)
+$(M)/repos: | $(M)
+	mkdir -p $(CHARTDIR)
+	cd $(CHARTDIR)
+	@if [[ ! -d "$(AETHERCHARTDIR)" ]]; then \
+                echo "aether-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires HTTPS key"; \
+				git clone https://gerrit.opencord.org/aether-helm-charts $(AETHERCHARTDIR) || true; \
+	fi
+	@if [[ ! -d "$(SDRANCHARTDIR)" ]]; then \
+                echo "sdran-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires Github credential"; \
+				git clone https://github.com/onosproject/sdran-helm-charts $(SDRANCHARTDIR) || true; \
+	fi
+	touch $@
+
+$(M)/system-check: | $(M) $(M)/repos
 	@if [[ $(cpu_family) -eq 6 ]]; then \
 		if [[ $(cpu_model) -lt 60 ]]; then \
 			echo "FATAL: haswell CPU or newer is required."; \
@@ -62,17 +80,11 @@ $(M)/system-check: | $(M)
 		exit 1; \
 	fi
 	@if [[ ! -d "$(AETHERCHARTDIR)" ]]; then \
-                echo "FATAL: Please clone aether-helm-charts under $(CHARTDIR) directory."; \
+                echo "FATAL: Please manually clone aether-helm-chart under $(CHARTDIR) directory."; \
                 exit 1; \
 	fi
 	@if [[ ! -d "$(SDRANCHARTDIR)" ]]; then \
-                echo "FATAL: Please clone sdran-helm-charts under $(CHARTDIR) directory."; \
-                exit 1; \
-	fi
-	touch $@
-
-	@if [[ ! -d "$(OAICHARTDIR)" ]]; then \
-                echo "FATAL: Please clone oai-helm-charts under $(CHARTDIR) directory."; \
+                echo "FATAL: Please manually clone sdran-helm-chart under $(CHARTDIR) directory."; \
                 exit 1; \
 	fi
 	touch $@
@@ -124,6 +136,9 @@ $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubesp
 $(M)/helm-ready: | $(M)/k8s-ready
 	helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
 	helm repo add cord https://charts.opencord.org
+	@read -r -p "Username for ONF SDRAN private chart: " SDRAN_USERNAME; \
+	read -r -p "Password for ONF SDRAN private chart: " SDRAN_PASSWORD; \
+	helm repo add sdran https://sdrancharts.onosproject.org --username $$SDRAN_USERNAME --password $$SDRAN_PASSWORD
 	touch $@
 
 /opt/cni/bin/simpleovs: | $(M)/k8s-ready
@@ -149,6 +164,31 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	kubectl delete net-attach-def core-net
 	touch $@
 
+$(M)/atomix: | $(M)/helm-ready
+	kubectl get po -n kube-system | grep atomix-controller | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml
+	kubectl get po -n kube-system | grep raft-storage-controller | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/atomix/raft-storage-controller/master/deploy/raft-storage-controller.yaml
+	kubectl get po -n kube-system | grep cache-storage-controller | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/atomix/cache-storage-controller/master/deploy/cache-storage-controller.yaml
+	touch $@
+
+$(M)/ric: | $(M)/helm-ready $(M)/atomix
+	cd $(SDRANCHARTDIR)/sd-ran; helm dep update
+	helm upgrade --install $(HELM_GLOBAL_ARGS) \
+		--namespace omec \
+		--values $(RIABVALUES) \
+		sd-ran \
+		$(SDRANCHARTDIR)/sd-ran && \
+	kubectl wait pod -n omec --for=condition=Ready -l app=onos --timeout=300s
+	touch $@
+
+$(M)/kpimon: $(M)/helm-ready $(M)/ric
+	helm upgrade --install $(HELM_GLOBAL_ARGS) \
+		--namespace omec \
+		--values $(RIABVALUES) \
+		onos-kpimon \
+		$(SDRANCHARTDIR)/onos-kpimon && \
+	kubectl wait pod -n omec --for=condition=Ready -l app=onos --timeout=300s
+	touch $@
+
 $(M)/omec: | $(M)/helm-ready $(M)/fabric
 	kubectl get namespace omec 2> /dev/null || kubectl create namespace omec
 	helm repo update
@@ -167,12 +207,16 @@ $(M)/omec: | $(M)/helm-ready $(M)/fabric
 	kubectl wait pod -n omec --for=condition=Ready -l release=omec-user-plane --timeout=300s
 	touch $@
 
-$(M)/oai-enb-cu: | $(M)/omec
+$(M)/oai-enb-cu: | $(M)/omec $(M)/ric
+	$(eval mme_iface=$(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }'))
+	$(eval e2t_addr=$(shell  kubectl get svc onos-e2t -n omec --no-headers | awk '{print $$3}'))
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
 		--values $(RIABVALUES) \
+		--set config.oai-enb-cu.networks.s1mme.interface=$(mme_iface) \
+		--set config.onos-e2t.networks.e2.address=$(e2t_addr) \
 		oai-enb-cu \
-		$(OAICHARTDIR)/oai-enb-cu && \
+		$(SDRANCHARTDIR)/oai-enb-cu && \
 		kubectl wait pod -n omec --for=condition=Ready -l release=oai-enb-cu --timeout=100s
 	touch $@
 
@@ -181,7 +225,7 @@ $(M)/oai-enb-du: | $(M)/oai-enb-cu
 		--namespace omec \
 		--values $(RIABVALUES) \
 		oai-enb-du \
-		$(OAICHARTDIR)/oai-enb-du && \
+		$(SDRANCHARTDIR)/oai-enb-du && \
 		kubectl wait pod -n omec --for=condition=Ready -l release=oai-enb-du --timeout=100s
 	touch $@
 
@@ -190,7 +234,7 @@ $(M)/oai-ue: | $(M)/oai-enb-du
 		--namespace omec \
 		--values $(RIABVALUES) \
 		oai-ue \
-		$(OAICHARTDIR)/oai-ue && \
+		$(SDRANCHARTDIR)/oai-ue && \
 		kubectl wait pod -n omec --for=condition=Ready -l release=oai-ue --timeout=100s
 	touch $@
 
@@ -202,24 +246,49 @@ reset-oai:
 	rm -f $(M)/oai-enb-du
 	rm -f $(M)/oai-ue
 
-reset-test: | reset-oai
+reset-omec: | reset-oai
 	helm delete -n omec omec-control-plane || true
 	helm delete -n omec omec-user-plane || true
 	cd $(M); rm -f omec
 
+reset-atomix:
+	kubectl delete -f https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml || true
+	kubectl delete -f https://raw.githubusercontent.com/atomix/raft-storage-controller/master/deploy/raft-storage-controller.yaml || true
+	kubectl delete -f https://raw.githubusercontent.com/atomix/cache-storage-controller/master/deploy/cache-storage-controller.yaml || true
+	cd $(M); rm -f atomix
+
+reset-ric: reset-kpimon
+	helm delete -n omec sd-ran || true
+	helm delete -n omec onos-kpimon || true
+	cd $(M); rm -f ric
+
+reset-kpimon:
+	helm delete -n omec onos-kpimon || true
+	cd $(M); rm -f kpimon
+
+reset-oai-test: reset-omec reset-oai reset-ric
+
+reset-ransim-test: reset-ric #TBD
+
+reset-test: reset-oai-test reset-ransim-test reset-atomix
+
 clean: reset-test
+	helm repo remove sdran || true
 	kubectl delete po router || true
 	kubectl delete net-attach-def core-net || true
 	sudo ovs-vsctl del-br br-access-net || true
 	sudo ovs-vsctl del-br br-core-net || true
-	sudo apt remove --purge openvswitch-switch -y
+	sudo apt remove --purge openvswitch-switch -y || true
+	sudo ip a del 127.0.0.2/8 dev lo || true
+	sudo ip a del 127.0.0.4/8 dev lo || true
+	sudo ip a del 127.0.0.3/8 dev lo || true
 	source "$(VENV)/bin/activate" && cd $(BUILD)/kubespray; \
-	ansible-playbook -b -i inventory/local/hosts.ini reset.yml
+	ansible-playbook -b -i inventory/local/hosts.ini reset.yml || true
 	@if [ -d /usr/local/etc/emulab ]; then \
 		mount | grep /mnt/extra/kubelet/pods | cut -d" " -f3 | sudo xargs umount; \
 		sudo rm -rf /mnt/extra/kubelet; \
 	fi
-	sudo ip a del 127.0.0.2/8 dev lo | true
-	sudo ip a del 127.0.0.4/8 dev lo | true
-	sudo ip a del 127.0.0.3/8 dev lo | true
 	rm -rf $(M)
+
+clean-all: clean
+	rm -rf $(CHARTDIR)
