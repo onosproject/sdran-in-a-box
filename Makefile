@@ -273,6 +273,7 @@ reset-ransim-test: reset-ric #TBD
 reset-test: reset-oai-test reset-ransim-test reset-atomix
 
 clean: reset-test
+	helm repo remove sdran || true
 	kubectl delete po router || true
 	kubectl delete net-attach-def core-net || true
 	sudo ovs-vsctl del-br br-access-net || true
