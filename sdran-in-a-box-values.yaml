@@ -81,21 +81,34 @@ config:
         address: 127.0.0.1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
         port: 36421
 
+# for the development, we can use the custom images for ONOS-RIC
 onos-topo:
   image:
    pullPolicy: Always
+   #repository: onosproject/onos-topo
+   #tag: latest
 onos-config:
   image:
     pullPolicy: Always
+    #repository: onosproject/onos-config
+    #tag: latest
 onos-e2t:
   image:
     pullPolicy: Always
+    #repository: onosproject/onos-e2t
+    #tag: latest
 onos-e2sub:
   image:
     pullPolicy: Always
+    #repository: onosproject/onos-e2sub
+    #tag: latest
 onos-sdran-cli:
   image:
     pullPolicy: Always
+    #repository: onosproject/onos-sdran-cli
+    #tag: latest
 onos-kpimon:
   image:
     pullPolicy: Always
+    #repository: onosproject/onos-kpimon
+    #tag: latest
