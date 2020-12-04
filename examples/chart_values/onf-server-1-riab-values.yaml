@@ -1,0 +1,136 @@
+# Copyright 2020-present Open Networking Foundation
+#
+# SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
+
+# This example file is working for some VMs running in ONF servers - 10.128.100.251
+
+# cassandra values
+cassandra:
+  config:
+    cluster_size: 1
+    seed_size: 1
+
+resources:
+  enabled: false
+
+config:
+  spgwc:
+    pfcp: true
+    ueIpPool:
+      ip: 172.250.0.0 # if we use RiaB, Makefile script will override this value with the value defined in Makefile script.
+  upf:
+    name: "oaisim"
+    sriov:
+      enabled: false
+    hugepage:
+      enabled: false
+    cniPlugin: simpleovs
+    ipam: static
+    cfgFiles:
+      upf.json:
+        mode: af_packet
+  mme:
+    cfgFiles:
+      config.json:
+        mme:
+          mcc:
+            dig1: 2
+            dig2: 0
+            dig3: 8
+          mnc:
+            dig1: 0
+            dig2: 1
+            dig3: -1
+          apnlist:
+            internet: "spgwc"
+  hss:
+    bootstrap:
+      users:
+        - apn: "internet"
+          key: "465b5ce8b199b49faa5f0a2ee238a6bc"
+          opc: "d4416644f6154936193433dd20a0ace0"
+          sqn: 96
+          imsiStart: "208014567891201"
+          msisdnStart: "1122334455"
+          count: 10
+  oai-enb-cu:
+    networks:
+      f1:
+        interface: lo
+        address: 127.0.0.2
+      s1mme:
+        interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
+      s1u:
+        interface: enb
+  oai-enb-du:
+    mode: nfapi #or local_L1 for USRP and BasicSim
+    networks:
+      f1:
+        interface: lo
+        address: 127.0.0.3
+      nfapi:
+        interface: lo
+        address: 127.0.0.3
+  oai-ue:
+    networks:
+      nfapi:
+        interface: lo
+        address: 127.0.0.4
+  onos-e2t:
+    enabled: "yes"
+    networks:
+      e2:
+        address: 127.0.0.1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
+        port: 36421
+
+# for the development, we can use the custom images
+# For ONOS-RIC
+#onos-topo:
+  #image:
+   #pullPolicy: Always
+   #repository: onosproject/onos-topo
+   #tag: latest
+#onos-config:
+  #image:
+    #pullPolicy: Always
+    #repository: onosproject/onos-config
+    #tag: latest
+#onos-e2t:
+  #image:
+    #pullPolicy: Always
+    #repository: onosproject/onos-e2t
+    #tag: latest
+#onos-e2sub:
+  #image:
+    #pullPolicy: Always
+    #repository: onosproject/onos-e2sub
+    #tag: latest
+#onos-sdran-cli:
+  #image:
+    #pullPolicy: Always
+    #repository: onosproject/onos-sdran-cli
+    #tag: latest
+#onos-kpimon:
+  #image:
+    #pullPolicy: Always
+    #repository: onosproject/onos-kpimon
+    #tag: latest
+
+# For OMEC
+images:
+  tags:
+    spgwc: docker.io/woojoong/spgw:riab-0.1.1
+    bess: woojoong/upf-epc-bess:riab-0.1.1
+    pfcpiface: woojoong/upf-epc-pfcpiface:riab-0.1.1
+#    init: docker.io/omecproject/pod-init:1.0.0
+#    hssdb: docker.io/omecproject/c3po-hssdb:master-latest
+#    hss: docker.io/omecproject/c3po-hss:master-latest
+#    mme: docker.io/omecproject/nucleus:master-latest
+#    spgwc: docker.io/omecproject/spgw:master-latest
+#    pcrf: omecproject/c3po-pcrf:pcrf-latest
+#    pcrfdb: omecproject/c3po-pcrfdb:pcrf-latest
+#    depCheck: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
+#    bess: docker.io/omecproject/upf-epc-bess:master-latest
+#    pfcpiface: docker.io/omecproject/upf-epc-pfcpiface:master-latest
+#    zmqiface: docker.io/omecproject/upf-epc-cpiface:master-latest
+  pullPolicy: IfNotPresent
