@@ -3,11 +3,15 @@ SDRAN-in-a-Box (RiaB) for SD-RAN project
 
 ## Supported machines
 * CloudLab Wisc and Utah cluster [tested]
-  * CPU: Intel CPU and Haswell microarchitecture or beyond
+  * CPU: Intel CPU and Haswell microarchitecture or beyond; at least 4 cores
   * OS: Ubuntu 18.04 (e.g., OnePC-Ubuntu18.04 profile in CloudLab)
+  * RAM: At least 16GB
+  * Storage: At least 50GB (recommendation: 100GB)
 * Any baremetal server or VM [under test]
-  * CPU: Intel CPU and Haswell microarchitecture or beyond
+  * CPU: Intel CPU and Haswell microarchitecture or beyond; at least 4 cores
   * OS: Ubuntu 18.04 or 20.04 (e.g., OnePC-Ubuntu18.04 profile in CloudLab)
+  * RAM: At least 16GB
+  * Storage: At least 50GB (recommendation: 100GB)
 
 ## Quick Start
 ### Deploy RiaB - CU-CP/OAI version (option 1)
@@ -211,7 +215,7 @@ $ make reset-test
 $ make
 ```
 
-### ETCD is not working.
+### ETCD is not working
 Sometimes, we see the below outputs when building RiaB.
 ```text
 TASK [etcd : Configure | Ensure etcd is running] ***********************************************************************
