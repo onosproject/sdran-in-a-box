@@ -210,3 +210,20 @@ $ make reset-test
 # after all OMEC pods are deleted, run make again
 $ make
 ```
+
+### ETCD is not working.
+Sometimes, we see the below outputs when building RiaB.
+```text
+TASK [etcd : Configure | Ensure etcd is running] ***********************************************************************
+FAILED - RETRYING: Configure | Check if etcd cluster is healthy (4 retries left).
+FAILED - RETRYING: Configure | Check if etcd cluster is healthy (3 retries left).
+FAILED - RETRYING: Configure | Check if etcd cluster is healthy (2 retries left).
+FAILED - RETRYING: Configure | Check if etcd cluster is healthy (1 retries left).
+```
+
+If we see this, we can command below:
+```bash
+$ sudo systemctl restart docker
+$ cd /path/to/sdran-in-a-box
+$ make
+```
