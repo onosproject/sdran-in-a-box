@@ -168,3 +168,45 @@ make clean-all # if we also want to delete ~/helm-charts directory
 
 ## Detailed information (TL;DR)
 TBD
+
+## Troubleshooting
+This section covers how to solve the reported issues. This section will be updated, continuously.
+
+### SPGW-C or UPF is not working
+Please check the log with below commands:
+```bash
+$ kubectl logs spgwc-0 -n omec -c spgwc # for SPGW-C log
+$ kubectl logs upf-0 -n omec -c bess # for UPF log
+```
+
+In the log, if we can see `unsupported CPU type` or `a specific flag (e.g., AES) is missing`, we should check the CPU microarchitecture. RiaB requires Intel Haswell or more recent CPU microarchitecture.
+If we have the appropriate CPU type, we should build SPGW-C or UPF image on the machine where RiaB will run.
+
+To build SPGW-C, first clone the SPGW-C repository on the machine with `git clone https://github.com/omec-project/spgw`. Then, edit below line in Makefile:
+```makefile
+DOCKER_BUILD_ARGS        ?= --build-arg RTE_MACHINE='native'
+```
+Then, run `make` on the `spgw` directory.
+
+Likewise, for building UPF image, we should clone UPF repository with `git clone https://github.com/omec-project/upf-epc`. Then, edit below line in Makefile:
+```makefile
+CPU                      ?= native
+```
+Then, run `make` on the `upf-epc` directory.
+
+After building those images, we should modify overriding value yaml file (i.e., `sdran-in-a-box-values.yaml`). Go to the file and write down below:
+```yaml
+images:
+  tags:
+    spgwc: <spgwc_image_tag>
+    bess: <bess_upf_image_tag>
+    pfcpiface: <pfcpiface_upf_image_tab>
+  pullPolicy: IfNotPresent
+```
+Then, run below commands:
+```bash
+$ cd /path/to/sdran-in-a-box
+$ make reset-test
+# after all OMEC pods are deleted, run make again
+$ make
+```
