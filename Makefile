@@ -24,6 +24,9 @@ HELM_GLOBAL_ARGS	?=
 HELM_NEM_ARGS		?= $(HELM_GLOBAL_ARGS)
 HELM_ONOS_ARGS		?= $(HELM_GLOBAL_ARGS)
 
+UE_IP_POOL			?= 172.250.0.0
+UE_IP_MASK			?= 16
+
 cpu_family	:= $(shell lscpu | grep 'CPU family:' | awk '{print $$3}')
 cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
@@ -160,7 +163,7 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	sudo ip route replace 192.168.252.0/24 via 192.168.251.1 dev enb
 	kubectl apply -f $(RESOURCEDIR)/router.yaml
 	kubectl wait pod -n default --for=condition=Ready -l app=router --timeout=300s
-	kubectl -n default exec router ip route add 10.250.0.0/16 via 192.168.250.3
+	kubectl -n default exec router ip route add $(UE_IP_POOL)/$(UE_IP_MASK) via 192.168.250.3
 	kubectl delete net-attach-def core-net
 	touch $@
 
@@ -196,6 +199,7 @@ $(M)/omec: | $(M)/helm-ready $(M)/fabric
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
 		--values $(RIABVALUES) \
+		--set config.spgwc.ueIpPool.ip=$(UE_IP_POOL) \
 		omec-control-plane \
 		$(AETHERCHARTDIR)/omec/omec-control-plane && \
 	kubectl wait pod -n omec --for=condition=Ready -l release=omec-control-plane --timeout=300s && \
