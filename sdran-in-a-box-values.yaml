@@ -15,7 +15,7 @@ config:
   spgwc:
     pfcp: true
     ueIpPool:
-      ip: 10.250.0.0
+      ip: 172.250.0.0 # if we use RiaB, Makefile script will override this value with the value defined in Makefile script.
   upf:
     name: "oaisim"
     sriov:
@@ -81,34 +81,54 @@ config:
         address: 127.0.0.1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
         port: 36421
 
-# for the development, we can use the custom images for ONOS-RIC
-onos-topo:
-  image:
-   pullPolicy: Always
-   #repository: onosproject/onos-topo
-   #tag: latest
-onos-config:
-  image:
-    pullPolicy: Always
-    #repository: onosproject/onos-config
-    #tag: latest
-onos-e2t:
-  image:
-    pullPolicy: Always
-    #repository: onosproject/onos-e2t
-    #tag: latest
-onos-e2sub:
-  image:
-    pullPolicy: Always
-    #repository: onosproject/onos-e2sub
-    #tag: latest
-onos-sdran-cli:
-  image:
-    pullPolicy: Always
-    #repository: onosproject/onos-sdran-cli
-    #tag: latest
-onos-kpimon:
-  image:
-    pullPolicy: Always
-    #repository: onosproject/onos-kpimon
-    #tag: latest
+# for the development, we can use the custom images
+# For ONOS-RIC
+#onos-topo:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-topo
+#    tag: latest
+#onos-config:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-config
+#    tag: latest
+#onos-e2t:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-e2t
+#    tag: latest
+#onos-e2sub:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-e2sub
+#    tag: latest
+#onos-sdran-cli:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-sdran-cli
+#    tag: latest
+#onos-kpimon:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-kpimon
+#    tag: latest
+
+# For OMEC
+#images:
+#  tags:
+#    spgwc: docker.io/woojoong/spgw:riab-0.1.1
+#    bess: woojoong/upf-epc-bess:riab-0.1.1
+#    pfcpiface: woojoong/upf-epc-pfcpiface:riab-0.1.1
+#    init: docker.io/omecproject/pod-init:1.0.0
+#    hssdb: docker.io/omecproject/c3po-hssdb:master-latest
+#    hss: docker.io/omecproject/c3po-hss:master-latest
+#    mme: docker.io/omecproject/nucleus:master-latest
+#    spgwc: docker.io/omecproject/spgw:master-latest
+#    pcrf: omecproject/c3po-pcrf:pcrf-latest
+#    pcrfdb: omecproject/c3po-pcrfdb:pcrf-latest
+#    depCheck: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
+#    bess: docker.io/omecproject/upf-epc-bess:master-latest
+#    pfcpiface: docker.io/omecproject/upf-epc-pfcpiface:master-latest
+#    zmqiface: docker.io/omecproject/upf-epc-cpiface:master-latest
+#  pullPolicy: IfNotPresent
