@@ -213,12 +213,16 @@ $(M)/omec: | $(M)/helm-ready $(M)/fabric
 
 $(M)/oai-enb-cu: | $(M)/omec $(M)/ric
 	$(eval mme_iface=$(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }'))
-	$(eval e2t_addr=$(shell  kubectl get svc onos-e2t -n omec --no-headers | awk '{print $$3}'))
+	$(eval f1_iface=$(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }'))
+	$(eval f1_addr=$(shell ip -4 a show $(f1_iface) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}'))
+	$(eval e2t_addr=$(shell  kubectl get svc onos-e2t -n omec --no-headers | awk '{print $$3'}))
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
 		--values $(RIABVALUES) \
 		--set config.oai-enb-cu.networks.s1mme.interface=$(mme_iface) \
 		--set config.onos-e2t.networks.e2.address=$(e2t_addr) \
+		--set config.oai-enb-cu.networks.f1.interface=$(f1_iface) \
+		--set config.oai-enb-cu.networks.f1.address=$(f1_addr) \
 		oai-enb-cu \
 		$(SDRANCHARTDIR)/oai-enb-cu && \
 		kubectl wait pod -n omec --for=condition=Ready -l release=oai-enb-cu --timeout=100s

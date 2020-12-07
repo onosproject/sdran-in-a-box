@@ -54,8 +54,8 @@ config:
   oai-enb-cu:
     networks:
       f1:
-        interface: lo
-        address: 127.0.0.2
+        interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
+        address: 127.0.0.2 #if we use RiaB, Makefile script will automatically apply appropriate IP address
       s1mme:
         interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
       s1u:
