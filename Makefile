@@ -27,6 +27,17 @@ HELM_ONOS_ARGS		?= $(HELM_GLOBAL_ARGS)
 UE_IP_POOL			?= 172.250.0.0
 UE_IP_MASK			?= 16
 
+F1_CU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+F1_CU_IPADDR		:= $(shell ip -4 a show $(F1_CU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
+F1_DU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+F1_DU_IPADDR		:= $(shell ip -4 a show $(F1_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
+E2T_IPADDR			:= $(shell  kubectl get svc onos-e2t -n omec --no-headers | awk '{print $$3'})
+S1MME_CU_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+NFAPI_DU_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+NFAPI_DU_IPADDR		:= $(shell ip -4 a show $(NFAPI_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
+NFAPI_UE_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+NFAPI_UE_IPADDR		:= $(shell ip -4 a show $(NFAPI_UE_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
+
 cpu_family	:= $(shell lscpu | grep 'CPU family:' | awk '{print $$3}')
 cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
@@ -212,17 +223,15 @@ $(M)/omec: | $(M)/helm-ready $(M)/fabric
 	touch $@
 
 $(M)/oai-enb-cu: | $(M)/omec $(M)/ric
-	$(eval mme_iface=$(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }'))
-	$(eval f1_iface=$(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }'))
-	$(eval f1_addr=$(shell ip -4 a show $(f1_iface) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}'))
-	$(eval e2t_addr=$(shell  kubectl get svc onos-e2t -n omec --no-headers | awk '{print $$3'}))
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
 		--values $(RIABVALUES) \
-		--set config.oai-enb-cu.networks.s1mme.interface=$(mme_iface) \
-		--set config.onos-e2t.networks.e2.address=$(e2t_addr) \
-		--set config.oai-enb-cu.networks.f1.interface=$(f1_iface) \
-		--set config.oai-enb-cu.networks.f1.address=$(f1_addr) \
+		--set config.oai-enb-cu.networks.s1mme.interface=$(S1MME_CU_INTERFACE) \
+		--set config.onos-e2t.networks.e2.address=$(E2T_IPADDR) \
+		--set config.oai-enb-cu.networks.f1.interface=$(F1_CU_INTERFACE) \
+		--set config.oai-enb-cu.networks.f1.address=$(F1_CU_IPADDR) \
+		--set config.oai-enb-du.networks.f1.interface=$(F1_DU_INTERFACE) \
+		--set config.oai-enb-du.networks.f1.address=$(F1_DU_IPADDR) \
 		oai-enb-cu \
 		$(SDRANCHARTDIR)/oai-enb-cu && \
 		kubectl wait pod -n omec --for=condition=Ready -l release=oai-enb-cu --timeout=100s
@@ -232,6 +241,14 @@ $(M)/oai-enb-du: | $(M)/oai-enb-cu
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
 		--values $(RIABVALUES) \
+		--set config.oai-enb-cu.networks.f1.interface=$(F1_CU_INTERFACE) \
+		--set config.oai-enb-cu.networks.f1.address=$(F1_CU_IPADDR) \
+		--set config.oai-enb-du.networks.f1.interface=$(F1_DU_INTERFACE) \
+		--set config.oai-enb-du.networks.f1.address=$(F1_DU_IPADDR) \
+		--set config.oai-enb-du.networks.nfapi.interface=$(NFAPI_DU_INTERFACE) \
+		--set config.oai-enb-du.networks.nfapi.address=$(NFAPI_DU_IPADDR) \
+		--set config.oai-ue.networks.nfapi.interface=$(NFAPI_UE_INTERFACE) \
+		--set config.oai-ue.networks.nfapi.address=$(NFAPI_UE_IPADDR) \
 		oai-enb-du \
 		$(SDRANCHARTDIR)/oai-enb-du && \
 		kubectl wait pod -n omec --for=condition=Ready -l release=oai-enb-du --timeout=100s
@@ -241,6 +258,10 @@ $(M)/oai-ue: | $(M)/oai-enb-du
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
 		--values $(RIABVALUES) \
+		--set config.oai-enb-du.networks.nfapi.interface=$(NFAPI_DU_INTERFACE) \
+		--set config.oai-enb-du.networks.nfapi.address=$(NFAPI_DU_IPADDR) \
+		--set config.oai-ue.networks.nfapi.interface=$(NFAPI_UE_INTERFACE) \
+		--set config.oai-ue.networks.nfapi.address=$(NFAPI_UE_IPADDR) \
 		oai-ue \
 		$(SDRANCHARTDIR)/oai-ue && \
 		kubectl wait pod -n omec --for=condition=Ready -l release=oai-ue --timeout=100s

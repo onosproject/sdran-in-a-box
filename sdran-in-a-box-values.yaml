@@ -55,7 +55,7 @@ config:
     networks:
       f1:
         interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
-        address: 127.0.0.2 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
       s1mme:
         interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
       s1u:
@@ -64,16 +64,16 @@ config:
     mode: nfapi #or local_L1 for USRP and BasicSim
     networks:
       f1:
-        interface: lo
-        address: 127.0.0.3
+        interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
       nfapi:
-        interface: lo
-        address: 127.0.0.3
+        interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
   oai-ue:
     networks:
       nfapi:
-        interface: lo
-        address: 127.0.0.4
+        interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
   onos-e2t:
     enabled: "yes"
     networks:
