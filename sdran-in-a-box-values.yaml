@@ -114,9 +114,11 @@ config:
 #    repository: onosproject/onos-kpimon
 #    tag: latest
 
-# For OMEC
+# For OMEC & OAI
 #images:
+#  pullPolicy: IfNotPresent
 #  tags:
+# For OMEC
 #    spgwc: docker.io/woojoong/spgw:riab-0.1.1
 #    bess: woojoong/upf-epc-bess:riab-0.1.1
 #    pfcpiface: woojoong/upf-epc-pfcpiface:riab-0.1.1
@@ -131,4 +133,7 @@ config:
 #    bess: docker.io/omecproject/upf-epc-bess:master-latest
 #    pfcpiface: docker.io/omecproject/upf-epc-pfcpiface:master-latest
 #    zmqiface: docker.io/omecproject/upf-epc-cpiface:master-latest
-#  pullPolicy: IfNotPresent
+# For OAI
+#     oaicucp: docker.io/onosproject/oai-enb-cu:latest
+#     oaidu: docker.io/onosproject/oai-enb-du:latest
+#     oaiue: docker.io/onosproject/oai-enb-ue:latest
