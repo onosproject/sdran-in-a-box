@@ -31,7 +31,6 @@ F1_CU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2
 F1_CU_IPADDR		:= $(shell ip -4 a show $(F1_CU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
 F1_DU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 F1_DU_IPADDR		:= $(shell ip -4 a show $(F1_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
-E2T_IPADDR			:= $(shell  kubectl get svc onos-e2t -n omec --no-headers | awk '{print $$3'})
 S1MME_CU_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 NFAPI_DU_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 NFAPI_DU_IPADDR		:= $(shell ip -4 a show $(NFAPI_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
@@ -223,11 +222,12 @@ $(M)/omec: | $(M)/helm-ready $(M)/fabric
 	touch $@
 
 $(M)/oai-enb-cu: | $(M)/omec $(M)/ric
+	$(eval e2t_addr=$(shell  kubectl get svc onos-e2t -n omec --no-headers | awk '{print $$3'}))
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
 		--values $(RIABVALUES) \
 		--set config.oai-enb-cu.networks.s1mme.interface=$(S1MME_CU_INTERFACE) \
-		--set config.onos-e2t.networks.e2.address=$(E2T_IPADDR) \
+		--set config.onos-e2t.networks.e2.address=$(e2t_addr) \
 		--set config.oai-enb-cu.networks.f1.interface=$(F1_CU_INTERFACE) \
 		--set config.oai-enb-cu.networks.f1.address=$(F1_CU_IPADDR) \
 		--set config.oai-enb-du.networks.f1.interface=$(F1_DU_INTERFACE) \
