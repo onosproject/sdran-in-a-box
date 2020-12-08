@@ -105,9 +105,6 @@ $(M)/system-check: | $(M) $(M)/repos
 $(M)/setup: | $(M)
 	sudo $(SCRIPTDIR)/cloudlab-disksetup.sh
 	sudo apt update; sudo apt install -y software-properties-common python-pip jq httpie ipvsadm
-	sudo ip a add 127.0.0.2/8 dev lo | true
-	sudo ip a add 127.0.0.3/8 dev lo | true
-	sudo ip a add 127.0.0.4/8 dev lo | true
 	touch $@
 
 $(BUILD)/kubespray: | $(M)/setup
@@ -308,9 +305,6 @@ clean: reset-test
 	sudo ovs-vsctl del-br br-access-net || true
 	sudo ovs-vsctl del-br br-core-net || true
 	sudo apt remove --purge openvswitch-switch -y || true
-	sudo ip a del 127.0.0.2/8 dev lo || true
-	sudo ip a del 127.0.0.4/8 dev lo || true
-	sudo ip a del 127.0.0.3/8 dev lo || true
 	source "$(VENV)/bin/activate" && cd $(BUILD)/kubespray; \
 	ansible-playbook -b -i inventory/local/hosts.ini reset.yml || true
 	@if [ -d /usr/local/etc/emulab ]; then \
