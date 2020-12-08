@@ -190,10 +190,14 @@ $(M)/ric: | $(M)/helm-ready $(M)/atomix
 	kubectl wait pod -n omec --for=condition=Ready -l app=onos --timeout=300s
 	touch $@
 
+# There is an hard-coded image repo/tags which works only for print out raw indication message, since the official image is not working and it's WIP (just for test)
+# The hard-coded things will be removed once KPIMON app is officially ready.
 $(M)/kpimon: $(M)/helm-ready $(M)/ric
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
 		--values $(RIABVALUES) \
+		--set image.repository=woojoong/onos-kpimon \
+		--set image.tag=latest \
 		onos-kpimon \
 		$(SDRANCHARTDIR)/onos-kpimon && \
 	kubectl wait pod -n omec --for=condition=Ready -l app=onos --timeout=300s
