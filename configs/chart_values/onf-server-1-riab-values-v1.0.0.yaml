@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
 
+# This chart vaule file is working for some VMs running in ONF servers - 10.128.100.131,132,251,255
+
 # cassandra values
 cassandra:
   config:
@@ -61,7 +63,7 @@ config:
     networks:
       f1:
         interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
-        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.251 #if we use RiaB, Makefile script will automatically apply appropriate IP address
       s1mme:
         interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
       s1u:
@@ -71,15 +73,15 @@ config:
     networks:
       f1:
         interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
-        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.251 #if we use RiaB, Makefile script will automatically apply appropriate IP address
       nfapi:
         interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
-        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.251 #if we use RiaB, Makefile script will automatically apply appropriate IP address
   oai-ue:
     networks:
       nfapi:
         interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
-        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.251 #if we use RiaB, Makefile script will automatically apply appropriate IP address
   onos-e2t:
     enabled: "yes"
     networks:
@@ -144,11 +146,11 @@ images:
    hssdb: docker.io/onosproject/riab-hssdb:v1.0.0
    hss: docker.io/onosproject/riab-hss:v1.0.0
    mme: docker.io/onosproject/riab-nucleus-mme:v1.0.0
-   spgwc: docker.io/onosproject/riab-spgw:v1.0.0
+   spgwc: docker.io/onosproject/riab-spgw:v1.0.0-onfvm-1
    pcrf: docker.io/onosproject/riab-pcrf:v1.0.0
    pcrfdb: docker.io/onosproject/riab-pcrfdb:v1.0.0
-   bess: docker.io/onosproject/riab-bess-upf:v1.0.0
-   pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0
+   bess: docker.io/onosproject/riab-bess-upf:v1.0.0-onfvm-1
+   pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0-onfvm-1
 # For OAI
 #     oaicucp: docker.io/onosproject/oai-enb-cu:latest
 #     oaidu: docker.io/onosproject/oai-enb-du:latest

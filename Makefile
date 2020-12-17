@@ -11,10 +11,14 @@ SCRIPTDIR			?= $(RIABDIR)/scripts
 RESOURCEDIR			?= $(RIABDIR)/resources
 VENV				?= $(BUILD)/venv/riab
 RIABVALUES			?= $(RIABDIR)/sdran-in-a-box-values.yaml
+RIABVALUES-LATEST	?= $(RIABDIR)/sdran-in-a-box-values.yaml
+RIABVALUES-V1.0.0	?= $(RIABDIR)/sdran-in-a-box-values-v1.0.0.yaml
 CHARTDIR			?= $(WORKSPACE)/helm-charts
 AETHERCHARTDIR		?= $(CHARTDIR)/aether-helm-charts
-AETHERCHARTCOMMITID	?= 3d1e936e87b4ddae784a33f036f87899e9d00b95
+AETHERCHARTCID		?= 3d1e936e87b4ddae784a33f036f87899e9d00b95
 SDRANCHARTDIR		?= $(CHARTDIR)/sdran-helm-charts
+SDRANCHARTCID-LATEST	?= master
+SDRANCHARTCID-V1.0.0	?=
 
 KUBESPRAY_VERSION	?= release-2.14
 DOCKER_VERSION		?= 19.03
@@ -49,10 +53,16 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab-oai riab-ransim set-option-oai set-option-ransim omec oai ric atomix test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
+.PHONY: riab-oai riab-ransim riab-oai-latest riab-oai-v1.0.0 riab-ransim-latest riab-ransim-v1.0.0 set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-latest-riab-values set-v1.0.0-riab-values omec oai ric atomix test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
 
-riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart-ver omec ric oai
-riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready ric
+riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-riab-values omec ric oai
+riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
+
+riab-oai-latest: riab-oai
+riab-ransim-latest: riab-ransim
+
+riab-oai-v1.0.0: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.0.0-riab-values omec ric oai
+riab-ransim-v1.0.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.0.0-riab-values ric
 
 omec: $(M)/omec
 oai: $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
@@ -66,9 +76,25 @@ set-option-oai:
 set-option-ransim:
 	$(eval RIAB_OPTION="ransim")
 
-set-stable-aether-chart-ver:
+set-stable-aether-chart:
 	cd $(AETHERCHARTDIR); \
-	git checkout $(AETHERCHARTCOMMITID);
+	git checkout $(AETHERCHARTCID);
+
+set-latest-sdran-chart:
+	cd $(SDRANCHARTDIR); \
+	git checkout $(SDRANCHARTCID-LATEST); \
+	git pull;
+
+set-v1.0.0-sdran-chart:
+	cd $(SDRANCHARTDIR); \
+	git checkout $(SDRANCHARTCID-V1.0.0); \
+	git pull;
+
+set-latest-riab-values:
+	$(eval RIABVALUES=$(RIABVALUES-LATEST))
+
+set-v1.0.0-riab-values:
+	$(eval RIABVALUES=$(RIABVALUES-V1.0.0))
 
 $(M):
 	mkdir -p $(M)
@@ -79,7 +105,7 @@ $(M)/repos: | $(M)
 	@if [[ ! -d "$(AETHERCHARTDIR)" ]]; then \
                 echo "aether-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires HTTPS key"; \
 				git clone https://gerrit.opencord.org/aether-helm-charts $(AETHERCHARTDIR) || true; \
-				git checkout $(AETHERCHARTCOMMITID); \
+				git checkout $(AETHERCHARTCID); \
 	fi
 	@if [[ ! -d "$(SDRANCHARTDIR)" ]]; then \
                 echo "sdran-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires Github credential"; \
