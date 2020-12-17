@@ -139,7 +139,8 @@ config:
 images:
  pullPolicy: IfNotPresent
  tags:
-# For OMEC - latest Aether helm chart commit ID: 3d1e936e87b4ddae784a33f036f87899e9d00b95
+# For OMEC - Those images are stable image for RiaB
+# latest Aether helm chart commit ID: 3d1e936e87b4ddae784a33f036f87899e9d00b95
 #    init: docker.io/omecproject/pod-init:1.0.0
 #    depCheck: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
    hssdb: docker.io/onosproject/riab-hssdb:v1.0.0
