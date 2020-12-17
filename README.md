@@ -110,23 +110,48 @@ ran-simulator-57956df985-hc5n4    1/1     Running   0          92s
 ### Verification
 
 #### The user plane (for option 1 - CU-CP/OAI version)
-We should check if the user plane is working by using the below command:
+We should check if the user plane is working by using `make test-user-plane` command:
 ```
-$ ping 8.8.8.8 -I oaitun_ue1
-PING 8.8.8.8 (8.8.8.8) from 172.250.255.202 oaitun_ue1: 56(84) bytes of data.
-64 bytes from 8.8.8.8: icmp_seq=1 ttl=114 time=28.2 ms
-64 bytes from 8.8.8.8: icmp_seq=2 ttl=114 time=37.0 ms
-64 bytes from 8.8.8.8: icmp_seq=3 ttl=114 time=35.9 ms
+$ make test-user-plane
+*** T1: Internal network test: ping 192.168.250.1 (Internal router IP) ***
+PING 192.168.250.1 (192.168.250.1) from 172.250.255.253 oaitun_ue1: 56(84) bytes of data.
+64 bytes from 192.168.250.1: icmp_seq=1 ttl=64 time=38.5 ms
+64 bytes from 192.168.250.1: icmp_seq=2 ttl=64 time=47.0 ms
+64 bytes from 192.168.250.1: icmp_seq=3 ttl=64 time=33.4 ms
+
+--- 192.168.250.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 33.456/39.694/47.038/5.599 ms
+*** T2: Internet connectivity test: ping to 8.8.8.8 ***
+PING 8.8.8.8 (8.8.8.8) from 172.250.255.253 oaitun_ue1: 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=114 time=53.6 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=114 time=52.0 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=114 time=33.9 ms
+
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 33.988/46.556/53.665/8.912 ms
+*** T3: DNS test: ping to google.com ***
+PING google.com (172.217.12.78) from 172.250.255.253 oaitun_ue1: 56(84) bytes of data.
+64 bytes from dfw28s05-in-f14.1e100.net (172.217.12.78): icmp_seq=1 ttl=113 time=51.8 ms
+64 bytes from dfw28s05-in-f14.1e100.net (172.217.12.78): icmp_seq=2 ttl=113 time=51.3 ms
+64 bytes from dfw28s05-in-f14.1e100.net (172.217.12.78): icmp_seq=3 ttl=113 time=50.4 ms
+
+--- google.com ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2001ms
+rtt min/avg/max/mdev = 50.472/51.219/51.872/0.632 ms
 ```
 
 If we can see all above Kubernetes pods running and ping is runnig, the user plane is working well.
 
 #### RIC by using ONOS-KPIMON xAPP (for both options)
 Also, we should check whether the ONOS-RIC micro-services are working by using ONOS-KPIMON xAPP.
+For this test, we can use `make test-kpimon` command:
 ```bash
-$ kubectl exec -it deploy/onos-sdran-cli -n riab -- sdran kpimon list numues
-Key[PLMNID, nodeID]                  num(Active UEs)
-{OpenNetworking [79 78 70] 572628}   1
+$ make test-kpimon
+*** Get KPIMON result through CLI ***
+Key[PLMNID, nodeID]                       num(Active UEs)
+{eNB-CU-Eurecom-LTEBox [0 2 16] 57344}   1
 ```
 
 If we can see that `num(Active UEs)` is `1`, RIC is working well.
