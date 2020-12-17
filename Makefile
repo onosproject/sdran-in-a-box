@@ -82,13 +82,11 @@ set-stable-aether-chart:
 
 set-latest-sdran-chart:
 	cd $(SDRANCHARTDIR); \
-	git checkout $(SDRANCHARTCID-LATEST); \
-	git pull;
+	git checkout $(SDRANCHARTCID-LATEST)
 
 set-v1.0.0-sdran-chart:
 	cd $(SDRANCHARTDIR); \
-	git checkout $(SDRANCHARTCID-V1.0.0); \
-	git pull;
+	git checkout $(SDRANCHARTCID-V1.0.0)
 
 set-latest-riab-values:
 	$(eval RIABVALUES=$(RIABVALUES-LATEST))
