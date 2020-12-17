@@ -56,7 +56,7 @@ ric: $(M)/ric
 
 set-option-oai:
 	$(eval RIAB_OPTION="oai")
-	$(eval RANSIM_ARGS="")
+	$(eval RANSIM_ARGS=)
 
 set-option-ransim:
 	$(eval RIAB_OPTION="ransim")
