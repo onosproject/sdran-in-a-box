@@ -72,6 +72,7 @@ onos-config-66744d748-xr95k       1/1     Running   0          3h25m
 onos-consensus-db-1-0             1/1     Running   0          3h25m
 onos-e2sub-5f5fd6fdfb-5k92l       1/1     Running   0          3h25m
 onos-e2t-74c765bc79-9h4sm         1/1     Running   0          3h25m
+onos-kpimon-5649d85d57-7jvcw      1/1     Running   0          3h25m
 onos-sdran-cli-678d547cbd-hbrtn   1/1     Running   0          3h25m
 onos-topo-5bfbffb577-vvdcw        1/1     Running   0          3h25m
 pcrf-0                            1/1     Running   0          3h26m
@@ -85,11 +86,6 @@ $ ping 8.8.8.8 -I oaitun_ue1
 ```
 
 If we can see all above Kubernetes pods running and ping is runnig, RiaB is successfully deployed.
-
-NOTE: ONOS-KPIMON xApp is under development and test - not fully working. If we want to deploy KPIMON xAPP chart for the development, we can use below command (not stable yet):
-```
-$ make kpimon
-```
 
 ### Deploy RiaB - RANSim version (option 2)
 WIP.
@@ -113,12 +109,6 @@ NOTE: When deploying OAI and CU-CP chart, Makefile script automatically deploy O
 $ make ric
 ```
 NOTE: When deploying ONOS-RIC micro-services chart, Makefile script automatically deploy Atomix chart (if it is not deployed).
-
-#### Deploy KPIMON
-```bash
-$ make kpimon
-```
-NOTE: When deploying ONOS-KPIMON xAPP chart, Makefile script automatically deploy Atomix chart and ONOS-RIC micro-services chart (if they are not deployed).
 
 #### Deploy RANSim
 WIP.
@@ -146,12 +136,6 @@ $ make reset-oai
 #### Reset/delete ONOS-RIC micro-services
 ```bash
 $ make reset-ric
-```
-NOTE: When deleting ONOS-RIC micro-services chart, Makefile script automatically deletes ONOS-KPIMON xApp chart.
-
-#### Reset/delete KPIMON only
-```bash
-make reset-kpimon
 ```
 
 #### Delete/Reset charts for RiaB - CU-CP/OAI version (option 1)
