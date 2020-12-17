@@ -64,6 +64,9 @@ riab-ransim-latest: riab-ransim
 riab-oai-v1.0.0: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.0.0-sdran-chart set-v1.0.0-riab-values omec ric oai
 riab-ransim-v1.0.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.0.0-sdran-chart set-v1.0.0-riab-values ric
 
+riab-oai-dev: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-riab-values omec ric oai
+riab-ransim-dev: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
+
 omec: $(M)/omec
 oai: $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
 ric: $(M)/ric
