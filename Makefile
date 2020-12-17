@@ -51,7 +51,7 @@ os_release	:= $(shell lsb_release -r -s)
 
 .PHONY: riab-oai riab-ransim set-option-oai set-option-ransim omec oai ric test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
 
-riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready omec ric oai
+riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart-ver omec ric oai
 riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready ric
 
 omec: $(M)/omec
