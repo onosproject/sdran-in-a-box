@@ -214,8 +214,8 @@ $ make atomix
 #### Deploy all undeployed Helm charts
 We can reset/delete some specific charts by using some commands described in the below subsection (`Reset/delete specific charts`). To deploy all the reset/deleted charts, we can use the below command.
 ```bash
-$ make riab-oai # for Option 1
-$ make riab-ransim # for Option 2
+$ make riab-oai-[version] # for Option 1
+$ make riab-ransim-[version] # for Option 2
 ```
 
 ### Reset/delete specific charts
