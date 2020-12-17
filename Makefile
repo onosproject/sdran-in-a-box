@@ -48,7 +48,7 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab-oai riab-ransim set-option-oai set-option-ransim omec oai ric reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
+.PHONY: riab-oai riab-ransim set-option-oai set-option-ransim omec oai ric test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
 
 riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready omec ric oai
 riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready ric
@@ -269,6 +269,19 @@ $(M)/oai-ue: | $(M)/oai-enb-du
 		$(SDRANCHARTDIR)/oai-ue && \
 		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-ue --timeout=100s
 	touch $@
+
+test-user-plane: | $(M)/omec $(M)/oai-ue
+	@echo "*** T1: Internal network test: ping 192.168.250.1 (Internal router IP) ***"; \
+	ping -c 3 192.168.250.1 -I oaitun_ue1; \
+	echo "*** T2: Internet connectivity test: ping to 8.8.8.8 ***"; \
+	ping -c 3 8.8.8.8 -I oaitun_ue1; \
+	echo "*** T3: DNS test: ping to google.com ***"; \
+	ping -c 3 google.com -I oaitun_ue1;
+
+test-kpimon: | $(M)/ric
+	@echo "*** Get KPIMON result through CLI ***"; \
+	kubectl exec -it deploy/onos-sdran-cli -n riab -- sdran kpimon list numues;
+
 
 reset-oai:
 	helm delete -n $(RIAB_NAMESPACE) oai-enb-cu || true
