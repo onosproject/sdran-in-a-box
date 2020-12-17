@@ -49,7 +49,7 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab-oai riab-ransim set-option-oai set-option-ransim omec oai ric test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
+.PHONY: riab-oai riab-ransim set-option-oai set-option-ransim omec oai ric atomix test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
 
 riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart-ver omec ric oai
 riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready ric
@@ -57,6 +57,7 @@ riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready ric
 omec: $(M)/omec
 oai: $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
 ric: $(M)/ric
+atomix: $(M)/atomix
 
 set-option-oai:
 	$(eval RIAB_OPTION="oai")
@@ -297,7 +298,7 @@ reset-oai:
 	rm -f $(M)/oai-enb-du
 	rm -f $(M)/oai-ue
 
-reset-omec: | reset-oai
+reset-omec:
 	helm delete -n $(RIAB_NAMESPACE) omec-control-plane || true
 	helm delete -n $(RIAB_NAMESPACE) omec-user-plane || true
 	cd $(M); rm -f omec
@@ -314,7 +315,7 @@ reset-ric:
 
 reset-oai-test: reset-omec reset-oai reset-ric
 
-reset-ransim-test: reset-ric #TBD
+reset-ransim-test: reset-ric
 
 reset-test: reset-oai-test reset-ransim-test reset-atomix
 

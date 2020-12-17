@@ -156,7 +156,7 @@ Key[PLMNID, nodeID]                       num(Active UEs)
 
 If we can see that `num(Active UEs)` is `1`, RIC is working well.
 
-### Delete/Reset RiaB
+### Completely delete/reset RiaB
 This deletes not only deployed Helm chart but also Kubernetes and Helm.
 ```bash
 make clean # if we want to keep the ~/helm-charts directory - option to develop/test changed/new Helm charts
@@ -184,13 +184,16 @@ $ make ric
 ```
 NOTE: When deploying ONOS-RIC micro-services chart, Makefile script automatically deploy Atomix chart (if it is not deployed).
 
-#### Deploy RANSim
-WIP.
+#### Deploy Atomix controllers
+```bash
+$ make atomix
+```
 
 #### Deploy all undeployed Helm charts
 We can reset/delete some specific charts by using some commands described in the below subsection (`Reset/delete specific charts`). To deploy all the reset/deleted charts, we can use the below command.
 ```bash
-$ make
+$ make riab-oai # for Option 1
+$ make riab-ransim # for Option 2
 ```
 
 ### Reset/delete specific charts
@@ -212,11 +215,32 @@ $ make reset-oai
 $ make reset-ric
 ```
 
-#### Delete/Reset charts for RiaB - CU-CP/OAI version (option 1)
-This deletes only deployed Helm charts for option 1.
+#### Reset/delete Atomix controller
 ```bash
-make reset-oai-test
+$ make reset-atomix
 ```
+
+#### Delete/Reset charts for RiaB
+This deletes all deployed Helm charts for SD-RAN development/test (i.e., Atomix, RIC, OAI, and OMEC). It does not delete K8s, Helm, or other software.
+```bash
+make reset-test
+```
+
+### Manage UEs (for Option 1)
+#### Deploy multiple UEs.
+Currently not working yet; under development.
+
+#### Manually detach a UE
+Currently, RiaB can emulates a single UE running on `oai-ue` pod. In order to detach this UE, we can use the below command:
+```bash
+$ echo -en "AT+CPIN=0000\r" | nc -u -w 1 localhost 10000
+$ echo -en "AT+CGATT=0\r" | nc -u -w 1 localhost 10000
+```
+
+NOTE: Since reattachment is not working, we have to redeploy all charts again by using `make reset-oai reset-ric && make riab-oai`. This will be fixed in the next release.
+
+#### Manually reattach a UE
+Currently not working yet; Under development. This will support in the near future (next release).
 
 ## Troubleshooting
 This section covers how to solve the reported issues. This section will be updated, continuously.
