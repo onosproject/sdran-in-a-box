@@ -375,7 +375,7 @@ Error from server (AlreadyExists): error when creating "https://raw.githubuserco
 Makefile:231: recipe for target '/tmp/build/milestones/atomix' failed
 ```
 
-In this case, we can manually delete atomix with the command `make reset-atomix`, and then resume to deploy RiaB.
+In this case, we can manually delete atomix with the command `make atomix || make reset-atomix`, and then resume to deploy RiaB.
 
 ### Other issues?
 Mostly, the redeployment by using `make reset-test and make [option]` resolves most issues.
