@@ -27,6 +27,12 @@ HELM_ONOS_ARGS		?= $(HELM_GLOBAL_ARGS)
 UE_IP_POOL			?= 172.250.0.0
 UE_IP_MASK			?= 16
 
+RIAB_OPTION			?= 
+# If we want to use different namespace, feel free to change it.
+# However, the overriding value file, sdran-in-a-box-values.yaml, should be changed as well - config.hss.mmes section.
+RIAB_NAMESPACE		?= riab
+RANSIM_ARGS			?= --set import.ran-simulator.enabled=true
+
 F1_CU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 F1_CU_IPADDR		:= $(shell ip -4 a show $(F1_CU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
 F1_DU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
@@ -36,9 +42,6 @@ NFAPI_DU_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $
 NFAPI_DU_IPADDR		:= $(shell ip -4 a show $(NFAPI_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
 NFAPI_UE_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 NFAPI_UE_IPADDR		:= $(shell ip -4 a show $(NFAPI_UE_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
-
-RIAB_OPTION			?= 
-RANSIM_ARGS			?= --set import.ran-simulator.enabled=true
 
 cpu_family	:= $(shell lscpu | grep 'CPU family:' | awk '{print $$3}')
 cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
@@ -150,6 +153,7 @@ $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubesp
 	sudo cp -f /etc/kubernetes/admin.conf $(HOME)/.kube/config
 	sudo chown $(shell id -u):$(shell id -g) $(HOME)/.kube/config
 	kubectl wait pod -n kube-system --for=condition=Ready --all
+	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	touch $@
 
 $(M)/helm-ready: | $(M)/k8s-ready
@@ -190,39 +194,40 @@ $(M)/atomix: | $(M)/helm-ready
 	touch $@
 
 $(M)/ric: | $(M)/helm-ready $(M)/atomix
+	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	cd $(SDRANCHARTDIR)/sd-ran; helm dep update
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
-		--namespace omec \
+		--namespace $(RIAB_NAMESPACE) \
 		--values $(RIABVALUES) \
 		$(RANSIM_ARGS) \
 		sd-ran \
 		$(SDRANCHARTDIR)/sd-ran && \
-	kubectl wait pod -n omec --for=condition=Ready -l app=onos --timeout=300s
+	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=onos --timeout=300s
 	touch $@
 
 $(M)/omec: | $(M)/helm-ready $(M)/fabric
-	kubectl get namespace omec 2> /dev/null || kubectl create namespace omec
+	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	helm repo update
 	helm dep up $(AETHERCHARTDIR)/omec/omec-control-plane
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
-		--namespace omec \
+		--namespace $(RIAB_NAMESPACE) \
 		--values $(RIABVALUES) \
 		--set config.spgwc.ueIpPool.ip=$(UE_IP_POOL) \
 		omec-control-plane \
 		$(AETHERCHARTDIR)/omec/omec-control-plane && \
-	kubectl wait pod -n omec --for=condition=Ready -l release=omec-control-plane --timeout=300s && \
+	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=omec-control-plane --timeout=300s && \
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
-		--namespace omec \
+		--namespace $(RIAB_NAMESPACE) \
 		--values $(RIABVALUES) \
 		omec-user-plane \
 		$(AETHERCHARTDIR)/omec/omec-user-plane && \
-	kubectl wait pod -n omec --for=condition=Ready -l release=omec-user-plane --timeout=300s
+	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=omec-user-plane --timeout=300s
 	touch $@
 
 $(M)/oai-enb-cu: | $(M)/omec $(M)/ric
-	$(eval e2t_addr=$(shell  kubectl get svc onos-e2t -n omec --no-headers | awk '{print $$3'}))
+	$(eval e2t_addr=$(shell  kubectl get svc onos-e2t -n $(RIAB_NAMESPACE) --no-headers | awk '{print $$3'}))
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
-		--namespace omec \
+		--namespace $(RIAB_NAMESPACE) \
 		--values $(RIABVALUES) \
 		--set config.oai-enb-cu.networks.s1mme.interface=$(S1MME_CU_INTERFACE) \
 		--set config.onos-e2t.networks.e2.address=$(e2t_addr) \
@@ -232,12 +237,12 @@ $(M)/oai-enb-cu: | $(M)/omec $(M)/ric
 		--set config.oai-enb-du.networks.f1.address=$(F1_DU_IPADDR) \
 		oai-enb-cu \
 		$(SDRANCHARTDIR)/oai-enb-cu && \
-		kubectl wait pod -n omec --for=condition=Ready -l release=oai-enb-cu --timeout=100s
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-enb-cu --timeout=100s
 	touch $@
 
 $(M)/oai-enb-du: | $(M)/oai-enb-cu
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
-		--namespace omec \
+		--namespace $(RIAB_NAMESPACE) \
 		--values $(RIABVALUES) \
 		--set config.oai-enb-cu.networks.f1.interface=$(F1_CU_INTERFACE) \
 		--set config.oai-enb-cu.networks.f1.address=$(F1_CU_IPADDR) \
@@ -249,12 +254,12 @@ $(M)/oai-enb-du: | $(M)/oai-enb-cu
 		--set config.oai-ue.networks.nfapi.address=$(NFAPI_UE_IPADDR) \
 		oai-enb-du \
 		$(SDRANCHARTDIR)/oai-enb-du && \
-		kubectl wait pod -n omec --for=condition=Ready -l release=oai-enb-du --timeout=100s
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-enb-du --timeout=100s
 	touch $@
 
 $(M)/oai-ue: | $(M)/oai-enb-du
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
-		--namespace omec \
+		--namespace $(RIAB_NAMESPACE) \
 		--values $(RIABVALUES) \
 		--set config.oai-enb-du.networks.nfapi.interface=$(NFAPI_DU_INTERFACE) \
 		--set config.oai-enb-du.networks.nfapi.address=$(NFAPI_DU_IPADDR) \
@@ -262,20 +267,20 @@ $(M)/oai-ue: | $(M)/oai-enb-du
 		--set config.oai-ue.networks.nfapi.address=$(NFAPI_UE_IPADDR) \
 		oai-ue \
 		$(SDRANCHARTDIR)/oai-ue && \
-		kubectl wait pod -n omec --for=condition=Ready -l release=oai-ue --timeout=100s
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-ue --timeout=100s
 	touch $@
 
 reset-oai:
-	helm delete -n omec oai-enb-cu || true
-	helm delete -n omec oai-enb-du || true
-	helm delete -n omec oai-ue || true
+	helm delete -n $(RIAB_NAMESPACE) oai-enb-cu || true
+	helm delete -n $(RIAB_NAMESPACE) oai-enb-du || true
+	helm delete -n $(RIAB_NAMESPACE) oai-ue || true
 	rm -f $(M)/oai-enb-cu
 	rm -f $(M)/oai-enb-du
 	rm -f $(M)/oai-ue
 
 reset-omec: | reset-oai
-	helm delete -n omec omec-control-plane || true
-	helm delete -n omec omec-user-plane || true
+	helm delete -n $(RIAB_NAMESPACE) omec-control-plane || true
+	helm delete -n $(RIAB_NAMESPACE) omec-user-plane || true
 	cd $(M); rm -f omec
 
 reset-atomix:
@@ -285,7 +290,7 @@ reset-atomix:
 	cd $(M); rm -f atomix
 
 reset-ric:
-	helm delete -n omec sd-ran || true
+	helm delete -n $(RIAB_NAMESPACE) sd-ran || true
 	cd $(M); rm -f ric
 
 reset-oai-test: reset-omec reset-oai reset-ric

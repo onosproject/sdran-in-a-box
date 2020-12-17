@@ -72,7 +72,7 @@ If we did not see any error, everything is deployed.
 ### Deployed K8s pods for CU-CP/OAI version (option 1)
 ```bash
 # It shows the result when we deploy CU-CP/OAI version (option 1)
-$ kubectl get po -n omec
+$ kubectl get po -n riab
 NAME                              READY   STATUS    RESTARTS   AGE
 cassandra-0                       1/1     Running   0          3h26m
 hss-0                             1/1     Running   0          3h26m
@@ -95,7 +95,7 @@ upf-0                             4/4     Running   0          3h26m
 ### Deployed K8s pods for RANSim version (option 2)
 ```bash
 # It shows the result when we deploy RANSim version (option 2)
-$ kubectl get po -n omec
+$ kubectl get po -n riab
 NAME                              READY   STATUS    RESTARTS   AGE
 onos-config-76f5b95d8f-zjfpj      1/1     Running   0          92s
 onos-consensus-db-1-0             1/1     Running   0          92s
@@ -124,7 +124,7 @@ If we can see all above Kubernetes pods running and ping is runnig, the user pla
 #### RIC by using ONOS-KPIMON xAPP (for both options)
 Also, we should check whether the ONOS-RIC micro-services are working by using ONOS-KPIMON xAPP.
 ```bash
-$ kubectl exec -it deploy/onos-sdran-cli -n omec -- sdran kpimon list numues
+$ kubectl exec -it deploy/onos-sdran-cli -n riab -- sdran kpimon list numues
 Key[PLMNID, nodeID]                  num(Active UEs)
 {OpenNetworking [79 78 70] 572628}   1
 ```
@@ -199,8 +199,8 @@ This section covers how to solve the reported issues. This section will be updat
 ### SPGW-C or UPF is not working
 Please check the log with below commands:
 ```bash
-$ kubectl logs spgwc-0 -n omec -c spgwc # for SPGW-C log
-$ kubectl logs upf-0 -n omec -c bess # for UPF log
+$ kubectl logs spgwc-0 -n riab -c spgwc # for SPGW-C log
+$ kubectl logs upf-0 -n riab -c bess # for UPF log
 ```
 
 In the log, if we can see `unsupported CPU type` or `a specific flag (e.g., AES) is missing`, we should check the CPU microarchitecture. RiaB requires Intel Haswell or more recent CPU microarchitecture.
