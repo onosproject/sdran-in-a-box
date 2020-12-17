@@ -5,12 +5,12 @@ RiaB deploys SD-RAN infrastructure - the EPC (OMEC), emulated RAN (CU/DU/UE), an
 On top of the SD-RAN infrastructure, we can conduct E2E tests in terms of the user plane and the SD-RAN control plane.
 
 ## Supported machines
-* CloudLab Wisc and Utah cluster [tested]
+* CloudLab Wisc and Utah cluster
   * CPU: Intel CPU and Haswell microarchitecture or beyond; at least 4 cores
   * OS: Ubuntu 18.04 (e.g., OnePC-Ubuntu18.04 profile in CloudLab)
   * RAM: At least 16GB
   * Storage: At least 50GB (recommendation: 100GB)
-* Any baremetal server or VM [under test]
+* Any baremetal server or VM
   * CPU: Intel CPU and Haswell microarchitecture or beyond; at least 4 cores
   * OS: Ubuntu 18.04 or 20.04 (e.g., OnePC-Ubuntu18.04 profile in CloudLab)
   * RAM: At least 16GB
@@ -23,18 +23,37 @@ To begin with, clone this repository:
 $ git clone https://github.com/onosproject/sdran-in-a-box
 ```
 
-### Deploy RiaB - CU-CP/OAI version (option 1)
-Go to the `sdran-in-a-box` directory and build/deploy CU-CP, OAI DU, OAI UE, OMEC, and RIC.
+NOTE: If we want to use a specific release, we can change the branch with `git checkout [args]` command.
 ```bash
 $ cd /path/to/sdran-in-a-box
-$ make #or make riab-oai
+$ git checkout v1.0.0 # for release 1
+$ git checkout master # for the latest
+```
+
+### Deploy RiaB - CU-CP/OAI version (option 1)
+Go to the `sdran-in-a-box` directory and build/deploy CU-CP, OAI DU, OAI UE, OMEC, and RIC. We can choose one of three commands:
+```bash
+$ cd /path/to/sdran-in-a-box
+# Use latest charts and images
+$ make #or make riab-oai, make riab-oai-latest
+# Use charts and images for SD-RAN release 1.0
+$ make riab-oai-v1.0.0
+# Use charts in the local directory (~/helm-charts/) and images defined in sdran-in-a-box-values.yaml file
+# Useful for the SD-RAN development
+$ make riab-oai-dev
 ```
 
 ### Deploy RiaB - RANSim version (option 2)
-Go to the `sdran-in-a-box` directory and build/deploy RIC and RANSim.
+Go to the `sdran-in-a-box` directory and build/deploy RIC and RANSim. We can choose one of three commands:
 ```bash
 $ cd /path/to/sdran-in-a-box
-$ make ransim
+# Use latest charts and images
+$ make riab-ransim # or make riab-ransim-latest
+# Use charts and images for SD-RAN release 1.0
+$ make riab-ransim-v1.0.0
+# Use charts in the local directory (~/helm-charts/) and images defined in sdran-in-a-box-values.yaml file
+# Useful for the SD-RAN development
+$ make riab-ransim-dev
 ```
 
 ### Write credentials when deploying RiaB
@@ -255,6 +274,13 @@ It just fetches the all latest commits, i.e., it does not change/checkout the sp
 
 NOTE: It may request credentials for the OpenCORD gerrit and SD-RAN Github.
 
+#### Use SD-RAN CLI
+In order to use the SD-RAN CLI, we should access to the onos-sdran-cli pod first. Then, we can use SD-RAN CLI commands.
+```bash
+$ kubectl exec -it deployment/onos-sdran-cli -n riab -- bash
+$ sdran [arg1] [arg2] ...
+```
+
 ## Troubleshooting
 This section covers how to solve the reported issues. This section will be updated, continuously.
 
@@ -351,4 +377,5 @@ Makefile:231: recipe for target '/tmp/build/milestones/atomix' failed
 In this case, we can manually delete atomix with the command `make reset-atomix`, and then resume to deploy RiaB.
 
 ### Other issues?
-Please contact ONF SD-RAN team, if you see any issue. Any issue report from users is very welcome.
+Mostly, the redeployment by using `make reset-test and make [option]` resolves most issues.
+However, please report it to ONF SD-RAN team, if you see any issue. Any issue report from users is very welcome.
