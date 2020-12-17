@@ -37,19 +37,29 @@ NFAPI_DU_IPADDR		:= $(shell ip -4 a show $(NFAPI_DU_INTERFACE) | grep inet | awk
 NFAPI_UE_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 NFAPI_UE_IPADDR		:= $(shell ip -4 a show $(NFAPI_UE_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
 
+RIAB_OPTION			?= 
+RANSIM_ARGS			?= --set import.ran-simulator.enabled=true
+
 cpu_family	:= $(shell lscpu | grep 'CPU family:' | awk '{print $$3}')
 cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab-oai riab-ransim omec oai ric reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
+.PHONY: riab-oai riab-ransim set-option-oai set-option-ransim omec oai ric reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
 
-riab-oai: $(M)/system-check $(M)/helm-ready omec ric oai
-riab-ransim: $(M)/system-check $(M)/helm-ready #TBD
+riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready omec ric oai
+riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready ric
 
 omec: $(M)/omec
 oai: $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
 ric: $(M)/ric
+
+set-option-oai:
+	$(eval RIAB_OPTION="oai")
+	$(eval RANSIM_ARGS="")
+
+set-option-ransim:
+	$(eval RIAB_OPTION="ransim")
 
 $(M):
 	mkdir -p $(M)
@@ -184,6 +194,7 @@ $(M)/ric: | $(M)/helm-ready $(M)/atomix
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace omec \
 		--values $(RIABVALUES) \
+		$(RANSIM_ARGS) \
 		sd-ran \
 		$(SDRANCHARTDIR)/sd-ran && \
 	kubectl wait pod -n omec --for=condition=Ready -l app=onos --timeout=300s

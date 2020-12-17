@@ -152,4 +152,29 @@ images:
 #     oaicucp: docker.io/onosproject/oai-enb-cu:latest
 #     oaidu: docker.io/onosproject/oai-enb-du:latest
 #     oaiue: docker.io/onosproject/oai-enb-ue:latest
-  
+
+# For SD-RAN Umbrella chart:
+# ONOS-KPIMON xAPP is imported in the RiaB by default
+import:
+  onos-kpimon:
+    enabled: true
+# Other ONOS-RIC micro-services
+#   onos-topo:
+#     enabled: true
+#   onos-e2t:
+#     enabled: true
+#   onos-e2sub:
+#     enabled: true
+#   onos-o1t:
+#     enabled: false
+#   onos-config:
+#     enabled: true
+#   onos-sdran-cli:
+#     enabled: true
+# ran-simulator chart is automatically imported when pushing ransim option
+#   ran-simulator:
+#     enabled: false
+#   onos-gui:
+#     enabled: false
+#   nem-monitoring:
+#     enabled: false
