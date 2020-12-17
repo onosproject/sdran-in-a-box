@@ -51,6 +51,12 @@ config:
           imsiStart: "208014567891201"
           msisdnStart: "1122334455"
           count: 10
+      mmes:
+        - id: 1
+          mme_identity: mme.riab.svc.cluster.local
+          mme_realm: riab.svc.cluster.local
+          isdn: "19136246000"
+          unreachability: 1
   oai-enb-cu:
     networks:
       f1:
