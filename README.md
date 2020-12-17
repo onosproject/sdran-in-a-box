@@ -5,7 +5,7 @@ RiaB deploys SD-RAN infrastructure - the EPC (OMEC), emulated RAN (CU/DU/UE), an
 On top of the SD-RAN infrastructure, we can conduct E2E tests in terms of the user plane and the SD-RAN control plane.
 
 ## Supported machines
-* CloudLab Wisc and Utah cluster [tested]
+* CloudLab Wisconsin and Utah cluster [tested]
   * CPU: Intel CPU and Haswell microarchitecture or beyond; at least 4 cores
   * OS: Ubuntu 18.04 (e.g., OnePC-Ubuntu18.04 profile in CloudLab)
   * RAM: At least 16GB
@@ -145,7 +145,7 @@ PING google.com (172.217.12.78) from 172.250.255.253 oaitun_ue1: 56(84) bytes of
 rtt min/avg/max/mdev = 50.472/51.219/51.872/0.632 ms
 ```
 
-If we can see all above Kubernetes pods running and ping is runnig, the user plane is working well.
+If we can see all above Kubernetes pods running and ping is running, the user plane is working well.
 
 #### RIC by using ONOS-KPIMON xAPP (for both options)
 Also, we should check whether the ONOS-RIC micro-services are working by using ONOS-KPIMON xAPP.
