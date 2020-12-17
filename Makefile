@@ -17,7 +17,7 @@ CHARTDIR			?= $(WORKSPACE)/helm-charts
 AETHERCHARTDIR		?= $(CHARTDIR)/aether-helm-charts
 AETHERCHARTCID		?= 3d1e936e87b4ddae784a33f036f87899e9d00b95
 SDRANCHARTDIR		?= $(CHARTDIR)/sdran-helm-charts
-SDRANCHARTCID-LATEST	?= master
+SDRANCHARTCID-LATEST	?= origin/master
 SDRANCHARTCID-V1.0.0	?= 6e64af10ebaba04f7c07d0c647c778fdcc56e39b #tag: oai-enb-cu-0.1.0
 
 KUBESPRAY_VERSION	?= release-2.14

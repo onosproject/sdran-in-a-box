@@ -314,5 +314,33 @@ $ cd /path/to/sdran-in-a-box
 $ make
 ```
 
+### Atomix controllers cannot be deleted/reset
+Sometimes, Atomix controllers cannot be deleted (maybe we will get stuck when deleting Atomix controller pods) when we command `make reset-test`.
+```bash
+rm -f /tmp/build/milestones/oai-enb-cu
+rm -f /tmp/build/milestones/oai-enb-du
+rm -f /tmp/build/milestones/oai-ue
+helm delete -n riab sd-ran || true
+release "sd-ran" uninstalled
+cd /tmp/build/milestones; rm -f ric
+kubectl delete -f https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml || true
+customresourcedefinition.apiextensions.k8s.io "databases.cloud.atomix.io" deleted
+customresourcedefinition.apiextensions.k8s.io "partitions.cloud.atomix.io" deleted
+customresourcedefinition.apiextensions.k8s.io "members.cloud.atomix.io" deleted
+customresourcedefinition.apiextensions.k8s.io "primitives.cloud.atomix.io" deleted
+serviceaccount "atomix-controller" deleted
+clusterrole.rbac.authorization.k8s.io "atomix-controller" deleted
+clusterrolebinding.rbac.authorization.k8s.io "atomix-controller" deleted
+service "atomix-controller" deleted
+deployment.apps "atomix-controller" deleted
+```
+
+If the script is stopped here, we can command:
+```bash
+# Commmand Ctrl+c first to stop the Makefile script if the make reset-test is got stuck. Then command below.
+$ make reset-atomix # Manually delete Atomix controller pods again
+$ make reset-test # Then, make reset-test again
+```
+
 ### Other issues?
 Please contact ONF SD-RAN team, if you see any issue. Any issue report from users is very welcome.
