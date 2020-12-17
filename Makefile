@@ -61,8 +61,8 @@ riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab
 riab-oai-latest: riab-oai
 riab-ransim-latest: riab-ransim
 
-riab-oai-v1.0.0: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.0.0-riab-values omec ric oai
-riab-ransim-v1.0.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.0.0-riab-values ric
+riab-oai-v1.0.0: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.0.0-sdran-chart set-v1.0.0-riab-values omec ric oai
+riab-ransim-v1.0.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.0.0-sdran-chart set-v1.0.0-riab-values ric
 
 omec: $(M)/omec
 oai: $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
@@ -270,7 +270,8 @@ $(M)/oai-enb-cu: | $(M)/omec $(M)/ric
 		--set config.oai-enb-du.networks.f1.address=$(F1_DU_IPADDR) \
 		oai-enb-cu \
 		$(SDRANCHARTDIR)/oai-enb-cu && \
-		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-enb-cu --timeout=100s
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-enb-cu --timeout=100s && \
+		sleep 10
 	touch $@
 
 $(M)/oai-enb-du: | $(M)/oai-enb-cu
@@ -287,7 +288,8 @@ $(M)/oai-enb-du: | $(M)/oai-enb-cu
 		--set config.oai-ue.networks.nfapi.address=$(NFAPI_UE_IPADDR) \
 		oai-enb-du \
 		$(SDRANCHARTDIR)/oai-enb-du && \
-		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-enb-du --timeout=100s
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-enb-du --timeout=100s && \
+		sleep 10
 	touch $@
 
 $(M)/oai-ue: | $(M)/oai-enb-du
@@ -300,7 +302,8 @@ $(M)/oai-ue: | $(M)/oai-enb-du
 		--set config.oai-ue.networks.nfapi.address=$(NFAPI_UE_IPADDR) \
 		oai-ue \
 		$(SDRANCHARTDIR)/oai-ue && \
-		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-ue --timeout=100s
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-ue --timeout=100s && \
+		sleep 10
 	touch $@
 
 test-user-plane: | $(M)/omec $(M)/oai-ue
