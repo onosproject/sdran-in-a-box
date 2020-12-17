@@ -14,18 +14,27 @@ SDRAN-in-a-Box (RiaB) for SD-RAN project
   * Storage: At least 50GB (recommendation: 100GB)
 
 ## Quick Start
-### Deploy RiaB - CU-CP/OAI version (option 1)
+### Clone this repository
 To begin with, clone this repository:
 ```bash
 $ git clone https://github.com/onosproject/sdran-in-a-box
 ```
 
+### Deploy RiaB - CU-CP/OAI version (option 1)
 Go to the `sdran-in-a-box` directory and build/deploy CU-CP, OAI DU, OAI UE, OMEC, and RIC.
 ```bash
 $ cd /path/to/sdran-in-a-box
 $ make #or make riab-oai
 ```
 
+### Deploy RiaB - RANSim version (option 2)
+Go to the `sdran-in-a-box` directory and build/deploy CU-CP, OAI DU, OAI UE, OMEC, and RIC.
+```bash
+$ cd /path/to/sdran-in-a-box
+$ make ransim
+```
+
+### Write credentials when deploying RiaB
 Running the Makefile script, we have to write some credentials for (i) opencord gerrit, (ii) onosproject github, and (iii) sdran private Helm chart repository.
 ```bash
 aether-helm-chart repo is not in /users/wkim/helm-charts directory. Start to clone - it requires HTTPS key
@@ -58,8 +67,11 @@ Password for ONF SDRAN private chart: <SDRAN_PRIVATE_CHART_REPO_PASSWORD>
 touch /tmp/build/milestones/helm-ready
 ```
 
-After deployment, we can use the below command to check whether all essential charts:
+If we did not see any error, everything is deployed.
+
+### Deployed K8s pods for CU-CP/OAI version (option 1)
 ```bash
+# It shows the result when we deploy CU-CP/OAI version (option 1)
 $ kubectl get po -n omec
 NAME                              READY   STATUS    RESTARTS   AGE
 cassandra-0                       1/1     Running   0          3h26m
@@ -80,18 +92,51 @@ spgwc-0                           2/2     Running   0          3h26m
 upf-0                             4/4     Running   0          3h26m
 ```
 
-Then, we should check if the user plane is working by using the below command:
+### Deployed K8s pods for RANSim version (option 2)
+```bash
+# It shows the result when we deploy RANSim version (option 2)
+$ kubectl get po -n omec
+NAME                              READY   STATUS    RESTARTS   AGE
+onos-config-76f5b95d8f-zjfpj      1/1     Running   0          92s
+onos-consensus-db-1-0             1/1     Running   0          92s
+onos-e2sub-5dff4f9b9-cljn7        1/1     Running   0          92s
+onos-e2t-67cbfb8c55-gpph4         1/1     Running   0          92s
+onos-kpimon-5649d85d57-28kt4      1/1     Running   0          92s
+onos-sdran-cli-7f4fc59b47-5sppt   1/1     Running   0          92s
+onos-topo-85647b8cc6-98nd5        1/1     Running   0          92s
+ran-simulator-57956df985-hc5n4    1/1     Running   0          92s
+```
+
+### Verification
+
+#### The user plane (for option 1 - CU-CP/OAI version)
+We should check if the user plane is working by using the below command:
 ```
 $ ping 8.8.8.8 -I oaitun_ue1
 ```
 
-If we can see all above Kubernetes pods running and ping is runnig, RiaB is successfully deployed.
+If we can see all above Kubernetes pods running and ping is runnig, the user plane is working well.
 
-### Deploy RiaB - RANSim version (option 2)
-WIP.
+#### RIC by using ONOS-KPIMON xAPP (for both options)
+Also, we should check whether the ONOS-RIC micro-services are working by using ONOS-KPIMON xAPP.
+```bash
+$ kubectl exec -it deploy/onos-sdran-cli -n omec -- sdran kpimon list numues
+Key[PLMNID, nodeID]                  num(Active UEs)
+{OpenNetworking [79 78 70] 572628}   1
+```
 
+If we can see the `num(Active UEs)` is `1`, RIC is working well.
+
+### Delete/Reset RiaB
+This deletes not only deployed Helm chart but also Kubernetes and Helm.
+```bash
+make clean # if we want to keep the ~/helm-charts directory - option to develop/test changed/new Helm charts
+make clean-all # if we also want to delete ~/helm-charts directory
+```
+
+## Useful commands
 ### Deploy specific charts
-For the development, we should deploy some specific charts; this Makefile script also supports deploying some specific charts.
+For the development, we should deploy/reset some specific charts; this Makefile script also supports deploying/deleting some specific charts.
 
 #### Deploy OMEC
 ```bash
@@ -143,19 +188,6 @@ This deletes only deployed Helm charts for option 1.
 ```bash
 make reset-oai-test
 ```
-
-#### Delete/Reset charts for RiaB - RANSim version (option 2)
-WIP.
-
-### Delete/Reset RiaB
-This deletes not only deployed Helm chart but also Kubernetes and Helm.
-```bash
-make clean # if we want to keep the ~/helm-charts directory - option to develop/test changed/new Helm charts
-make clean-all # if we also want to delete ~/helm-charts directory
-```
-
-## Detailed information (TL;DR)
-TBD
 
 ## Troubleshooting
 This section covers how to solve the reported issues. This section will be updated, continuously.
@@ -215,3 +247,6 @@ $ sudo systemctl restart docker
 $ cd /path/to/sdran-in-a-box
 $ make
 ```
+
+### Other issues?
+We are very welcome all the issue reports from users. Please contact ONF SD-RAN team.
