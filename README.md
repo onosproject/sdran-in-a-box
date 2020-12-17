@@ -1,5 +1,8 @@
-# sdran-in-a-box
-SDRAN-in-a-Box (RiaB) for SD-RAN project
+# SDRAN-in-a-Box (RiaB)
+SDRAN-in-a-Box (RiaB) is a SD-RAN cluster which is able to operate within a single host machine.
+It provides a development/test environment for developers/users in ONF SD-RAN community.
+RiaB deploys SD-RAN infrastructure - the EPC (OMEC), emulated RAN (CU/DU/UE), and RIC (ONOS-RIC) - over Kubernetes.
+On top of the SD-RAN infrastructure, we can conduct E2E tests in terms of the user plane and the SD-RAN control plane.
 
 ## Supported machines
 * CloudLab Wisc and Utah cluster [tested]
