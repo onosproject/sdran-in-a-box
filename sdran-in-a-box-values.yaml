@@ -134,24 +134,20 @@ config:
 #    tag: latest
 
 # For OMEC & OAI
-#images:
-#  pullPolicy: IfNotPresent
-#  tags:
+images:
+ pullPolicy: IfNotPresent
+ tags:
 # For OMEC
-#    spgwc: docker.io/woojoong/spgw:riab-0.1.1
-#    bess: woojoong/upf-epc-bess:riab-0.1.1
-#    pfcpiface: woojoong/upf-epc-pfcpiface:riab-0.1.1
 #    init: docker.io/omecproject/pod-init:1.0.0
-#    hssdb: docker.io/omecproject/c3po-hssdb:master-latest
-#    hss: docker.io/omecproject/c3po-hss:master-latest
-#    mme: docker.io/omecproject/nucleus:master-latest
-#    spgwc: docker.io/omecproject/spgw:master-latest
-#    pcrf: omecproject/c3po-pcrf:pcrf-latest
-#    pcrfdb: omecproject/c3po-pcrfdb:pcrf-latest
 #    depCheck: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-#    bess: docker.io/omecproject/upf-epc-bess:master-latest
-#    pfcpiface: docker.io/omecproject/upf-epc-pfcpiface:master-latest
-#    zmqiface: docker.io/omecproject/upf-epc-cpiface:master-latest
+   hssdb: docker.io/onosproject/riab-hssdb:v1.0.0
+   hss: docker.io/onosproject/riab-hss:v1.0.0
+   mme: docker.io/onosproject/riab-nucleus-mme:v1.0.0
+   spgwc: docker.io/onosproject/riab-spgw:v1.0.0
+   pcrf: docker.io/onosproject/riab-pcrf:v1.0.0
+   pcrfdb: docker.io/onosproject/riab-pcrfdb:v1.0.0
+   bess: docker.io/onosproject/riab-bess-upf:v1.0.0
+   pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0
 # For OAI
 #     oaicucp: docker.io/onosproject/oai-enb-cu:latest
 #     oaidu: docker.io/onosproject/oai-enb-du:latest

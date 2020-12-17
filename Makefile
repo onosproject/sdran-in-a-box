@@ -13,6 +13,7 @@ VENV				?= $(BUILD)/venv/riab
 RIABVALUES			?= $(RIABDIR)/sdran-in-a-box-values.yaml
 CHARTDIR			?= $(WORKSPACE)/helm-charts
 AETHERCHARTDIR		?= $(CHARTDIR)/aether-helm-charts
+AETHERCHARTCOMMITID	?= 3d1e936e87b4ddae784a33f036f87899e9d00b95
 SDRANCHARTDIR		?= $(CHARTDIR)/sdran-helm-charts
 
 KUBESPRAY_VERSION	?= release-2.14
@@ -64,6 +65,10 @@ set-option-oai:
 set-option-ransim:
 	$(eval RIAB_OPTION="ransim")
 
+set-stable-aether-chart-ver:
+	cd $(AETHERCHARTDIR); \
+	git checkout $(AETHERCHARTCOMMITID);
+
 $(M):
 	mkdir -p $(M)
 
@@ -73,6 +78,7 @@ $(M)/repos: | $(M)
 	@if [[ ! -d "$(AETHERCHARTDIR)" ]]; then \
                 echo "aether-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires HTTPS key"; \
 				git clone https://gerrit.opencord.org/aether-helm-charts $(AETHERCHARTDIR) || true; \
+				git checkout $(AETHERCHARTCOMMITID); \
 	fi
 	@if [[ ! -d "$(SDRANCHARTDIR)" ]]; then \
                 echo "sdran-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires Github credential"; \
