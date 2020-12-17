@@ -5,12 +5,12 @@ RiaB deploys SD-RAN infrastructure - the EPC (OMEC), emulated RAN (CU/DU/UE), an
 On top of the SD-RAN infrastructure, we can conduct E2E tests in terms of the user plane and the SD-RAN control plane.
 
 ## Supported machines
-* CloudLab Wisconsin and Utah cluster [tested]
+* CloudLab Wisconsin and Utah cluster
   * CPU: Intel CPU and Haswell microarchitecture or beyond; at least 4 cores
   * OS: Ubuntu 18.04 (e.g., OnePC-Ubuntu18.04 profile in CloudLab)
   * RAM: At least 16GB
   * Storage: At least 50GB (recommendation: 100GB)
-* Any baremetal server or VM [under test]
+* Any baremetal server or VM
   * CPU: Intel CPU and Haswell microarchitecture or beyond; at least 4 cores
   * OS: Ubuntu 18.04 or 20.04 (e.g., OnePC-Ubuntu18.04 profile in CloudLab)
   * RAM: At least 16GB
@@ -23,18 +23,37 @@ To begin with, clone this repository:
 $ git clone https://github.com/onosproject/sdran-in-a-box
 ```
 
-### Deploy RiaB - CU-CP/OAI version (option 1)
-Go to the `sdran-in-a-box` directory and build/deploy CU-CP, OAI DU, OAI UE, OMEC, and RIC.
+NOTE: If we want to use a specific release, we can change the branch with `git checkout [args]` command.
 ```bash
 $ cd /path/to/sdran-in-a-box
-$ make #or make riab-oai
+$ git checkout v1.0.0 # for release 1
+$ git checkout master # for the latest
+```
+
+### Deploy RiaB - CU-CP/OAI version (option 1)
+Go to the `sdran-in-a-box` directory and build/deploy CU-CP, OAI DU, OAI UE, OMEC, and RIC. We can choose one of three commands:
+```bash
+$ cd /path/to/sdran-in-a-box
+# Use latest charts and images
+$ make #or make riab-oai, make riab-oai-latest
+# Use charts and images for SD-RAN release 1.0
+$ make riab-oai-v1.0.0
+# Use charts in the local directory (~/helm-charts/) and images defined in sdran-in-a-box-values.yaml file
+# Useful for the SD-RAN development
+$ make riab-oai-dev
 ```
 
 ### Deploy RiaB - RANSim version (option 2)
-Go to the `sdran-in-a-box` directory and build/deploy RIC and RANSim.
+Go to the `sdran-in-a-box` directory and build/deploy RIC and RANSim. We can choose one of three commands:
 ```bash
 $ cd /path/to/sdran-in-a-box
-$ make ransim
+# Use latest charts and images
+$ make riab-ransim # or make riab-ransim-latest
+# Use charts and images for SD-RAN release 1.0
+$ make riab-ransim-v1.0.0
+# Use charts in the local directory (~/helm-charts/) and images defined in sdran-in-a-box-values.yaml file
+# Useful for the SD-RAN development
+$ make riab-ransim-dev
 ```
 
 ### Write credentials when deploying RiaB
@@ -114,7 +133,7 @@ ran-simulator-57956df985-hc5n4    1/1     Running   0          92s
 
 #### The user plane (for option 1 - CU-CP/OAI version)
 We should check if the user plane is working by using `make test-user-plane` command:
-```
+```bash
 $ make test-user-plane
 *** T1: Internal network test: ping 192.168.250.1 (Internal router IP) ***
 PING 192.168.250.1 (192.168.250.1) from 172.250.255.253 oaitun_ue1: 56(84) bytes of data.
@@ -195,8 +214,8 @@ $ make atomix
 #### Deploy all undeployed Helm charts
 We can reset/delete some specific charts by using some commands described in the below subsection (`Reset/delete specific charts`). To deploy all the reset/deleted charts, we can use the below command.
 ```bash
-$ make riab-oai # for Option 1
-$ make riab-ransim # for Option 2
+$ make riab-oai-[version] # for Option 1
+$ make riab-ransim-[version] # for Option 2
 ```
 
 ### Reset/delete specific charts
@@ -226,7 +245,7 @@ $ make reset-atomix
 #### Delete/Reset charts for RiaB
 This deletes all deployed Helm charts for SD-RAN development/test (i.e., Atomix, RIC, OAI, and OMEC). It does not delete K8s, Helm, or other software.
 ```bash
-make reset-test
+$ make reset-test
 ```
 
 ### Manage UEs (for Option 1)
@@ -234,7 +253,7 @@ make reset-test
 Currently not working yet; under development.
 
 #### Manually detach a UE
-Currently, RiaB can emulates a single UE running on `oai-ue` pod. In order to detach this UE, we can use the below command:
+Currently, RiaB can emulates a single UE running on `oai-ue` pod. In order to manually detach this UE, we can use the below command:
 ```bash
 $ echo -en "AT+CPIN=0000\r" | nc -u -w 1 localhost 10000
 $ echo -en "AT+CGATT=0\r" | nc -u -w 1 localhost 10000
@@ -244,6 +263,23 @@ NOTE: Since reattachment is not working, we have to redeploy all charts again by
 
 #### Manually reattach a UE
 Currently not working yet; Under development. This will support in the near future (next release).
+
+### Miscellaneous
+#### Fetch Aether and SD-RAN Helm charts
+For the development perspective, we need to fetch the latest Helm chart commits, although the RiaB uses a specific chart version. This command fetches all latest commits:
+```bash
+$ make fetch-all-charts
+```
+It just fetches the all latest commits, i.e., it does not change/checkout the specific branch/commit.
+
+NOTE: It may request credentials for the OpenCORD gerrit and SD-RAN Github.
+
+#### Use SD-RAN CLI
+In order to use the SD-RAN CLI, we should access to the onos-sdran-cli pod first. Then, we can use SD-RAN CLI commands.
+```bash
+$ kubectl exec -it deployment/onos-sdran-cli -n riab -- bash
+$ sdran [arg1] [arg2] ...
+```
 
 ## Troubleshooting
 This section covers how to solve the reported issues. This section will be updated, continuously.
@@ -304,5 +340,43 @@ $ cd /path/to/sdran-in-a-box
 $ make
 ```
 
+### Atomix controllers cannot be deleted/reset
+Sometimes, Atomix controllers cannot be deleted (maybe we will get stuck when deleting Atomix controller pods) when we command `make reset-test`.
+```bash
+rm -f /tmp/build/milestones/oai-enb-cu
+rm -f /tmp/build/milestones/oai-enb-du
+rm -f /tmp/build/milestones/oai-ue
+helm delete -n riab sd-ran || true
+release "sd-ran" uninstalled
+cd /tmp/build/milestones; rm -f ric
+kubectl delete -f https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml || true
+customresourcedefinition.apiextensions.k8s.io "databases.cloud.atomix.io" deleted
+customresourcedefinition.apiextensions.k8s.io "partitions.cloud.atomix.io" deleted
+customresourcedefinition.apiextensions.k8s.io "members.cloud.atomix.io" deleted
+customresourcedefinition.apiextensions.k8s.io "primitives.cloud.atomix.io" deleted
+serviceaccount "atomix-controller" deleted
+clusterrole.rbac.authorization.k8s.io "atomix-controller" deleted
+clusterrolebinding.rbac.authorization.k8s.io "atomix-controller" deleted
+service "atomix-controller" deleted
+deployment.apps "atomix-controller" deleted
+```
+
+If the script is stopped here, we can command:
+```bash
+# Commmand Ctrl+c first to stop the Makefile script if the make reset-test is got stuck. Then command below.
+$ make reset-atomix # Manually delete Atomix controller pods
+$ make atomix # Manually install Atomix controller pods
+$ make reset-test # Then, make reset-test again
+```
+
+Or, sometimes we see this when deploying RiaB:
+```text
+Error from server (AlreadyExists): error when creating "https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml": object is being deleted: customresourcedefinitions.apiextensions.k8s.io "members.cloud.atomix.io" already exists
+Makefile:231: recipe for target '/tmp/build/milestones/atomix' failed
+```
+
+In this case, we can manually delete atomix with the command `make atomix || make reset-atomix`, and then resume to deploy RiaB.
+
 ### Other issues?
 Please contact ONF SD-RAN team, if you see any issue. Any issue report from users is very welcome.
+Mostly, the redeployment by using `make reset-test and make [option]` resolves issues.

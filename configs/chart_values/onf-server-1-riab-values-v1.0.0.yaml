@@ -91,49 +91,49 @@ config:
 
 # for the development, we can use the custom images
 # For ONOS-RIC
-onos-topo:
-  image:
-    pullPolicy: IfNotPresent
-    repository: onosproject/onos-topo
-    tag: latest
-onos-config:
-  image:
-    pullPolicy: IfNotPresent
-    repository: onosproject/onos-config
-    tag: latest
-onos-e2t:
-  image:
-    pullPolicy: IfNotPresent
-    repository: onosproject/onos-e2t
-    tag: latest
-  servicemodels:
-  - name: e2sm_kpm
-    version: 1.0.0
-    image:
-      repository: onosproject/service-model-docker-e2sm_kpm-1.0.0
-      tag: latest
-      pullPolicy: IfNotPresent
-  - name: e2sm_ni
-    version: 1.0.0
-    image:
-      repository: onosproject/service-model-docker-e2sm_ni-1.0.0
-      tag: latest
-      pullPolicy: IfNotPresent
-onos-e2sub:
-  image:
-    pullPolicy: IfNotPresent
-    repository: onosproject/onos-e2sub
-    tag: latest
-onos-sdran-cli:
-  image:
-    pullPolicy: IfNotPresent
-    repository: onosproject/onos-sdran-cli
-    tag: latest
-onos-kpimon:
-  image:
-    pullPolicy: IfNotPresent
-    repository: onosproject/onos-kpimon
-    tag: latest
+#onos-topo:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-topo
+#    tag: latest
+#onos-config:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-config
+#    tag: latest
+#onos-e2t:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-e2t
+#    tag: latest
+#   servicemodels:
+#   - name: e2sm_kpm
+#     version: 1.0.0
+#     image:
+#       repository: onosproject/service-model-docker-e2sm_kpm-1.0.0
+#       tag: v0.6.5
+#       pullPolicy: IfNotPresent
+#   - name: e2sm_ni
+#     version: 1.0.0
+#     image:
+#       repository: onosproject/service-model-docker-e2sm_ni-1.0.0
+#       tag: v0.6.5
+#       pullPolicy: IfNotPresent
+#onos-e2sub:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-e2sub
+#    tag: latest
+#onos-sdran-cli:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-sdran-cli
+#    tag: latest
+#onos-kpimon:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-kpimon
+#    tag: latest
 
 # For OMEC & OAI
 images:
@@ -152,9 +152,9 @@ images:
     bess: docker.io/onosproject/riab-bess-upf:v1.0.0-onfvm-1
     pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0-onfvm-1
 # For OAI
-    oaicucp: docker.io/onosproject/oai-enb-cu:latest
-    oaidu: docker.io/onosproject/oai-enb-du:latest
-    oaiue: docker.io/onosproject/oai-ue:latest
+#     oaicucp: docker.io/onosproject/oai-enb-cu:latest
+#     oaidu: docker.io/onosproject/oai-enb-du:latest
+#     oaiue: docker.io/onosproject/oai-enb-ue:latest
 
 # For SD-RAN Umbrella chart:
 # ONOS-KPIMON xAPP is imported in the RiaB by default
