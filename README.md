@@ -28,7 +28,7 @@ $ make #or make riab-oai
 ```
 
 ### Deploy RiaB - RANSim version (option 2)
-Go to the `sdran-in-a-box` directory and build/deploy CU-CP, OAI DU, OAI UE, OMEC, and RIC.
+Go to the `sdran-in-a-box` directory and build/deploy RIC and RANSim.
 ```bash
 $ cd /path/to/sdran-in-a-box
 $ make ransim
@@ -129,7 +129,7 @@ Key[PLMNID, nodeID]                  num(Active UEs)
 {OpenNetworking [79 78 70] 572628}   1
 ```
 
-If we can see the `num(Active UEs)` is `1`, RIC is working well.
+If we can see that `num(Active UEs)` is `1`, RIC is working well.
 
 ### Delete/Reset RiaB
 This deletes not only deployed Helm chart but also Kubernetes and Helm.
@@ -253,4 +253,4 @@ $ make
 ```
 
 ### Other issues?
-We are very welcome all the issue reports from users. Please contact ONF SD-RAN team.
+Please contact ONF SD-RAN team, if you see any issue. We are very welcome all the issue reports from users.
