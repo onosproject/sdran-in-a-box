@@ -113,6 +113,10 @@ ran-simulator-57956df985-hc5n4    1/1     Running   0          92s
 We should check if the user plane is working by using the below command:
 ```
 $ ping 8.8.8.8 -I oaitun_ue1
+PING 8.8.8.8 (8.8.8.8) from 172.250.255.202 oaitun_ue1: 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=114 time=28.2 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=114 time=37.0 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=114 time=35.9 ms
 ```
 
 If we can see all above Kubernetes pods running and ping is runnig, the user plane is working well.
