@@ -63,7 +63,7 @@ config:
     networks:
       f1:
         interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
-        address: 10.128.100.251 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
       s1mme:
         interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
       s1u:
@@ -73,15 +73,15 @@ config:
     networks:
       f1:
         interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
-        address: 10.128.100.251 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
       nfapi:
         interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
-        address: 10.128.100.251 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
   oai-ue:
     networks:
       nfapi:
         interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
-        address: 10.128.100.251 #if we use RiaB, Makefile script will automatically apply appropriate IP address
+        address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
   onos-e2t:
     enabled: "yes"
     networks:
@@ -91,66 +91,66 @@ config:
 
 # for the development, we can use the custom images
 # For ONOS-RIC
-onos-topo:
- image:
-   pullPolicy: IfNotPresent
-   repository: onosproject/onos-topo
-   tag: latest
-onos-config:
- image:
-   pullPolicy: IfNotPresent
-   repository: onosproject/onos-config
-   tag: latest
-onos-e2t:
- image:
-   pullPolicy: IfNotPresent
-   repository: onosproject/onos-e2t
-   tag: latest
-  servicemodels:
-  - name: e2sm_kpm
-    version: 1.0.0
-    image:
-      repository: onosproject/service-model-docker-e2sm_kpm-1.0.0
-      tag: latest
-      pullPolicy: IfNotPresent
-  - name: e2sm_ni
-    version: 1.0.0
-    image:
-      repository: onosproject/service-model-docker-e2sm_ni-1.0.0
-      tag: latest
-      pullPolicy: IfNotPresent
-onos-e2sub:
- image:
-   pullPolicy: IfNotPresent
-   repository: onosproject/onos-e2sub
-   tag: latest
-onos-sdran-cli:
- image:
-   pullPolicy: IfNotPresent
-   repository: onosproject/onos-sdran-cli
-   tag: latest
-onos-kpimon:
- image:
-   pullPolicy: IfNotPresent
-   repository: onosproject/onos-kpimon
-   tag: latest
+#onos-topo:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-topo
+#    tag: latest
+#onos-config:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-config
+#    tag: latest
+#onos-e2t:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-e2t
+#    tag: latest
+#   servicemodels:
+#   - name: e2sm_kpm
+#     version: 1.0.0
+#     image:
+#       repository: onosproject/service-model-docker-e2sm_kpm-1.0.0
+#       tag: v0.6.5
+#       pullPolicy: IfNotPresent
+#   - name: e2sm_ni
+#     version: 1.0.0
+#     image:
+#       repository: onosproject/service-model-docker-e2sm_ni-1.0.0
+#       tag: v0.6.5
+#       pullPolicy: IfNotPresent
+#onos-e2sub:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-e2sub
+#    tag: latest
+#onos-sdran-cli:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-sdran-cli
+#    tag: latest
+#onos-kpimon:
+#  image:
+#    pullPolicy: Always
+#    repository: onosproject/onos-kpimon
+#    tag: latest
 
 # For OMEC & OAI
 images:
- pullPolicy: IfNotPresent
- tags:
+  pullPolicy: IfNotPresent
+  tags:
 # For OMEC - Those images are stable image for RiaB
 # latest Aether helm chart commit ID: 3d1e936e87b4ddae784a33f036f87899e9d00b95
 #    init: docker.io/omecproject/pod-init:1.0.0
 #    depCheck: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-   hssdb: docker.io/onosproject/riab-hssdb:v1.0.0
-   hss: docker.io/onosproject/riab-hss:v1.0.0
-   mme: docker.io/onosproject/riab-nucleus-mme:v1.0.0
-   spgwc: docker.io/onosproject/riab-spgw:v1.0.0-onfvm-1
-   pcrf: docker.io/onosproject/riab-pcrf:v1.0.0
-   pcrfdb: docker.io/onosproject/riab-pcrfdb:v1.0.0
-   bess: docker.io/onosproject/riab-bess-upf:v1.0.0-onfvm-1
-   pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0-onfvm-1
+    hssdb: docker.io/onosproject/riab-hssdb:v1.0.0
+    hss: docker.io/onosproject/riab-hss:v1.0.0
+    mme: docker.io/onosproject/riab-nucleus-mme:v1.0.0
+    spgwc: docker.io/onosproject/riab-spgw:v1.0.0-onfvm-1
+    pcrf: docker.io/onosproject/riab-pcrf:v1.0.0
+    pcrfdb: docker.io/onosproject/riab-pcrfdb:v1.0.0
+    bess: docker.io/onosproject/riab-bess-upf:v1.0.0-onfvm-1
+    pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0-onfvm-1
 # For OAI
 #     oaicucp: docker.io/onosproject/oai-enb-cu:latest
 #     oaidu: docker.io/onosproject/oai-enb-du:latest

@@ -364,7 +364,8 @@ deployment.apps "atomix-controller" deleted
 If the script is stopped here, we can command:
 ```bash
 # Commmand Ctrl+c first to stop the Makefile script if the make reset-test is got stuck. Then command below.
-$ make reset-atomix # Manually delete Atomix controller pods again
+$ make reset-atomix # Manually delete Atomix controller pods
+$ make atomix # Manually install Atomix controller pods
 $ make reset-test # Then, make reset-test again
 ```
 
