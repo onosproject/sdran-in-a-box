@@ -278,4 +278,4 @@ $ make
 ```
 
 ### Other issues?
-Please contact ONF SD-RAN team, if you see any issue. We are very welcome all the issue reports from users.
+Please contact ONF SD-RAN team, if you see any issue. Any issue report from users is very welcome.
