@@ -152,7 +152,7 @@ images:
 # For OAI
     oaicucp: docker.io/onosproject/oai-enb-cu:latest
     oaidu: docker.io/onosproject/oai-enb-du:latest
-    oaiue: docker.io/onosproject/oai-enb-ue:latest
+    oaiue: docker.io/onosproject/oai-ue:latest
 
 # For SD-RAN Umbrella chart:
 # ONOS-KPIMON xAPP is imported in the RiaB by default
