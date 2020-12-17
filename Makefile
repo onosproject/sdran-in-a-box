@@ -28,6 +28,8 @@ UE_IP_POOL			?= 172.250.0.0
 UE_IP_MASK			?= 16
 
 RIAB_OPTION			?= 
+# If we want to use different namespace, feel free to change it.
+# However, the overriding value file, sdran-in-a-box-values.yaml, should be changed as well - config.hss.mmes section.
 RIAB_NAMESPACE		?= riab
 RANSIM_ARGS			?= --set import.ran-simulator.enabled=true
 
