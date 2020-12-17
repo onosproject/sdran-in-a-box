@@ -42,7 +42,7 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab-oai riab-ransim omec oai ric kpimon reset-oai reset-omec reset-atomix reset-ric reset-kpimon reset-oai-test reset-ransim-test reset-test clean
+.PHONY: riab-oai riab-ransim omec oai ric reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
 
 riab-oai: $(M)/system-check $(M)/helm-ready omec ric oai
 riab-ransim: $(M)/system-check $(M)/helm-ready #TBD
@@ -50,7 +50,6 @@ riab-ransim: $(M)/system-check $(M)/helm-ready #TBD
 omec: $(M)/omec
 oai: $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
 ric: $(M)/ric
-kpimon: $(M)/kpimon
 
 $(M):
 	mkdir -p $(M)
@@ -190,19 +189,6 @@ $(M)/ric: | $(M)/helm-ready $(M)/atomix
 	kubectl wait pod -n omec --for=condition=Ready -l app=onos --timeout=300s
 	touch $@
 
-# There is an hard-coded image repo/tags which works only for print out raw indication message, since the official image is not working and it's WIP (just for test)
-# The hard-coded things will be removed once KPIMON app is officially ready.
-$(M)/kpimon: $(M)/helm-ready $(M)/ric
-	helm upgrade --install $(HELM_GLOBAL_ARGS) \
-		--namespace omec \
-		--values $(RIABVALUES) \
-		--set image.repository=woojoong/onos-kpimon \
-		--set image.tag=latest \
-		onos-kpimon \
-		$(SDRANCHARTDIR)/onos-kpimon && \
-	kubectl wait pod -n omec --for=condition=Ready -l app=onos --timeout=300s
-	touch $@
-
 $(M)/omec: | $(M)/helm-ready $(M)/fabric
 	kubectl get namespace omec 2> /dev/null || kubectl create namespace omec
 	helm repo update
@@ -287,14 +273,9 @@ reset-atomix:
 	kubectl delete -f https://raw.githubusercontent.com/atomix/cache-storage-controller/master/deploy/cache-storage-controller.yaml || true
 	cd $(M); rm -f atomix
 
-reset-ric: reset-kpimon
+reset-ric:
 	helm delete -n omec sd-ran || true
-	helm delete -n omec onos-kpimon || true
 	cd $(M); rm -f ric
-
-reset-kpimon:
-	helm delete -n omec onos-kpimon || true
-	cd $(M); rm -f kpimon
 
 reset-oai-test: reset-omec reset-oai reset-ric
 
