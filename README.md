@@ -114,7 +114,7 @@ ran-simulator-57956df985-hc5n4    1/1     Running   0          92s
 
 #### The user plane (for option 1 - CU-CP/OAI version)
 We should check if the user plane is working by using `make test-user-plane` command:
-```
+```bash
 $ make test-user-plane
 *** T1: Internal network test: ping 192.168.250.1 (Internal router IP) ***
 PING 192.168.250.1 (192.168.250.1) from 172.250.255.253 oaitun_ue1: 56(84) bytes of data.
@@ -226,7 +226,7 @@ $ make reset-atomix
 #### Delete/Reset charts for RiaB
 This deletes all deployed Helm charts for SD-RAN development/test (i.e., Atomix, RIC, OAI, and OMEC). It does not delete K8s, Helm, or other software.
 ```bash
-make reset-test
+$ make reset-test
 ```
 
 ### Manage UEs (for Option 1)
@@ -234,7 +234,7 @@ make reset-test
 Currently not working yet; under development.
 
 #### Manually detach a UE
-Currently, RiaB can emulates a single UE running on `oai-ue` pod. In order to detach this UE, we can use the below command:
+Currently, RiaB can emulates a single UE running on `oai-ue` pod. In order to manually detach this UE, we can use the below command:
 ```bash
 $ echo -en "AT+CPIN=0000\r" | nc -u -w 1 localhost 10000
 $ echo -en "AT+CGATT=0\r" | nc -u -w 1 localhost 10000
@@ -244,6 +244,16 @@ NOTE: Since reattachment is not working, we have to redeploy all charts again by
 
 #### Manually reattach a UE
 Currently not working yet; Under development. This will support in the near future (next release).
+
+### Miscellaneous
+#### Fetch Aether and SD-RAN Helm charts
+For the development perspective, we need to fetch the latest Helm chart commits, although the RiaB uses a specific chart version. This command fetches all latest commits:
+```bash
+$ make fetch-all-charts
+```
+It just fetches the all latest commits, i.e., it does not change/checkout the specific branch/commit.
+
+NOTE: It may request credentials for the OpenCORD gerrit and SD-RAN Github.
 
 ## Troubleshooting
 This section covers how to solve the reported issues. This section will be updated, continuously.
