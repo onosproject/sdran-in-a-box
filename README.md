@@ -342,5 +342,13 @@ $ make reset-atomix # Manually delete Atomix controller pods again
 $ make reset-test # Then, make reset-test again
 ```
 
+Or, sometimes we see this when deploying RiaB:
+```text
+Error from server (AlreadyExists): error when creating "https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml": object is being deleted: customresourcedefinitions.apiextensions.k8s.io "members.cloud.atomix.io" already exists
+Makefile:231: recipe for target '/tmp/build/milestones/atomix' failed
+```
+
+In this case, we can manually delete atomix with the command `make reset-atomix`, and then resume to deploy RiaB.
+
 ### Other issues?
 Please contact ONF SD-RAN team, if you see any issue. Any issue report from users is very welcome.
