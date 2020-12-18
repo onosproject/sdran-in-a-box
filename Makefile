@@ -111,7 +111,8 @@ $(M)/repos: | $(M)
 	cd $(CHARTDIR)
 	@if [[ ! -d "$(AETHERCHARTDIR)" ]]; then \
                 echo "aether-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires HTTPS key"; \
-				git clone https://gerrit.opencord.org/aether-helm-charts $(AETHERCHARTDIR) || true; \
+				git clone https://gerrit.opencord.org/aether-helm-charts $(AETHERCHARTDIR); \
+				cd $(AETHERCHARTDIR); \
 				git checkout $(AETHERCHARTCID); \
 	fi
 	@if [[ ! -d "$(SDRANCHARTDIR)" ]]; then \
