@@ -198,7 +198,7 @@ $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubesp
 	touch $@
 
 $(M)/helm-ready: | $(M)/k8s-ready
-	helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
+	helm repo add incubator https://charts.helm.sh/incubator
 	helm repo add cord https://charts.opencord.org
 	@read -r -p "Username for ONF SDRAN private chart: " SDRAN_USERNAME; \
 	read -r -p "Password for ONF SDRAN private chart: " SDRAN_PASSWORD; \
