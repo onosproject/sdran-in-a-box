@@ -53,7 +53,7 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab-oai riab-ransim riab-oai-latest riab-oai-v1.0.0 riab-ransim-latest riab-ransim-v1.0.0 set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-latest-riab-values set-v1.0.0-riab-values fetch-all-charts omec oai ric atomix test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
+.PHONY: riab-oai riab-ransim riab-oai-latest riab-oai-v1.0.0 riab-ransim-latest riab-ransim-v1.0.0 set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-latest-riab-values set-v1.0.0-riab-values fetch-all-charts omec oai oai-enb-cu oai-enb-du oai-ue ric atomix test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
 
 riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values omec ric oai
 riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-sdran-chart set-latest-riab-values ric
@@ -68,7 +68,10 @@ riab-oai-dev: set-option-oai $(M)/system-check $(M)/helm-ready set-latest-riab-v
 riab-ransim-dev: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
 
 omec: $(M)/omec
-oai: $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
+oai: set-option-oai $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
+oai-enb-cu: set-option-oai $(M)/oai-enb-cu
+oai-enb-du: set-option-oai $(M)/oai-enb-du
+oai-ue: set-option-oai $(M)/oai-ue
 ric: $(M)/ric
 atomix: $(M)/atomix
 
@@ -155,7 +158,7 @@ $(M)/system-check: | $(M) $(M)/repos
 	fi
 	touch $@
 
-$(M)/setup: | $(M)
+$(M)/setup: | $(M) $(M)/system-check
 	sudo $(SCRIPTDIR)/cloudlab-disksetup.sh
 	sudo apt update; sudo apt install -y software-properties-common python3-pip jq httpie ipvsadm
 	touch $@
@@ -265,7 +268,7 @@ $(M)/omec: | $(M)/helm-ready $(M)/fabric
 	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=omec-user-plane --timeout=300s
 	touch $@
 
-$(M)/oai-enb-cu: | $(M)/omec $(M)/ric
+$(M)/oai-enb-cu: | $(M)/helm-ready $(M)/ric
 	$(eval e2t_addr=$(shell  kubectl get svc onos-e2t -n $(RIAB_NAMESPACE) --no-headers | awk '{print $$3'}))
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
@@ -282,7 +285,7 @@ $(M)/oai-enb-cu: | $(M)/omec $(M)/ric
 		sleep 10
 	touch $@
 
-$(M)/oai-enb-du: | $(M)/oai-enb-cu
+$(M)/oai-enb-du: | $(M)/helm-ready
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(RIABVALUES) \
@@ -300,7 +303,7 @@ $(M)/oai-enb-du: | $(M)/oai-enb-cu
 		sleep 10
 	touch $@
 
-$(M)/oai-ue: | $(M)/oai-enb-du
+$(M)/oai-ue: | $(M)/helm-ready
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(RIABVALUES) \
