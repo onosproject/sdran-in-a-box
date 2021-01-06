@@ -157,7 +157,7 @@ $(M)/system-check: | $(M) $(M)/repos
 
 $(M)/setup: | $(M)
 	sudo $(SCRIPTDIR)/cloudlab-disksetup.sh
-	sudo apt update; sudo apt install -y software-properties-common python-pip jq httpie ipvsadm
+	sudo apt update; sudo apt install -y software-properties-common python3-pip jq httpie ipvsadm
 	touch $@
 
 $(BUILD)/kubespray: | $(M)/setup
@@ -165,12 +165,12 @@ $(BUILD)/kubespray: | $(M)/setup
 	cd $(BUILD); git clone https://github.com/kubernetes-incubator/kubespray.git -b $(KUBESPRAY_VERSION)
 
 $(VENV)/bin/activate: | $(M)/setup
-	sudo pip install virtualenv
+	sudo pip3 install virtualenv
 	virtualenv $(VENV)
 
 $(M)/kubespray-requirements: $(BUILD)/kubespray | $(VENV)/bin/activate
 	source "$(VENV)/bin/activate" && \
-	pip install -r $(BUILD)/kubespray/requirements.txt
+	pip3 install -r $(BUILD)/kubespray/requirements.txt
 	touch $@
 
 $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubespray-requirements
