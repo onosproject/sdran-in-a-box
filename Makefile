@@ -329,6 +329,9 @@ test-kpimon: | $(M)/ric
 	@echo "*** Get KPIMON result through CLI ***"; \
 	kubectl exec -it deploy/onos-sdran-cli -n riab -- sdran kpimon list numues;
 
+detach-ue: | $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
+	echo -en "AT+CPIN=0000\r" | nc -u -w 1 localhost 10000
+	echo -en "AT+CGATT=0\r" | nc -u -w 1 localhost 10000
 
 reset-oai:
 	helm delete -n $(RIAB_NAMESPACE) oai-enb-cu || true
