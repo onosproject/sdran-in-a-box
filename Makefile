@@ -203,9 +203,9 @@ $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubesp
 $(M)/helm-ready: | $(M)/k8s-ready
 	helm repo add incubator https://charts.helm.sh/incubator
 	helm repo add cord https://charts.opencord.org
-	@read -r -p "Username for ONF SDRAN private chart: " SDRAN_USERNAME; \
-	read -r -p "Password for ONF SDRAN private chart: " SDRAN_PASSWORD; \
-	helm repo add sdran https://sdrancharts.onosproject.org --username $$SDRAN_USERNAME --password $$SDRAN_PASSWORD
+	@if [ "$$SDRAN_USERNAME" == "" ]; then read -r -p "Username for ONF SDRAN private chart: " SDRAN_USERNAME; \
+	read -r -p "Password for ONF SDRAN private chart: " SDRAN_PASSWORD; fi ;\
+	helm repo add sdran https://sdrancharts.onosproject.org --username $$SDRAN_USERNAME --password $$SDRAN_PASSWORD;
 	touch $@
 
 /opt/cni/bin/simpleovs: | $(M)/k8s-ready
@@ -370,7 +370,7 @@ clean: reset-test
 	sudo ovs-vsctl del-br br-core-net || true
 	sudo apt remove --purge openvswitch-switch -y || true
 	source "$(VENV)/bin/activate" && cd $(BUILD)/kubespray; \
-	ansible-playbook -b -i inventory/local/hosts.ini reset.yml || true
+	ansible-playbook --extra-vars "reset_confirmation=yes" -b -i inventory/local/hosts.ini reset.yml || true
 	@if [ -d /usr/local/etc/emulab ]; then \
 		mount | grep /mnt/extra/kubelet/pods | cut -d" " -f3 | sudo xargs umount; \
 		sudo rm -rf /mnt/extra/kubelet; \
