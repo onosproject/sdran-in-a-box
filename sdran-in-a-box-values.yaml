@@ -122,10 +122,10 @@ onos-e2sub:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-e2sub
     tag: latest
-onos-sdran-cli:
+onos-cli:
   image:
     pullPolicy: IfNotPresent
-    repository: onosproject/onos-sdran-cli
+    repository: onosproject/onos-cli
     tag: latest
 onos-kpimon:
   image:
