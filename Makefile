@@ -327,7 +327,7 @@ test-user-plane: | $(M)/omec $(M)/oai-ue
 
 test-kpimon: | $(M)/ric
 	@echo "*** Get KPIMON result through CLI ***"; \
-	kubectl exec -it deploy/onos-sdran-cli -n riab -- sdran kpimon list numues;
+	kubectl exec -it deploy/onos-cli -n riab -- onos kpimon list numues;
 
 detach-ue: | $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
 	echo -en "AT+CPIN=0000\r" | nc -u -w 1 localhost 10000
