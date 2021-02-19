@@ -1,5 +1,4 @@
 # Copyright 2020-present Open Networking Foundation
-#
 # SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
 
 SHELL				:= /bin/bash
@@ -29,10 +28,13 @@ HELM_GLOBAL_ARGS	?=
 HELM_NEM_ARGS		?= $(HELM_GLOBAL_ARGS)
 HELM_ONOS_ARGS		?= $(HELM_GLOBAL_ARGS)
 
+CORD_GERRIT_URL ?= https://gerrit.opencord.org
+ONOS_GITHUB_URL ?= https://github.com/onosproject
+
 UE_IP_POOL			?= 172.250.0.0
 UE_IP_MASK			?= 16
 
-RIAB_OPTION			?= 
+RIAB_OPTION			?=
 # If we want to use different namespace, feel free to change it.
 # However, the overriding value file, sdran-in-a-box-values.yaml, should be changed as well - config.hss.mmes section.
 RIAB_NAMESPACE		?= riab
@@ -114,13 +116,13 @@ $(M)/repos: | $(M)
 	cd $(CHARTDIR)
 	@if [[ ! -d "$(AETHERCHARTDIR)" ]]; then \
                 echo "aether-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires HTTPS key"; \
-				git clone https://gerrit.opencord.org/aether-helm-charts $(AETHERCHARTDIR); \
+				git clone $(CORD_GERRIT_URL)/aether-helm-charts $(AETHERCHARTDIR); \
 				cd $(AETHERCHARTDIR); \
 				git checkout $(AETHERCHARTCID); \
 	fi
 	@if [[ ! -d "$(SDRANCHARTDIR)" ]]; then \
                 echo "sdran-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires Github credential"; \
-				git clone https://github.com/onosproject/sdran-helm-charts $(SDRANCHARTDIR) || true; \
+				git clone $(ONOS_GITHUB_URL)/sdran-helm-charts $(SDRANCHARTDIR) || true; \
 	fi
 	touch $@
 
