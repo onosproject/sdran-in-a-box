@@ -377,6 +377,40 @@ Makefile:231: recipe for target '/tmp/build/milestones/atomix' failed
 
 In this case, we can manually delete atomix with the command `make atomix || make reset-atomix`, and then resume to deploy RiaB.
 
+### Pod onos-consensus-db-1-0 initialization failed
+
+In Ubuntu 20.04 (kernel 5.4.0-65-generic), the k8s pod named `onos-consensus-db-1-0` might fail due to a bug of using go and alpine together (e.g., https://github.com/docker-library/golang/issues/320). 
+
+It can be seen in `kubectl logs -n riab onos-consensus-db-1-0` as:
+```bash
+runtime: mlock of signal stack failed: 12
+runtime: increase the mlock limit (ulimit -l) or
+runtime: update your kernel to 5.3.15+, 5.4.2+, or 5.5+
+fatal error: mlock failed
+```
+
+Such pod utilizes the docker image atomix/raft-storage-node:v0.5.3, tagged from the build of the image atomix/dragonboat-raft-storage-node:latest available at https://github.com/atomix/dragonboat-raft-storage-node.
+
+A quick fix (allowing an unlimited amount memory to be locked by the pod) to this issue is cloning the repository https://github.com/atomix/dragonboat-raft-storage-node, and changing the Makefile:
+
+```bash
+# Before change
+image: build
+	docker build . -f build/dragonboat-raft-storage-node/Dockerfile -t atomix/dragonboat-raft-storage-node:${RAFT_STORAGE_NODE_VERSION}
+
+# After change: unlimited maximum locked-in-memory address space
+image: build
+	docker build --ulimit memlock=-1 . -f build/dragonboat-raft-storage-node/Dockerfile -t atomix/dragonboat-raft-storage-node:${RAFT_STORAGE_NODE_VERSION}
+```
+
+Then running in the source dir of this repository the command `make image`, and tagging the built image as:
+
+```bash
+docker tag atomix/dragonboat-raft-storage-node:latest  atomix/raft-storage-node:v0.5.3
+```
+
+After that proceed with the execution of the Riab setup again. 
+
 ### Other issues?
 Please contact ONF SD-RAN team, if you see any issue. Any issue report from users is very welcome.
 Mostly, the redeployment by using `make reset-test and make [option]` resolves issues.
