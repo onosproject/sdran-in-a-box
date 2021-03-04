@@ -186,7 +186,7 @@ $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubesp
 		-e "{'docker_iptables_enabled' : True}" \
 		-e "{'kube_version' : $(K8S_VERSION)}" \
 		-e "{'kube_network_plugin_multus' : True, 'multus_version' : stable, 'multus_cni_version' : 0.3.1}" \
-		-e "{'kube_proxy_metrics_bind_address' : 0.0.0.0:10249}" \
+		-e "{'kube_proxy_metrics_bind_address' : '0.0.0.0:10249'}" \
 		-e "{'kube_pods_subnet' : 192.168.0.0/17, 'kube_service_addresses' : 192.168.128.0/17}" \
 		-e "{'kube_apiserver_node_port_range' : 2000-36767}" \
 		-e "{'kubeadm_enabled': True}" \
@@ -349,9 +349,9 @@ reset-omec:
 	cd $(M); rm -f omec
 
 reset-atomix:
-	kubectl delete -f https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml || true
 	kubectl delete -f https://raw.githubusercontent.com/atomix/raft-storage-controller/master/deploy/raft-storage-controller.yaml || true
 	kubectl delete -f https://raw.githubusercontent.com/atomix/cache-storage-controller/master/deploy/cache-storage-controller.yaml || true
+	kubectl delete -f https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml || true
 	cd $(M); rm -f atomix
 
 reset-ric:
