@@ -17,7 +17,7 @@ AETHERCHARTDIR		?= $(CHARTDIR)/aether-helm-charts
 AETHERCHARTCID		?= 6b3a267e428402d6bb8531bd921c1d202bb338b2
 SDRANCHARTDIR		?= $(CHARTDIR)/sdran-helm-charts
 SDRANCHARTCID-LATEST	?= origin/master
-SDRANCHARTCID-V1.0.0	?= 6e64af10ebaba04f7c07d0c647c778fdcc56e39b #tag: oai-enb-cu-0.1.0
+SDRANCHARTCID-V1.0.0	?= v1.0.0#branch: v1.0.0
 
 KUBESPRAY_VERSION	?= release-2.14
 DOCKER_VERSION		?= 19.03
@@ -94,6 +94,7 @@ set-latest-sdran-chart:
 
 set-v1.0.0-sdran-chart:
 	cd $(SDRANCHARTDIR); \
+	git fetch origin $(SDRANCHARTCID-V1.0.0); \
 	git checkout $(SDRANCHARTCID-V1.0.0)
 
 set-latest-riab-values:
