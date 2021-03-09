@@ -231,7 +231,6 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	kubectl apply -f $(RESOURCEDIR)/router.yaml
 	kubectl wait pod -n default --for=condition=Ready -l app=router --timeout=300s
 	kubectl -n default exec router ip route add $(UE_IP_POOL)/$(UE_IP_MASK) via 192.168.250.3
-	kubectl delete net-attach-def core-net
 	touch $@
 
 $(M)/atomix: | $(M)/helm-ready
@@ -358,6 +357,7 @@ reset-atomix:
 
 reset-ric:
 	helm delete -n $(RIAB_NAMESPACE) sd-ran || true
+	@until [ $$(kubectl get po -n riab -l app=onos --no-headers | wc -l) == 0 ]; do sleep 1; done
 	cd $(M); rm -f ric
 
 reset-oai-test: reset-omec reset-oai reset-ric
