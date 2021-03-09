@@ -241,7 +241,7 @@ $(M)/atomix: | $(M)/helm-ready
 	touch $@
 
 $(M)/ric: | $(M)/helm-ready $(M)/atomix
-	kubectl get po -n kube-system | grep config-operator | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/onosproject/onos-operator/v0.3.0/deploy/onos-operator.yaml
+	kubectl get po -n kube-system | grep config-operator | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/onosproject/onos-operator/v0.4.0/deploy/onos-operator.yaml
 	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	cd $(SDRANCHARTDIR)/sd-ran; helm dep update
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
