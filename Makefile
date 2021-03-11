@@ -41,14 +41,14 @@ RIAB_NAMESPACE		?= riab
 RANSIM_ARGS			?= --set import.ran-simulator.enabled=true
 
 F1_CU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
-F1_CU_IPADDR		:= $(shell ip -4 a show $(F1_CU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
+F1_CU_IPADDR		:= $(shell ip -4 a show $(F1_CU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
 F1_DU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
-F1_DU_IPADDR		:= $(shell ip -4 a show $(F1_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
+F1_DU_IPADDR		:= $(shell ip -4 a show $(F1_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | head -n 1)
 S1MME_CU_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 NFAPI_DU_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
-NFAPI_DU_IPADDR		:= $(shell ip -4 a show $(NFAPI_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
+NFAPI_DU_IPADDR		:= $(shell ip -4 a show $(NFAPI_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | head -n 1)
 NFAPI_UE_INTERFACE	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
-NFAPI_UE_IPADDR		:= $(shell ip -4 a show $(NFAPI_UE_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}')
+NFAPI_UE_IPADDR		:= $(shell ip -4 a show $(NFAPI_UE_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | head -n 1)
 
 cpu_family	:= $(shell lscpu | grep 'CPU family:' | awk '{print $$3}')
 cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
@@ -68,6 +68,12 @@ riab-ransim-v1.0.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.0
 
 riab-oai-dev: set-option-oai $(M)/system-check $(M)/helm-ready set-latest-riab-values omec ric oai
 riab-ransim-dev: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
+
+oai-enb-usrp: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values $(M)/oai-enb-cu-hw $(M)/oai-enb-du
+
+oai-ue-usrp: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values $(M)/oai-ue
+
+ric-oai-latest: set-option-oai set-latest-sdran-chart set-latest-riab-values ric
 
 omec: $(M)/omec
 oai: set-option-oai $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
@@ -199,7 +205,7 @@ $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubesp
 	mkdir -p $(HOME)/.kube
 	sudo cp -f /etc/kubernetes/admin.conf $(HOME)/.kube/config
 	sudo chown $(shell id -u):$(shell id -g) $(HOME)/.kube/config
-	kubectl wait pod -n kube-system --for=condition=Ready --all
+	kubectl wait pod -n kube-system --for=condition=Ready --all --timeout=30s
 	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	touch $@
 
@@ -288,6 +294,21 @@ $(M)/oai-enb-cu: | $(M)/helm-ready $(M)/ric
 		sleep 10
 	touch $@
 
+$(M)/oai-enb-cu-hw: | $(M)/helm-ready
+	helm upgrade --install $(HELM_GLOBAL_ARGS) \
+		--namespace $(RIAB_NAMESPACE) \
+		--values $(RIABVALUES) \
+		--set config.oai-enb-cu.networks.s1mme.interface=$(S1MME_CU_INTERFACE) \
+		--set config.oai-enb-cu.networks.f1.interface=$(F1_CU_INTERFACE) \
+		--set config.oai-enb-cu.networks.f1.address=$(F1_CU_IPADDR) \
+		--set config.oai-enb-du.networks.f1.interface=$(F1_DU_INTERFACE) \
+		--set config.oai-enb-du.networks.f1.address=$(F1_DU_IPADDR) \
+		oai-enb-cu \
+		$(SDRANCHARTDIR)/oai-enb-cu && \
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-enb-cu --timeout=100s && \
+		sleep 10
+	touch $@
+
 $(M)/oai-enb-du: | $(M)/helm-ready
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
@@ -340,7 +361,7 @@ reset-oai:
 	helm delete -n $(RIAB_NAMESPACE) oai-enb-cu || true
 	helm delete -n $(RIAB_NAMESPACE) oai-enb-du || true
 	helm delete -n $(RIAB_NAMESPACE) oai-ue || true
-	rm -f $(M)/oai-enb-cu
+	rm -f $(M)/oai-enb-cu*
 	rm -f $(M)/oai-enb-du
 	rm -f $(M)/oai-ue
 
