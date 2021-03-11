@@ -12,6 +12,7 @@ VENV				?= $(BUILD)/venv/riab
 RIABVALUES			?= $(RIABDIR)/sdran-in-a-box-values.yaml
 RIABVALUES-LATEST	?= $(RIABDIR)/sdran-in-a-box-values.yaml
 RIABVALUES-V1.0.0	?= $(RIABDIR)/sdran-in-a-box-values-v1.0.0.yaml
+RIABVALUES-MS		?= $(RIABDIR)/sdran-in-a-box-values-master-stable.yaml
 CHARTDIR			?= $(WORKSPACE)/helm-charts
 AETHERCHARTDIR		?= $(CHARTDIR)/aether-helm-charts
 AETHERCHARTCID		?= 6b3a267e428402d6bb8531bd921c1d202bb338b2
@@ -55,7 +56,7 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab-oai riab-ransim riab-oai-latest riab-oai-v1.0.0 riab-ransim-latest riab-ransim-v1.0.0 set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-latest-riab-values set-v1.0.0-riab-values fetch-all-charts omec oai oai-enb-cu oai-enb-du oai-ue ric atomix test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
+.PHONY: riab-oai riab-ransim riab-oai-latest riab-oai-v1.0.0 riab-ransim-latest riab-ransim-v1.0.0 riab-oai-master-stable riab-ransim-master-stable set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-latest-riab-values set-v1.0.0-riab-values set-master-stable-riab-values fetch-all-charts omec oai oai-enb-cu oai-enb-du oai-ue ric atomix test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
 
 riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values omec ric oai
 riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-sdran-chart set-latest-riab-values ric
@@ -68,6 +69,9 @@ riab-ransim-v1.0.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.0
 
 riab-oai-dev: set-option-oai $(M)/system-check $(M)/helm-ready set-latest-riab-values omec ric oai
 riab-ransim-dev: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
+
+riab-oai-master-stable: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values omec ric oai
+riab-ransim-master-stable: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values ric
 
 omec: $(M)/omec
 oai: set-option-oai $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
@@ -102,6 +106,9 @@ set-latest-riab-values:
 
 set-v1.0.0-riab-values:
 	$(eval RIABVALUES=$(RIABVALUES-V1.0.0))
+
+set-master-stable-riab-values:
+	$(eval RIABVALUES=$(RIABVALUES-MS))
 
 fetch-all-charts:
 	cd $(AETHERCHARTDIR); \
