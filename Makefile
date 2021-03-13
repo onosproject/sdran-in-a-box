@@ -253,7 +253,9 @@ $(M)/atomix: | $(M)/helm-ready
 	touch $@
 
 $(M)/ric: | $(M)/helm-ready $(M)/atomix
-	kubectl get po -n kube-system | grep config-operator | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/onosproject/onos-operator/v0.4.0/deploy/onos-operator.yaml
+	kubectl get po -n kube-system | grep config-operator | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/onosproject/onos-operator/v0.4.0/deploy/onos-operator.yaml && \
+	kubectl wait pod -n kube-system --for=condition=Ready -l name=config-operator --timeout=300s && \
+	kubectl wait pod -n kube-system --for=condition=Ready -l name=topo-operator --timeout=300s
 	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	cd $(SDRANCHARTDIR)/sd-ran; helm dep update
 	helm upgrade --install $(HELM_GLOBAL_ARGS) \
@@ -385,7 +387,10 @@ reset-atomix:
 
 reset-ric:
 	helm delete -n $(RIAB_NAMESPACE) sd-ran || true
-	@until [ $$(kubectl get po -n riab -l app=onos --no-headers | wc -l) == 0 ]; do sleep 1; done
+	kubectl delete -f https://raw.githubusercontent.com/onosproject/onos-operator/v0.4.0/deploy/onos-operator.yaml
+	@until [ $$(kubectl get po -n $(RIAB_NAMESPACE) -l app=onos --no-headers | wc -l) == 0 ]; do sleep 1; done
+	@until [ $$(kubectl get po -n kube-system -l name=topo-operator --no-headers | wc -l) == 0 ]; do sleep 1; done
+	@until [ $$(kubectl get po -n kube-system -l name=config-operator --no-headers | wc -l) == 0 ]; do sleep 1; done
 	cd $(M); rm -f ric
 
 reset-oai-test: reset-omec reset-oai reset-ric
