@@ -387,7 +387,7 @@ reset-atomix:
 
 reset-ric:
 	helm delete -n $(RIAB_NAMESPACE) sd-ran || true
-	kubectl delete -f https://raw.githubusercontent.com/onosproject/onos-operator/v0.4.0/deploy/onos-operator.yaml
+	kubectl delete -f https://raw.githubusercontent.com/onosproject/onos-operator/v0.4.0/deploy/onos-operator.yaml || true
 	@until [ $$(kubectl get po -n $(RIAB_NAMESPACE) -l app=onos --no-headers | wc -l) == 0 ]; do sleep 1; done
 	@until [ $$(kubectl get po -n kube-system -l name=topo-operator --no-headers | wc -l) == 0 ]; do sleep 1; done
 	@until [ $$(kubectl get po -n kube-system -l name=config-operator --no-headers | wc -l) == 0 ]; do sleep 1; done
