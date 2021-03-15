@@ -71,19 +71,11 @@ riab-oai-dev: set-option-oai $(M)/system-check $(M)/helm-ready set-latest-riab-v
 riab-ransim-dev: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
 
 oai-enb-usrp: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values $(M)/oai-enb-cu-hw $(M)/oai-enb-du
-
 oai-ue-usrp: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values $(M)/oai-ue
-
 ric-oai-latest: set-option-oai set-latest-sdran-chart set-latest-riab-values ric
 
 riab-oai-master-stable: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values omec ric oai
 riab-ransim-master-stable: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values ric
-
-oai-enb-usrp: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values $(M)/oai-enb-cu-hw $(M)/oai-enb-du
-
-oai-ue-usrp: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values $(M)/oai-ue
-
-ric-oai-latest: set-option-oai set-latest-sdran-chart set-latest-riab-values ric
 
 omec: $(M)/omec
 oai: set-option-oai $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
