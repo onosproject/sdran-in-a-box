@@ -185,7 +185,7 @@ import:
     enabled: false
   onos-kpimon-v2:
     enabled: true
-  onos-kpimon:
+  onos-pci:
     enabled: true
 # Other ONOS-RIC micro-services
 #   onos-topo:
