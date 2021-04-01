@@ -90,72 +90,71 @@ config:
 
 # for the development, we can use the custom images
 # For ONOS-RIC
-# onos-topo:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-topo
-#     tag: latest
-# onos-config:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-config
-#     tag: latest
-# onos-e2t:
-#   service:
-#     external:
-#       enabled: true
-#     e2:
-#      nodePort: 36421
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-e2t
-#     tag: latest
-# onos-e2sub:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-e2sub
-#     tag: latest
-# onos-cli:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-cli
-#     tag: latest
-# ran-simulator:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/ran-simulator
-#     tag: latest
-# onos-kpimon-v1:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-kpimon
-#     tag: latest
-# onos-kpimon-v2:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-kpimon
-#     tag: latest
-# onos-pci:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-pci
-#     tag: latest
-# fb-ah-xapp:
-#   image:
-#     repository: onosproject/fb-ah-xapp
-#     tag: 0.0.1
-#     pullPolicy: IfNotPresent
-# fb-ah-gui:
-#   image:
-#     repository: onosproject/fb-ah-gui
-#     tag: 0.0.1
-#     pullPolicy: IfNotPresent
-# ah-eson-test-server:
-#   image:
-#     repository: onosproject/ah-eson-test-server
-#     tag: 0.0.1
-#     pullPolicy: IfNotPresent
-
+onos-topo:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-topo
+    tag: v0.7.3
+onos-config:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-config
+    tag: v0.7.18
+onos-e2t:
+  service:
+    external:
+      enabled: true
+    e2:
+     nodePort: 36421
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-e2t
+    tag: v0.7.14
+onos-e2sub:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-e2sub
+    tag: v0.7.3
+onos-cli:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-cli
+    tag: v0.7.11
+ran-simulator:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/ran-simulator
+    tag: v0.7.24
+onos-kpimon-v1:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-kpimon
+    tag: v0.1.7
+onos-kpimon-v2:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-kpimon
+    tag: v0.1.7
+onos-pci:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-pci
+    tag: v0.1.2
+fb-ah-xapp:
+  image:
+    repository: onosproject/fb-ah-xapp
+    tag: 0.0.1
+    pullPolicy: IfNotPresent
+fb-ah-gui:
+  image:
+    repository: onosproject/fb-ah-gui
+    tag: 0.0.1
+    pullPolicy: IfNotPresent
+ah-eson-test-server:
+  image:
+    repository: onosproject/ah-eson-test-server
+    tag: 0.0.1
+    pullPolicy: IfNotPresent
 
 # For OMEC & OAI
 images:
@@ -174,9 +173,9 @@ images:
     bess: docker.io/onosproject/riab-bess-upf:v1.0.0
     pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0
 # For OAI
-#    oaicucp: docker.io/onosproject/oai-enb-cu:latest
-#    oaidu: docker.io/onosproject/oai-enb-du:latest
-#    oaiue: docker.io/onosproject/oai-ue:latest
+    oaicucp: docker.io/onosproject/oai-enb-cu:v0.1.4
+    oaidu: docker.io/onosproject/oai-enb-du:v0.1.4
+    oaiue: docker.io/onosproject/oai-ue:v0.1.4
 
 # For SD-RAN Umbrella chart:
 # ONOS-KPIMON xAPP is imported in the RiaB by default

@@ -76,6 +76,7 @@ config:
         interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
         address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
   oai-ue:
+    numDevices: 1 # support up to 3
     networks:
       nfapi:
         interface: eno1 #if we use RiaB, Makefile script will automatically apply appropriate IP address
@@ -109,19 +110,6 @@ onos-e2t:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-e2t
     tag: latest
-  servicemodels:
-  - name: e2sm_kpm
-    version: 1.0.0
-    image:
-      repository: onosproject/service-model-docker-e2sm_kpm-1.0.0
-      tag: v0.7.6
-      pullPolicy: IfNotPresent
-  - name: e2sm_rc_pre
-    version: 1.0.0
-    image:
-      repository: onosproject/service-model-docker-e2sm_rc_pre-1.0.0
-      tag: v0.7.6
-      pullPolicy: IfNotPresent
 onos-e2sub:
   image:
     pullPolicy: IfNotPresent
@@ -132,11 +120,41 @@ onos-cli:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-cli
     tag: latest
-onos-kpimon:
+ran-simulator:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/ran-simulator
+    tag: latest
+onos-kpimon-v1:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-kpimon
     tag: latest
+onos-kpimon-v2:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-kpimon
+    tag: latest
+onos-pci:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-pci
+    tag: latest
+fb-ah-xapp:
+  image:
+    repository: onosproject/fb-ah-xapp
+    tag: 0.0.1
+    pullPolicy: IfNotPresent
+fb-ah-gui:
+  image:
+    repository: onosproject/fb-ah-gui
+    tag: 0.0.1
+    pullPolicy: IfNotPresent
+ah-eson-test-server:
+  image:
+    repository: onosproject/ah-eson-test-server
+    tag: 0.0.1
+    pullPolicy: IfNotPresent
 
 # For OMEC & OAI
 images:
@@ -149,11 +167,11 @@ images:
     hssdb: docker.io/onosproject/riab-hssdb:v1.0.0
     hss: docker.io/onosproject/riab-hss:v1.0.0
     mme: docker.io/onosproject/riab-nucleus-mme:v1.0.0
-    spgwc: docker.io/onosproject/riab-spgw:v1.0.0
+    spgwc: docker.io/onosproject/riab-spgw:v1.0.0-onfvm-1
     pcrf: docker.io/onosproject/riab-pcrf:v1.0.0
     pcrfdb: docker.io/onosproject/riab-pcrfdb:v1.0.0
-    bess: docker.io/onosproject/riab-bess-upf:v1.0.0
-    pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0
+    bess: docker.io/onosproject/riab-bess-upf:v1.0.0-onfvm-1
+    pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0-onfvm-1
 # For OAI
     oaicucp: docker.io/onosproject/oai-enb-cu:latest
     oaidu: docker.io/onosproject/oai-enb-du:latest
@@ -162,6 +180,10 @@ images:
 # For SD-RAN Umbrella chart:
 # ONOS-KPIMON xAPP is imported in the RiaB by default
 import:
+  onos-kpimon-v1:
+    enabled: false
+  onos-kpimon-v2:
+    enabled: true
   onos-kpimon:
     enabled: true
 # Other ONOS-RIC micro-services
@@ -183,4 +205,11 @@ import:
 #   onos-gui:
 #     enabled: false
 #   nem-monitoring:
+#     enabled: false
+# fb-ah-xapp, fb-ah-gui, and ah-eson-test-server are automatically imported when pushing fbc-pci option
+#   fb-ah-xapp:
+#     enabled: false
+#   fb-ah-gui:
+#     enabled: false
+#   ah-eson-test-server:
 #     enabled: false
