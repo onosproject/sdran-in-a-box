@@ -58,7 +58,7 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab-oai riab-ransim riab-oai-latest riab-oai-v1.0.0 riab-oai-v1.1.0 riab-ransim-latest riab-ransim-v1.0.0 riab-ransim-v1.1.0 riab-oai-master-stable riab-ransim-master-stable oai-enb-usrp oai-ue-usrp ric-oai-latest set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-v1.1.0-sdran-chart set-latest-riab-values set-v1.0.0-riab-values set-v1.1.0-riab-values set-master-stable-riab-values fetch-all-charts omec oai oai-enb-cu oai-enb-du oai-ue ric atomix test-user-plane test-kpimon reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
+.PHONY: riab-oai riab-ransim riab-oai-latest riab-oai-v1.0.0 riab-oai-v1.1.0 riab-ransim-latest riab-ransim-v1.0.0 riab-ransim-v1.1.0 riab-oai-master-stable riab-ransim-master-stable oai-enb-usrp oai-ue-usrp ric-oai-latest set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-v1.1.0-sdran-chart set-latest-riab-values set-v1.0.0-riab-values set-v1.1.0-riab-values set-master-stable-riab-values fetch-all-charts omec oai oai-enb-cu oai-enb-du oai-ue ric atomix test-user-plane test-kpimon test-kpimon-v1 test-kpimnon-v2 test-pci reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
 
 riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values omec ric oai
 riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-sdran-chart set-latest-riab-values ric
