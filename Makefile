@@ -309,6 +309,7 @@ $(M)/oai-enb-cu: | $(M)/helm-ready $(M)/ric
 		--set config.oai-enb-du.networks.f1.address=$(F1_DU_IPADDR) \
 		oai-enb-cu \
 		$(SDRANCHARTDIR)/oai-enb-cu && \
+		sleep 60 && \
 		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-enb-cu --timeout=300s && \
 		sleep 10
 	touch $@
@@ -324,6 +325,7 @@ $(M)/oai-enb-cu-hw: | $(M)/helm-ready
 		--set config.oai-enb-du.networks.f1.address=$(F1_DU_IPADDR) \
 		oai-enb-cu \
 		$(SDRANCHARTDIR)/oai-enb-cu && \
+		sleep 60 && \
 		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=oai-enb-cu --timeout=300s && \
 		sleep 10
 	touch $@
@@ -342,6 +344,7 @@ $(M)/oai-enb-du: | $(M)/helm-ready
 		--set config.oai-ue.networks.nfapi.address=$(NFAPI_UE_IPADDR) \
 		oai-enb-du \
 		$(SDRANCHARTDIR)/oai-enb-du && \
+		sleep 60 && \
 		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=oai-enb-du --timeout=300s && \
 		sleep 10
 	touch $@
@@ -356,8 +359,8 @@ $(M)/oai-ue: | $(M)/helm-ready
 		--set config.oai-ue.networks.nfapi.address=$(NFAPI_UE_IPADDR) \
 		oai-ue \
 		$(SDRANCHARTDIR)/oai-ue && \
+		sleep 60 && \
 		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=oai-ue --timeout=300s && \
-		sleep 10
 	touch $@
 
 test-user-plane: | $(M)/omec $(M)/oai-ue
