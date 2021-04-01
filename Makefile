@@ -42,6 +42,7 @@ RIAB_OPTION			?=
 # However, the overriding value file, sdran-in-a-box-values.yaml, should be changed as well - config.hss.mmes section.
 RIAB_NAMESPACE		?= riab
 RANSIM_ARGS			?= --set import.ran-simulator.enabled=true
+FB_AH_ARGS			?= --set import.fb-ah-xapp.enabled=true --set import.fb-ah-gui.enabled=true --set import.ah-eson-test-server.enabled=true --set import.ran-simulator.enabled=true
 
 F1_CU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 F1_CU_IPADDR		:= $(shell ip -4 a show $(F1_CU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
@@ -62,18 +63,22 @@ os_release	:= $(shell lsb_release -r -s)
 
 riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values omec ric oai
 riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-sdran-chart set-latest-riab-values ric
+riab-fbah: set-option-fbah $(M)/system-check $(M)/helm-ready set-latest-sdran-chart set-latest-riab-values ric
 
 riab-oai-latest: riab-oai
 riab-ransim-latest: riab-ransim
+riab-fbah-latest: riab-fbah
 
 riab-oai-v1.0.0: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.0.0-sdran-chart set-v1.0.0-riab-values omec ric oai
 riab-ransim-v1.0.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.0.0-sdran-chart set-v1.0.0-riab-values ric
 
 riab-oai-v1.1.0: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.1.0-sdran-chart set-v1.1.0-riab-values omec ric oai
 riab-ransim-v1.1.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.1.0-sdran-chart set-v1.1.0-riab-values ric
+riab-fbah-v1.1.0: set-option-fbah $(M)/system-check $(M)/helm-ready set-v1.1.0-sdran-chart set-v1.1.0-riab-values ric
 
 riab-oai-dev: set-option-oai $(M)/system-check $(M)/helm-ready set-latest-riab-values omec ric oai
 riab-ransim-dev: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
+riab-fbah-dev: set-option-fbah $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
 
 oai-enb-usrp: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values $(M)/oai-enb-cu-hw $(M)/oai-enb-du
 oai-ue-usrp: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values $(M)/oai-ue
@@ -81,6 +86,7 @@ ric-oai-latest: set-option-oai set-latest-sdran-chart set-latest-riab-values ric
 
 riab-oai-master-stable: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values omec ric oai
 riab-ransim-master-stable: set-option-ransim $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values ric
+riab-fbah-master-stable: set-option-fbah $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values ric
 
 omec: $(M)/omec
 oai: set-option-oai $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
@@ -93,9 +99,15 @@ atomix: $(M)/atomix
 set-option-oai:
 	$(eval RIAB_OPTION="oai")
 	$(eval RANSIM_ARGS=)
+	$(eval FB_AH_ARGS=)
 
 set-option-ransim:
 	$(eval RIAB_OPTION="ransim")
+	$(eval FB_AH_ARGS=)
+
+set-option-fbah:
+	$(eval RIAB_OPTION="fb-ah")
+	$(eval RANSIM_ARGS=)
 
 set-stable-aether-chart:
 	cd $(AETHERCHARTDIR); \
@@ -272,6 +284,7 @@ $(M)/ric: | $(M)/helm-ready $(M)/atomix
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(RIABVALUES) \
 		$(RANSIM_ARGS) \
+		$(FB_AH_ARGS) \
 		sd-ran \
 		$(SDRANCHARTDIR)/sd-ran && \
 	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=onos --timeout=300s
