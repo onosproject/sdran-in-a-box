@@ -2,8 +2,6 @@
 #
 # SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
 
-# This chart vaule file is working for some VMs running in ONF servers - 10.128.100.131,132,251,255
-
 # cassandra values
 cassandra:
   config:

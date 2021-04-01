@@ -167,11 +167,11 @@ images:
     hssdb: docker.io/onosproject/riab-hssdb:v1.0.0
     hss: docker.io/onosproject/riab-hss:v1.0.0
     mme: docker.io/onosproject/riab-nucleus-mme:v1.0.0
-    spgwc: docker.io/onosproject/riab-spgw:v1.0.0-onfvm-1
+    spgwc: docker.io/onosproject/riab-spgw:v1.0.0
     pcrf: docker.io/onosproject/riab-pcrf:v1.0.0
     pcrfdb: docker.io/onosproject/riab-pcrfdb:v1.0.0
-    bess: docker.io/onosproject/riab-bess-upf:v1.0.0-onfvm-1
-    pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0-onfvm-1
+    bess: docker.io/onosproject/riab-bess-upf:v1.0.0
+    pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0
 # For OAI
     oaicucp: docker.io/onosproject/oai-enb-cu:latest
     oaidu: docker.io/onosproject/oai-enb-du:latest
@@ -184,7 +184,7 @@ import:
     enabled: false
   onos-kpimon-v2:
     enabled: true
-  onos-kpimon:
+  onos-pci:
     enabled: true
 # Other ONOS-RIC micro-services
 #   onos-topo:
