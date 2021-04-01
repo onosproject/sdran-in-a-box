@@ -94,12 +94,12 @@ onos-topo:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-topo
-    tag: latest
+    tag: v0.7.3
 onos-config:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-config
-    tag: latest
+    tag: v0.7.18
 onos-e2t:
   service:
     external:
@@ -109,37 +109,37 @@ onos-e2t:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-e2t
-    tag: latest
+    tag: v0.7.14
 onos-e2sub:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-e2sub
-    tag: latest
+    tag: v0.7.3
 onos-cli:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-cli
-    tag: latest
+    tag: v0.7.11
 ran-simulator:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/ran-simulator
-    tag: latest
+    tag: v0.7.24
 onos-kpimon-v1:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-kpimon
-    tag: latest
+    tag: v0.1.7
 onos-kpimon-v2:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-kpimon
-    tag: latest
+    tag: v0.1.7
 onos-pci:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-pci
-    tag: latest
+    tag: v0.1.2
 fb-ah-xapp:
   image:
     repository: onosproject/fb-ah-xapp
