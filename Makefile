@@ -287,7 +287,7 @@ $(M)/ric: | $(M)/helm-ready $(M)/atomix
 		$(FB_AH_ARGS) \
 		sd-ran \
 		$(SDRANCHARTDIR)/sd-ran && \
-	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=onos --timeout=300s
+	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=onos --timeout=600s
 	touch $@
 
 $(M)/omec: | $(M)/helm-ready $(M)/fabric
