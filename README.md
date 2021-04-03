@@ -28,7 +28,7 @@ On top of the SD-RAN infrastructure, we can conduct end-to-end tests in terms of
 
 ## RiaB versions and options
 
-### Version
+### Versions
 RiaB has three versions: **latest**, **master-stable**, **dev**, and each release/tag such as **v1.0.0** and **v1.1.0**.
 
 #### Latest version
