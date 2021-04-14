@@ -106,7 +106,6 @@ riab          onos-consensus-db-1-0                         1/1     Running   0 
 riab          onos-e2sub-7588dcbc7b-qc8xk                   1/1     Running   0          1h
 riab          onos-e2t-56549f6648-kjrh4                     1/1     Running   0          1h
 riab          onos-kpimon-v2-846f556cfb-z5x88               1/1     Running   0          1h
-riab          onos-pci-85f465c9cf-qfp29                     1/1     Running   0          1h
 riab          onos-topo-5df4cf454c-dr5bf                    1/1     Running   0          1h
 riab          pcrf-0                                        1/1     Running   0          1h
 riab          spgwc-0                                       2/2     Running   0          1h
