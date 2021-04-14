@@ -41,7 +41,7 @@ RIAB_OPTION			?=
 # If we want to use different namespace, feel free to change it.
 # However, the overriding value file, sdran-in-a-box-values.yaml, should be changed as well - config.hss.mmes section.
 RIAB_NAMESPACE		?= riab
-RANSIM_ARGS			?= --set import.ran-simulator.enabled=true
+RANSIM_ARGS			?= --set import.ran-simulator.enabled=true --set import.onos-pci.enabled=true
 FB_AH_ARGS			?= --set import.fb-ah-xapp.enabled=true --set import.fb-ah-gui.enabled=true --set import.ah-eson-test-server.enabled=true --set import.ran-simulator.enabled=true
 
 F1_CU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
