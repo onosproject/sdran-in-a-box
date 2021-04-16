@@ -213,3 +213,10 @@ import:
 #     enabled: false
 #   ah-eson-test-server:
 #     enabled: false
+# Monitoring/Logging
+#   fluent-bit:
+#     enabled: true
+#   opendistro-es:
+#     enabled: true
+#   prometheus-stack:
+#     enabled: true
