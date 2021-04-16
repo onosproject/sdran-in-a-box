@@ -13,6 +13,7 @@ RIABVALUES			?= $(RIABDIR)/sdran-in-a-box-values.yaml
 RIABVALUES-LATEST	?= $(RIABDIR)/sdran-in-a-box-values.yaml
 RIABVALUES-V1.0.0	?= $(RIABDIR)/sdran-in-a-box-values-v1.0.0.yaml
 RIABVALUES-V1.1.0	?= $(RIABDIR)/sdran-in-a-box-values-v1.1.0.yaml
+RIABVALUES-V1.1.1	?= $(RIABDIR)/sdran-in-a-box-values-v1.1.1.yaml
 RIABVALUES-MS		?= $(RIABDIR)/sdran-in-a-box-values-master-stable.yaml
 CHARTDIR			?= $(WORKSPACE)/helm-charts
 AETHERCHARTDIR		?= $(CHARTDIR)/aether-helm-charts
@@ -21,6 +22,7 @@ SDRANCHARTDIR		?= $(CHARTDIR)/sdran-helm-charts
 SDRANCHARTCID-LATEST	?= origin/master
 SDRANCHARTCID-V1.0.0	?= v1.0.0#branch: v1.0.0
 SDRANCHARTCID-V1.1.0	?= 6670e6da25129b665b024a7c6d0fd79cfda52f25
+SDRANCHARTCID-V1.1.1	?= 6670e6da25129b665b024a7c6d0fd79cfda52f25
 
 KUBESPRAY_VERSION	?= release-2.14
 DOCKER_VERSION		?= 19.03
@@ -59,7 +61,7 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab-oai riab-ransim riab-fbah riab-oai-latest riab-oai-v1.0.0 riab-oai-v1.1.0 riab-ransim-latest riab-ransim-v1.0.0 riab-ransim-v1.1.0 riab-fbah riab-fbah-latest riab-fbah-v1.1.0 riab-fbah-dev riab-fbah-master-stable riab-oai-master-stable riab-ransim-master-stable oai-enb-usrp oai-ue-usrp ric-oai-latest set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-v1.1.0-sdran-chart set-latest-riab-values set-v1.0.0-riab-values set-v1.1.0-riab-values set-master-stable-riab-values fetch-all-charts omec oai oai-enb-cu oai-enb-du oai-ue ric atomix test-user-plane test-kpimon test-kpimon-v1 test-kpimon-v2 test-pci reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
+.PHONY: riab-oai riab-ransim riab-fbah riab-oai-latest riab-oai-v1.0.0 riab-oai-v1.1.0 riab-oai-v1.1.1 riab-ransim-latest riab-ransim-v1.0.0 riab-ransim-v1.1.0 riab-ransim-v1.1.1 riab-fbah riab-fbah-latest riab-fbah-v1.1.0 riab-fbah-v1.1.1 riab-fbah-dev riab-fbah-master-stable riab-oai-master-stable riab-ransim-master-stable oai-enb-usrp oai-ue-usrp ric-oai-latest set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-v1.1.0-sdran-chart set-v1.1.1-sdran-chart set-latest-riab-values set-v1.0.0-riab-values set-v1.1.0-riab-values set-v1.1.1-riab-values set-master-stable-riab-values fetch-all-charts omec oai oai-enb-cu oai-enb-du oai-ue ric atomix test-user-plane test-kpimon test-kpimon-v1 test-kpimon-v2 test-pci reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
 
 riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values omec ric oai
 riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-sdran-chart set-latest-riab-values ric
@@ -75,6 +77,10 @@ riab-ransim-v1.0.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.0
 riab-oai-v1.1.0: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.1.0-sdran-chart set-v1.1.0-riab-values omec ric oai
 riab-ransim-v1.1.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.1.0-sdran-chart set-v1.1.0-riab-values ric
 riab-fbah-v1.1.0: set-option-fbah $(M)/system-check $(M)/helm-ready set-v1.1.0-sdran-chart set-v1.1.0-riab-values ric
+
+riab-oai-v1.1.1: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.1.1-sdran-chart set-v1.1.1-riab-values omec ric oai
+riab-ransim-v1.1.1: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.1.1-sdran-chart set-v1.1.1-riab-values ric
+riab-fbah-v1.1.1: set-option-fbah $(M)/system-check $(M)/helm-ready set-v1.1.1-sdran-chart set-v1.1.1-riab-values ric
 
 riab-oai-dev: set-option-oai $(M)/system-check $(M)/helm-ready set-latest-riab-values omec ric oai
 riab-ransim-dev: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
@@ -127,6 +133,11 @@ set-v1.1.0-sdran-chart:
 	git fetch origin $(SDRANCHARTCID-V1.1.0); \
 	git checkout $(SDRANCHARTCID-V1.1.0)
 
+set-v1.1.1-sdran-chart:
+	cd $(SDRANCHARTDIR); \
+	git fetch origin $(SDRANCHARTCID-V1.1.1); \
+	git checkout $(SDRANCHARTCID-V1.1.1)
+
 set-latest-riab-values:
 	$(eval RIABVALUES=$(RIABVALUES-LATEST))
 
@@ -135,6 +146,9 @@ set-v1.0.0-riab-values:
 
 set-v1.1.0-riab-values:
 	$(eval RIABVALUES=$(RIABVALUES-V1.1.0))
+
+set-v1.1.1-riab-values:
+	$(eval RIABVALUES=$(RIABVALUES-V1.1.1))
 
 set-master-stable-riab-values:
 	$(eval RIABVALUES=$(RIABVALUES-MS))
