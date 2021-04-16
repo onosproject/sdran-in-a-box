@@ -125,9 +125,13 @@ Key[PLMNID, nodeID]                       num(Active UEs)
 ```bash
 $ make test-kpimon-v2
 *** Get KPIMON result through CLI ***
-Cell ID        RRC.Conn.Avg   RRC.Conn.Max   RRC.ConnEstabAtt.Tot   RRC.ConnEstabSucc.Tot   RRC.ConnReEstabAtt.HOFail   RRC.ConnReEstabAtt.Other   RRC.ConnReEstabAtt.Tot   RRC.ConnReEstabAtt.reconfigFail
-1279014:5153   5              5              0                      0                       0                           0                          0                        0
-1279014:5154   5              5              0                      0                       0                           0                          0                        0
+PlmnID    egNB ID   Cell ID           Time         RRC.Conn.Avg   RRC.Conn.Max   RRC.ConnEstabAtt.Tot   RRC.ConnEstabSucc.Tot   RRC.ConnReEstabAtt.HOFail   RRC.ConnReEstabAtt.Other   RRC.ConnReEstabAtt.Tot   RRC.ConnReEstabAtt.reconfigFail
+1279014   5153      343332707639553   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
+1279014   5153      343332707639554   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
+1279014   5154      343332707639809   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
+1279014   5153      343332707639555   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
+1279014   5154      343332707639810   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
+1279014   5154      343332707639811   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
 ```
 
 * `make test-pci`: for SD-RAN release 1.1, master-stable, latest, and dev versions
