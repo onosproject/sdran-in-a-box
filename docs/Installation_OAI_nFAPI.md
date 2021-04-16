@@ -167,8 +167,8 @@ Key[PLMNID, nodeID]                       num(Active UEs)
 ```bash
 $ make test-kpimon-v2
 *** Get KPIMON result through CLI ***
-Cell ID         RRC.ConnEstabAtt.sum   RRC.ConnEstabSucc.sum   RRC.ConnMax   RRC.ConnMean   RRC.ConnReEstabAtt.sum
-1112066:57344   0                      0                       0             1              0
+PlmnID    egNB ID   Cell ID           Time           RRC.ConnEstabAtt.sum   RRC.ConnEstabSucc.sum   RRC.ConnMax   RRC.ConnMean   RRC.ConnReEstabAtt.sum
+1112066   57344     298517943869440   12:04:03.0     0                      0                       0             0              0
 ```
 
 * `make detach-ue && make test-kpimon` for SD-RAN release 1.0; `detach-ue` detaches a UE so the number of active UEs decreases
@@ -194,8 +194,8 @@ Key[PLMNID, nodeID]                       num(Active UEs)
 ```bash
 $ make test-kpimon-v2
 *** Get KPIMON result through CLI ***
-Cell ID         RRC.ConnEstabAtt.sum   RRC.ConnEstabSucc.sum   RRC.ConnMax   RRC.ConnMean   RRC.ConnReEstabAtt.sum
-1112066:57344   0                      0                       0             1              0
+PlmnID    egNB ID   Cell ID           Time           RRC.ConnEstabAtt.sum   RRC.ConnEstabSucc.sum   RRC.ConnMax   RRC.ConnMean   RRC.ConnReEstabAtt.sum
+1112066   57344     298517943869440   12:04:03.0     1                      1                       1             1              0
 $ make detach-ue
 echo -en "AT+CPIN=0000\r" | nc -u -w 1 localhost 10000
 
@@ -205,8 +205,8 @@ echo -en "AT+CGATT=0\r" | nc -u -w 1 localhost 10000
 OK
 $ make test-kpimon-v2
 *** Get KPIMON result through CLI ***
-Cell ID         RRC.ConnEstabAtt.sum   RRC.ConnEstabSucc.sum   RRC.ConnMax   RRC.ConnMean   RRC.ConnReEstabAtt.sum
-1112066:57344   0                      0                       0             0              0
+PlmnID    egNB ID   Cell ID           Time           RRC.ConnEstabAtt.sum   RRC.ConnEstabSucc.sum   RRC.ConnMax   RRC.ConnMean   RRC.ConnReEstabAtt.sum
+1112066   57344     298517943869440   12:04:03.0     1                      1                       0             0              0
 ```
 
 If we can see like the above code block, the SD-RAN cotrol plane is working fine.
