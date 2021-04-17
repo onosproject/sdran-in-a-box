@@ -12,6 +12,7 @@ $ git clone https://github.com/onosproject/sdran-in-a-box
 $ cd /path/to/sdran-in-a-box
 $ git checkout v1.0.0 # for release 1.0
 $ git checkout v1.1.0 # for release 1.1
+$ git checkout v1.1.1 # for release 1.1.1
 $ git checkout master # for master
 ```
 
@@ -28,6 +29,7 @@ $ make riab-ransim-master-stable
 # for a specific version
 $ make riab-ransim-v1.0.0 # for release SD-RAN 1.0
 $ make riab-ransim-v1.1.0 # for release SD-RAN 1.1
+$ make riab-ransim-v1.1.1 # for release SD-RAN 1.1.1
 # for a "dev" version
 $ make riab-ransim-dev
 ```
@@ -121,7 +123,7 @@ Key[PLMNID, nodeID]                       num(Active UEs)
 {eNB-CU-Eurecom-LTEBox [0 2 16] 5154}   1
 ```
 
-* `make test-kpimon-v2`: for SD-RAN release 1.1, master-stable, latest, and dev versions
+* `make test-kpimon-v2`: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions
 ```bash
 $ make test-kpimon-v2
 *** Get KPIMON result through CLI ***
@@ -134,7 +136,7 @@ PlmnID    egNB ID   Cell ID           Time         RRC.Conn.Avg   RRC.Conn.Max  
 1279014   5154      343332707639811   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
 ```
 
-* `make test-pci`: for SD-RAN release 1.1, master-stable, latest, and dev versions
+* `make test-pci`: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions
 ```bash
 $ make test-pci
 *** Get PCI result through CLI ***
