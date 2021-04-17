@@ -12,6 +12,7 @@ $ git clone https://github.com/onosproject/sdran-in-a-box
 $ cd /path/to/sdran-in-a-box
 $ git checkout v1.0.0 # for release 1.0
 $ git checkout v1.1.0 # for release 1.1
+$ git checkout v1.1.1 # for release 1.1.1
 $ git checkout master # for master
 ```
 
@@ -26,6 +27,7 @@ $ make-fbah # or make riab-fbah-latest
 $ make riab-fbah-master-stable
 # for a specific version
 $ make riab-fbah-v1.1.0 # for release SD-RAN 1.1
+$ make riab-fbah-v1.1.1 # for release SD-RAN 1.1.1
 # for a "dev" version
 $ make riab-fbah-dev
 ```
@@ -112,7 +114,7 @@ In order to check whether everything is running, we should conduct some E2E test
 Since RAN-Sim does only generate SD-RAN control messages, we can run E2E tests on the SD-RAN control plane.
 
 ### The E2E test on SD-RAN control plane
-* `make test-kpimon-v2`: for SD-RAN release 1.1, master-stable, latest, and dev versions
+* `make test-kpimon-v2`: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions
 ```bash
 $ make test-kpimon-v2
 *** Get KPIMON result through CLI ***
@@ -125,7 +127,7 @@ PlmnID    egNB ID   Cell ID           Time         RRC.Conn.Avg   RRC.Conn.Max  
 1279014   5154      343332707639811   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
 ```
 
-* Use Facebook-AirHop GUI page: for SD-RAN release 1.1, master-stable, latest, and dev versions
+* Use Facebook-AirHop GUI page: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions
 
 To access GUI, we should open web browser like [Chrome](https://www.google.com/chrome/) or [Safari](https://www.apple.com/safari/).
 Next, go to `http://<RiaB server IP address>:30095`

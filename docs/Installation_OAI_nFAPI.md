@@ -12,6 +12,7 @@ $ git clone https://github.com/onosproject/sdran-in-a-box
 $ cd /path/to/sdran-in-a-box
 $ git checkout v1.0.0 # for release 1.0
 $ git checkout v1.1.0 # for release 1.1
+$ git checkout v1.1.1 # for release 1.1.1
 $ git checkout master # for master
 ```
 
@@ -29,6 +30,7 @@ $ make riab-oai-master-stable
 # for a specific version
 $ make riab-oai-v1.0.0 # for release SD-RAN 1.0
 $ make riab-oai-v1.1.0 # for release SD-RAN 1.1
+$ make riab-oai-v1.1.1 # for release SD-RAN 1.1.1
 # for a "dev" version
 $ make riab-oai-dev
 ```
@@ -163,7 +165,7 @@ $ make test-kpimon
 Key[PLMNID, nodeID]                       num(Active UEs)
 {eNB-CU-Eurecom-LTEBox [0 2 16] 57344}   1
 ```
-* `make test-kpimon-v2`: for SD-RAN release 1.1, master-stable, latest, and dev versions
+* `make test-kpimon-v2`: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions
 ```bash
 $ make test-kpimon-v2
 *** Get KPIMON result through CLI ***
@@ -190,7 +192,7 @@ Key[PLMNID, nodeID]                       num(Active UEs)
 {eNB-CU-Eurecom-LTEBox [0 2 16] 57344}   0
 ```
 
-* `make detach-ue && make test-kpimon-v2`: for SD-RAN release 1.1, master-stable, latest, and dev versions; `detach-ue` detaches a UE so the number of active UEs decreases
+* `make detach-ue && make test-kpimon-v2`: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions; `detach-ue` detaches a UE so the number of active UEs decreases
 ```bash
 $ make test-kpimon-v2
 *** Get KPIMON result through CLI ***
@@ -211,7 +213,7 @@ PlmnID    egNB ID   Cell ID           Time           RRC.ConnEstabAtt.sum   RRC.
 
 If we can see like the above code block, the SD-RAN cotrol plane is working fine.
 
-NOTE 1: If we enable ONOS-KPIMON-V1 in the `sdran-in-a-box-values-<version>.yaml`, we can also use `make test-kpimon-v1` in SD-RAN release 1.1, master-stable, latest, and dev version.
+NOTE 1: If we enable ONOS-KPIMON-V1 in the `sdran-in-a-box-values-<version>.yaml`, we can also use `make test-kpimon-v1` in SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev version.
 
 NOTE 2: Currently, there is no way to reattach the detached UE. For reattachment, we should redeploy RiaB (at least ONOS RIC services, CU-CP, OAI nFAPI emulator).
 
