@@ -44,6 +44,7 @@ RIAB_OPTION			?=
 # However, the overriding value file, sdran-in-a-box-values.yaml, should be changed as well - config.hss.mmes section.
 RIAB_NAMESPACE		?= riab
 RANSIM_ARGS			?= --set import.ran-simulator.enabled=true --set import.onos-pci.enabled=true
+RIC_ARGS			?= --set import.onos-pci.enabled=true
 FB_AH_ARGS			?= --set import.fb-ah-xapp.enabled=true --set import.fb-ah-gui.enabled=true --set import.ah-eson-test-server.enabled=true --set import.ran-simulator.enabled=true
 
 F1_CU_INTERFACE		:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
@@ -113,17 +114,21 @@ set-option-oai:
 	$(eval RIAB_OPTION="oai")
 	$(eval RANSIM_ARGS=)
 	$(eval FB_AH_ARGS=)
+	$(eval RIC_ARGS=)
 
 set-option-ransim:
 	$(eval RIAB_OPTION="ransim")
 	$(eval FB_AH_ARGS=)
+	$(eval RIC_ARGS=)
 
 set-option-fbah:
 	$(eval RIAB_OPTION="fb-ah")
 	$(eval RANSIM_ARGS=)
+	$(eval RIC_ARGS=)
 
 set-option-ric:
 	$(eval RIAB_OPTION="ric")
+	$(eval RANSIM_ARGS=)
 	$(eval FB_AH_ARGS=)
 
 set-stable-aether-chart:
@@ -310,6 +315,7 @@ $(M)/ric: | $(M)/helm-ready $(M)/atomix
 		--values $(RIABVALUES) \
 		$(RANSIM_ARGS) \
 		$(FB_AH_ARGS) \
+		$(RIC_ARGS) \
 		sd-ran \
 		$(SDRANCHARTDIR)/sd-ran && \
 	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=onos --timeout=600s
