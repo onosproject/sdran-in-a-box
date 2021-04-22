@@ -61,29 +61,35 @@ cpu_model	:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 os_vendor	:= $(shell lsb_release -i -s)
 os_release	:= $(shell lsb_release -r -s)
 
-.PHONY: riab-oai riab-ransim riab-fbah riab-oai-latest riab-oai-v1.0.0 riab-oai-v1.1.0 riab-oai-v1.1.1 riab-ransim-latest riab-ransim-v1.0.0 riab-ransim-v1.1.0 riab-ransim-v1.1.1 riab-fbah riab-fbah-latest riab-fbah-v1.1.0 riab-fbah-v1.1.1 riab-fbah-dev riab-fbah-master-stable riab-oai-master-stable riab-ransim-master-stable oai-enb-usrp oai-ue-usrp ric-oai-latest set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-v1.1.0-sdran-chart set-v1.1.1-sdran-chart set-latest-riab-values set-v1.0.0-riab-values set-v1.1.0-riab-values set-v1.1.1-riab-values set-master-stable-riab-values fetch-all-charts omec oai oai-enb-cu oai-enb-du oai-ue ric atomix test-user-plane test-kpimon test-kpimon-v1 test-kpimon-v2 test-pci reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean
+.PHONY: riab-oai riab-ransim riab-fbah riab-oai-latest riab-oai-v1.0.0 riab-oai-v1.1.0 riab-oai-v1.1.1 riab-ransim-latest riab-ransim-v1.0.0 riab-ransim-v1.1.0 riab-ransim-v1.1.1 riab-fbah riab-fbah-latest riab-fbah-v1.1.0 riab-fbah-v1.1.1 riab-fbah-dev riab-fbah-master-stable riab-oai-master-stable riab-ransim-master-stable oai-enb-usrp oai-ue-usrp ric-oai-latest set-option-oai set-option-ransim set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-v1.1.0-sdran-chart set-v1.1.1-sdran-chart set-latest-riab-values set-v1.0.0-riab-values set-v1.1.0-riab-values set-v1.1.1-riab-values set-master-stable-riab-values fetch-all-charts omec oai oai-enb-cu oai-enb-du oai-ue ric atomix test-user-plane test-kpimon test-kpimon-v1 test-kpimon-v2 test-pci reset-oai reset-omec reset-atomix reset-ric reset-oai-test reset-ransim-test reset-test clean riab-ric riab-ric-latest riab-ric-v1.0.0 riab-ric-v1.1.0 riab-ric-v1.1.1 riab-ric-dev riab-ric-master-stable
 
 riab-oai: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values omec ric oai
 riab-ransim: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-sdran-chart set-latest-riab-values ric
+riab-ric: set-option-ric $(M)/system-check $(M)/helm-ready set-latest-sdran-chart set-latest-riab-values ric
 riab-fbah: set-option-fbah $(M)/system-check $(M)/helm-ready set-latest-sdran-chart set-latest-riab-values ric
 
 riab-oai-latest: riab-oai
 riab-ransim-latest: riab-ransim
+riab-ric-latest: riab-ric
 riab-fbah-latest: riab-fbah
 
 riab-oai-v1.0.0: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.0.0-sdran-chart set-v1.0.0-riab-values omec ric oai
 riab-ransim-v1.0.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.0.0-sdran-chart set-v1.0.0-riab-values ric
+riab-ric-v1.0.0: set-option-ric $(M)/system-check $(M)/helm-ready set-v1.0.0-sdran-chart set-v1.0.0-riab-values ric
 
 riab-oai-v1.1.0: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.1.0-sdran-chart set-v1.1.0-riab-values omec ric oai
 riab-ransim-v1.1.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.1.0-sdran-chart set-v1.1.0-riab-values ric
+riab-ric-v1.1.0: set-option-ric $(M)/system-check $(M)/helm-ready set-v1.1.0-sdran-chart set-v1.1.0-riab-values ric
 riab-fbah-v1.1.0: set-option-fbah $(M)/system-check $(M)/helm-ready set-v1.1.0-sdran-chart set-v1.1.0-riab-values ric
 
 riab-oai-v1.1.1: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.1.1-sdran-chart set-v1.1.1-riab-values omec ric oai
 riab-ransim-v1.1.1: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.1.1-sdran-chart set-v1.1.1-riab-values ric
+riab-ric-v1.1.1: set-option-ric $(M)/system-check $(M)/helm-ready set-v1.1.1-sdran-chart set-v1.1.1-riab-values ric
 riab-fbah-v1.1.1: set-option-fbah $(M)/system-check $(M)/helm-ready set-v1.1.1-sdran-chart set-v1.1.1-riab-values ric
 
 riab-oai-dev: set-option-oai $(M)/system-check $(M)/helm-ready set-latest-riab-values omec ric oai
 riab-ransim-dev: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
+riab-ric-dev: set-option-ric $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
 riab-fbah-dev: set-option-fbah $(M)/system-check $(M)/helm-ready set-latest-riab-values ric
 
 oai-enb-usrp: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-latest-riab-values $(M)/oai-enb-cu-hw $(M)/oai-enb-du
@@ -92,6 +98,7 @@ ric-oai-latest: set-option-oai set-latest-sdran-chart set-latest-riab-values ric
 
 riab-oai-master-stable: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values omec ric oai
 riab-ransim-master-stable: set-option-ransim $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values ric
+riab-ric-master-stable: set-option-ric $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values ric
 riab-fbah-master-stable: set-option-fbah $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-latest-sdran-chart set-master-stable-riab-values ric
 
 omec: $(M)/omec
@@ -114,6 +121,10 @@ set-option-ransim:
 set-option-fbah:
 	$(eval RIAB_OPTION="fb-ah")
 	$(eval RANSIM_ARGS=)
+
+set-option-ric:
+	$(eval RIAB_OPTION="ric")
+	$(eval FB_AH_ARGS=)
 
 set-stable-aether-chart:
 	cd $(AETHERCHARTDIR); \
