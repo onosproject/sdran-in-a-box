@@ -27,16 +27,16 @@ $(BUILD): | $(WORKSPACE)
 
 ifeq ($(OPT), ransim)
 riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
-	@echo 1
+	@echo Done
 else ifeq ($(OPT), oai)
 riab: option version preliminaries infra-k8s infra-fabric infra-atomix infra-onos-op omec ric oai
-	@echo 2
+	@echo Done
 else ifeq ($(OPT), ric)
 riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
-	@echo 3
+	@echo Done
 else ifeq ($(OPT), fbah)
 riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
-	@echo 4
+	@echo Done
 else
 riab: option version
 	@echo "Invalid option"
