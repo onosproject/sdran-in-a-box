@@ -4,22 +4,7 @@
 # PHONY definitions
 PRELIMINARIES_PHONY			:= preliminaries
 
-preliminaries: $(M) $(M)/repos $(M)/system-check $(M)/setup
-
-$(M)/repos: | $(M)
-	mkdir -p $(CHARTDIR)
-	cd $(CHARTDIR)
-	@if [[ ! -d "$(AETHERCHARTDIR)" ]]; then \
-                echo "aether-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires HTTPS key"; \
-				git clone $(CORD_GERRIT_URL)/aether-helm-charts $(AETHERCHARTDIR); \
-				cd $(AETHERCHARTDIR); \
-				git checkout $(AETHERCHARTCID); \
-	fi
-	@if [[ ! -d "$(SDRANCHARTDIR)" ]]; then \
-                echo "sdran-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires Github credential"; \
-				git clone $(ONOS_GITHUB_URL)/sdran-helm-charts $(SDRANCHARTDIR) || true; \
-	fi
-	touch $@
+preliminaries: $(M) $(M)/system-check $(M)/setup
 
 $(M)/system-check: | $(M) $(M)/repos
 	@if [[ $(CPU_FAMILY) -eq 6 ]]; then \
