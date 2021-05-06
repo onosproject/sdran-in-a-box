@@ -6,7 +6,7 @@ EPC_PHONY					:= omec
 
 omec: $(M)/omec
 
-$(M)/omec: | $(M)/helm-ready $(M)/fabric
+$(M)/omec: | version $(M)/helm-ready $(M)/fabric
 	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	helm repo update
 	helm dep up $(AETHERCHARTDIR)/omec/omec-control-plane
