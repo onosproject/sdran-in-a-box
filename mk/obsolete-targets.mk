@@ -45,18 +45,23 @@ set-v1.1.1-sdran-chart:
 
 set-latest-riab-values:
 	$(eval HELM_VALUES=$(HELM_VALUES_LATEST))
+	$(eval VER=latest)
 
 set-v1.0.0-riab-values:
 	$(eval HELM_VALUES=$(HELM_VALUES_V1.0.0))
+	$(eval VER=v1.0.0)
 
 set-v1.1.0-riab-values:
 	$(eval HELM_VALUES=$(HELM_VALUES_V1.1.0))
+	$(eval VER=v1.1.0)
 
 set-v1.1.1-riab-values:
 	$(eval HELM_VALUES=$(HELM_VALUES_V1.1.1))
+	$(eval VER=v1.1.1)
 
 set-master-stable-riab-values:
 	$(eval HELM_VALUES=$(HELM_VALUES_STABLE))
+	$(eval VER=stable)
 
 atomix: $(M)/atomix
 

@@ -12,7 +12,7 @@ oai-ue: $(M)/oai-ue
 oai-hw: oai-enb-cu-hw oai-enb-du
 oai-enb-cu-hw: $(M)/oai-enb-cu-hw
 
-$(M)/oai-enb-cu: | $(M)/helm-ready $(M)/ric
+$(M)/oai-enb-cu: | version $(M)/helm-ready $(M)/ric
 	$(eval e2t_addr=$(shell  kubectl get svc onos-e2t -n $(RIAB_NAMESPACE) --no-headers | awk '{print $$3'}))
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
@@ -30,7 +30,7 @@ $(M)/oai-enb-cu: | $(M)/helm-ready $(M)/ric
 		sleep 10
 	touch $@
 
-$(M)/oai-enb-cu-hw: | $(M)/helm-ready
+$(M)/oai-enb-cu-hw: | version $(M)/helm-ready
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
@@ -46,7 +46,7 @@ $(M)/oai-enb-cu-hw: | $(M)/helm-ready
 		sleep 10
 	touch $@
 
-$(M)/oai-enb-du: | $(M)/helm-ready
+$(M)/oai-enb-du: | version $(M)/helm-ready
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
@@ -65,7 +65,7 @@ $(M)/oai-enb-du: | $(M)/helm-ready
 		sleep 10
 	touch $@
 
-$(M)/oai-ue: | $(M)/helm-ready
+$(M)/oai-ue: | version $(M)/helm-ready
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
