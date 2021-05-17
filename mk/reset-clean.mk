@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
 
 # PHONY definitions
-RESET_CLEAN_PHONY			:= reset-oai reset-omec reset-atomix reset-onos-op reset-ric reset-oai-test reset-ransim-test reset-test clean clean-all
+RESET_CLEAN_PHONY			:= reset-oai reset-omec reset-atomix reset-onos-op reset-ric reset-fabric reset-oai-test reset-ransim-test reset-test clean clean-all
 
 reset-oai:
 	helm delete -n $(RIAB_NAMESPACE) oai-enb-cu || true
@@ -34,7 +34,12 @@ reset-ric:
 	@until [ $$(kubectl get po -n $(RIAB_NAMESPACE) -l app=onos --no-headers | wc -l) == 0 ]; do sleep 1; done
 	cd $(M); rm -f ric
 
-reset-oai-test: reset-omec reset-oai reset-ric
+reset-fabric:
+	kubectl delete -f $(RESOURCEDIR)/router.yaml || true
+	sudo apt remove --purge openvswitch-switch -y || true
+	cd $(M); rm -rf fabric
+
+reset-oai-test: reset-omec reset-fabric reset-oai reset-ric
 
 reset-ransim-test: reset-ric
 
@@ -42,11 +47,6 @@ reset-test: reset-oai-test reset-ransim-test reset-onos-op reset-atomix
 
 clean: reset-test
 	helm repo remove sdran || true
-	kubectl delete po router || true
-	kubectl delete net-attach-def core-net || true
-	sudo ovs-vsctl del-br br-access-net || true
-	sudo ovs-vsctl del-br br-core-net || true
-	sudo apt remove --purge openvswitch-switch -y || true
 	source "$(VENV)/bin/activate" && cd $(BUILD)/kubespray; \
 	ansible-playbook --extra-vars "reset_confirmation=yes" -b -i inventory/local/hosts.ini reset.yml || true
 	@if [ -d /usr/local/etc/emulab ]; then \
