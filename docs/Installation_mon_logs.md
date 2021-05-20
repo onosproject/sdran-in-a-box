@@ -19,6 +19,17 @@ To enable logging/monitoring in RiaB, in the sdran-in-a-box-values.yaml (**avail
     enabled: true
 ```
 
+Associated with the monitoring of sdran components is the [onos-exporter](https://github.com/onosproject/onos-exporter), the exporter for ONOS SD-RAN (µONOS Architecture) to scrape, format, and export onos KPIs to TSDB databases (e.g., Prometheus). Currently the implementation supports Prometheus.
+In order to enable onos-exporter, as shown below, make sure the prometheus-stack is enabled too.
+
+```yaml
+  prometheus-stack:
+    enabled: true
+  onos-exporter:
+    enabled: true
+```
+
+
 ## Accessing grafana and looking for logs and metrics
 
 After modified the values file, then run the make command to instantiate RiaB.
@@ -111,6 +122,115 @@ Then execute RiaB make command and after finished, run the port-forward to the k
 ```bash
 kubectl -n riab port-forward svc/sd-ran-opendistro-es-kibana-svc 5601
 ```
+
+# About the onos-exporter metrics
+
+The onos-exporter scrapes the following KPIs from the onos components:
+
+- onos-e2t:
+  - onos_e2t_connections
+    + Description: The number of e2t connections.
+    + Value: float64.
+    + Dimensions/Labels: connection_type, id, plmnid, remote_ip, remote_port.
+    + Example: onos_e2t_connections{connection_type="G_NB",id="00000000003020f9:0",plmnid="1279014",remote_ip="192.168.84.46",remote_port="35823",sdran="e2t"} 1
+- onos-e2sub:
+  - onos_e2sub_subscriptions
+    + Description: The number of e2sub subscriptions.
+    + Value: float64.
+    + Dimensions/Labels: appid, e2nodeid, id, lifecycle_status, revision, service_model_name, service_model_version.
+    + Example: onos_e2sub_subscriptions{appid="onos-kpimon-v2",e2nodeid="00000000003020f9:0",id="2a0e7586-b8ac-11eb-b363-6f6e6f732d6b",lifecycle_status="ACTIVE",revision="17",sdran="e2sub",service_model_name="oran-e2sm-kpm",service_model_version="v2"} 1
+- onos-kpimon-v2:
+  - onos_xappkpimon_rrc_conn_avg
+    + Description: The average of RRC connections to UEs (User Equipments).
+    + Value: float64.
+    + Dimensions/Labels: cellid, egnbid, plmnid.
+    + Example: onos_xappkpimon_rrc_conn_avg{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
+  - onos_xappkpimon_rrc_conn_max
+    + Description: The total of RRC connections to UEs so far.
+    + Value: float64.
+    + Dimensions/Labels: cellid, egnbid, plmnid.
+    + Example: onos_xappkpimon_rrc_conn_max{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
+  - onos_xappkpimon_rrc_connestabatt_tot
+    + Description: The total of established RRC connections attempt.
+    + Value: float64.
+    + Dimensions/Labels: cellid, egnbid, plmnid.
+    + Example: onos_xappkpimon_rrc_connestabatt_tot{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
+  - onos_xappkpimon_rrc_connestabsucc_tot
+    + Description: The total of RRC connections established with success.
+    + Value: float64.
+    + Dimensions/Labels: cellid, egnbid, plmnid.
+    + Example: onos_xappkpimon_rrc_connestabsucc_tot{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
+  - onos_xappkpimon_rrc_connreestabatt_hofail
+    + Description: The total of RRC reestablish connections attempt with handover failed.
+    + Value: float64.
+    + Dimensions/Labels: cellid, egnbid, plmnid.
+    + Example: onos_xappkpimon_rrc_connreestabatt_hofail{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
+  - onos_xappkpimon_rrc_connreestabatt_other
+    + Description: The total of RRC reestablish connections attempt with other reasons.
+    + Value: float64.
+    + Dimensions/Labels: cellid, egnbid, plmnid.
+    + Example: onos_xappkpimon_rrc_connreestabatt_other{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
+  - onos_xappkpimon_rrc_connreestabatt_reconfigfail
+    + Description: The total of RRC reestablish connections attempt with reconfiguration failed.
+    + Value: float64.
+    + Dimensions/Labels: cellid, egnbid, plmnid.
+    + Example: onos_xappkpimon_rrc_connreestabatt_reconfigfail{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
+  - onos_xappkpimon_rrc_connreestabatt_tot
+    + Description: The total of RRC establish connections attempt.
+    + Value: float64.
+    + Dimensions/Labels: cellid, egnbid, plmnid.
+    + Example: onos_xappkpimon_rrc_connreestabatt_tot{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
+- onos-pci:
+  - onos_xapppci_conflicts
+    + Description: The number of pci conflicts.
+    + Value: float64.
+    + Dimensions/Labels: cellid.
+    + Example: onos_xapppci_conflicts{cellid="343332707639809",sdran="xapppci"} 9
+
+
+## Accessing the onos-exporter metrics
+
+To look at the onos-exporter metrics, it's possible to access the onos-exporter directly or visualize the metrics in grafana.
+
+To access the metrics directly have a port-forward kubectl command for onos-exporter service:
+```bash
+kubectl -n riab port-forward svc/onos-exporter 9861
+```
+
+Then access the address `localhost:9861/metrics` in the browser. The exporter shows golang related metrics too.
+
+To access the metrics using grafana, proceed with the access to [grafana](#access-the-grafana-dashboards). After accessing grafana go to the `Explore` item on the left menu, on the openned window select the Prometheus data source, and type the name of the metrics to see its visualization and click on the `Run query` button.
+
+
+# Enabling custom sdran logging parser
+
+In fluentbit there is the possibility to declare custom parsers for particular kubernetes pods, [check this to learn more](https://docs.fluentbit.io/manual/pipeline/parsers). It can be configured via annotations to a deployment pod.
+The sdran components have a particular log format, as they use the logging package of onos-lib-go.
+In the sdran logs presented by grafana, there is no strict parsing, i.e., the logs are presented in a raw format.
+
+A fluentbit logging parser for the sdran components is defined in the sdran chart, check its structure definition as shown below:
+```text
+    customParsers: |
+      [PARSER]
+        Name sdran
+        Format regex
+        Regex ^(?<timestamp>\d{4}-\d{2}-\d{2}.\d{2}:\d{2}:\d{2}.\d{3}).\s+(?<logLevel>\S+)\s+(?<process>\S+)\s+(?<file>\S+):(?<lineNo>\d+)\s+(?<log>.*)$
+        Time_Key timestamp
+        Time_Format %Y-%m-%dT%H:%M:%S.%L
+```
+
+In order to enable this logging parser, there is the need to define annotations in the template deployments of the helm charts for those components.
+This annotation is defined as the value below:
+
+```yaml
+spec:
+  template:
+    metadata: 
+      annotations:
+        fluentbit.io/parser: sdran
+```
+
+Given the application of the fluentbit logging parser to a Kubernetes pod deployment via the annotations above, the sdran log format in grafana for such component will be parsed, as the Regex patter of the custom sdran parser, with the fields: timestamp, logLevel, process, file, lineNo, log. The field log will be the last one presenting the message in the logs shown in the grafana SDRAN logging dashboard.
 
 ## Cleaning
 As logging and monitoring are enabled via the same sdran umbrella helm chart, when running the commands to reset the test and clean the environment, logging and monitoring k8s components will also be removed in RiaB.
