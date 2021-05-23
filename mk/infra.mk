@@ -4,8 +4,8 @@
 # PHONY definitions
 INFRA_PHONY					:= infra-kubespray infra-k8s infra-fabric infra-atomix infra-onos-op
 
-infra-kubespray: $(BUILD)/kubespray
-infra-k8s: infra-kubespray $(M)/kubespray-requirements $(M)/k8s-ready $(M)/helm-ready
+infra-kubespray: $(BUILD)/kubespray $(M)/kubespray-requirements
+infra-k8s: infra-kubespray $(M)/k8s-ready $(M)/helm-ready
 infra-fabric: $(M)/fabric
 infra-atomix: $(M)/atomix
 infra-onos-op: $(M)/onos-operator
