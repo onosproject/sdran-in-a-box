@@ -2,9 +2,10 @@
 # SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
 
 # PHONY definitions
-INFRA_PHONY					:= preliminaries
+INFRA_PHONY					:= infra-kubespray infra-k8s infra-fabric infra-atomix infra-onos-op
 
-infra-k8s: $(BUILD)/kubespray $(M)/kubespray-requirements $(M)/k8s-ready $(M)/helm-ready
+infra-kubespray: $(BUILD)/kubespray
+infra-k8s: infra-kubespray $(M)/kubespray-requirements $(M)/k8s-ready $(M)/helm-ready
 infra-fabric: $(M)/fabric
 infra-atomix: $(M)/atomix
 infra-onos-op: $(M)/onos-operator
