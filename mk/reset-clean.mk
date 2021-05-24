@@ -12,6 +12,18 @@ reset-oai:
 	rm -f $(M)/oai-enb-du
 	rm -f $(M)/oai-ue
 
+reset-oai-enb-cu:
+	helm delete -n $(RIAB_NAMESPACE) oai-enb-cu || true
+	rm -f $(M)/oai-enb-cu*
+
+reset-oai-enb-du:
+	helm delete -n $(RIAB_NAMESPACE) oai-enb-du || true
+	rm -f $(M)/oai-enb-du
+
+reset-oai-ue:
+	helm delete -n $(RIAB_NAMESPACE) oai-ue || true
+	rm -f $(M)/oai-ue
+
 reset-omec:
 	helm delete -n $(RIAB_NAMESPACE) omec-control-plane || true
 	helm delete -n $(RIAB_NAMESPACE) omec-user-plane || true
