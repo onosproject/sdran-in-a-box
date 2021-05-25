@@ -139,7 +139,7 @@ onos-pci:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-pci
-    tag: v0.1.4
+    tag: v0.1.5
 fb-ah-xapp:
   image:
     repository: onosproject/fb-ah-xapp
