@@ -141,42 +141,42 @@ The onos-exporter scrapes the following KPIs from the onos components:
     + Example: onos_e2sub_subscriptions{appid="onos-kpimon-v2",e2nodeid="00000000003020f9:0",id="2a0e7586-b8ac-11eb-b363-6f6e6f732d6b",lifecycle_status="ACTIVE",revision="17",sdran="e2sub",service_model_name="oran-e2sm-kpm",service_model_version="v2"} 1
 - onos-kpimon-v2:
   - onos_xappkpimon_rrc_conn_avg
-    + Description: The average of RRC connections to UEs (User Equipments).
+    + Description: RRCConnAvg the mean number of users in RRC connected mode during each granularity period.
     + Value: float64.
     + Dimensions/Labels: cellid, egnbid, plmnid.
     + Example: onos_xappkpimon_rrc_conn_avg{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
   - onos_xappkpimon_rrc_conn_max
-    + Description: The total of RRC connections to UEs so far.
+    + Description: RRCConnMax the max number of users in RRC connected mode during each granularity period.
     + Value: float64.
     + Dimensions/Labels: cellid, egnbid, plmnid.
     + Example: onos_xappkpimon_rrc_conn_max{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
   - onos_xappkpimon_rrc_connestabatt_tot
-    + Description: The total of established RRC connections attempt.
+    + Description: RRCConnEstabAttTot total number of RRC connection establishment attempts.
     + Value: float64.
     + Dimensions/Labels: cellid, egnbid, plmnid.
     + Example: onos_xappkpimon_rrc_connestabatt_tot{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
   - onos_xappkpimon_rrc_connestabsucc_tot
-    + Description: The total of RRC connections established with success.
+    + Description: RRCConnEstabSuccTot total number of successful RRC Connection establishments.
     + Value: float64.
     + Dimensions/Labels: cellid, egnbid, plmnid.
     + Example: onos_xappkpimon_rrc_connestabsucc_tot{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
   - onos_xappkpimon_rrc_connreestabatt_hofail
-    + Description: The total of RRC reestablish connections attempt with handover failed.
+    + Description: RRCConnReEstabAttHOFail total number of RRC connection re-establishment attempts due to Handover failure.
     + Value: float64.
     + Dimensions/Labels: cellid, egnbid, plmnid.
     + Example: onos_xappkpimon_rrc_connreestabatt_hofail{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
   - onos_xappkpimon_rrc_connreestabatt_other
-    + Description: The total of RRC reestablish connections attempt with other reasons.
+    + Description: RRCConnReEstabAttOther total number of RRC connection re-establishment attempts due to Other reasons.
     + Value: float64.
     + Dimensions/Labels: cellid, egnbid, plmnid.
     + Example: onos_xappkpimon_rrc_connreestabatt_other{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
   - onos_xappkpimon_rrc_connreestabatt_reconfigfail
-    + Description: The total of RRC reestablish connections attempt with reconfiguration failed.
+    + Description: RRCConnReEstabAttreconfigFail total number of RRC connection re-establishment attempts due to reconfiguration failure.
     + Value: float64.
     + Dimensions/Labels: cellid, egnbid, plmnid.
     + Example: onos_xappkpimon_rrc_connreestabatt_reconfigfail{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
   - onos_xappkpimon_rrc_connreestabatt_tot
-    + Description: The total of RRC establish connections attempt.
+    + Description: RRCConnReEstabAttTot total number of RRC connection re-establishment attempts.
     + Value: float64.
     + Dimensions/Labels: cellid, egnbid, plmnid.
     + Example: onos_xappkpimon_rrc_connreestabatt_tot{cellid="343332707639553",egnbid="5153",plmnid="1279014",sdran="xappkpimon"} 5
