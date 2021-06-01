@@ -120,6 +120,15 @@ config:
     ueIpPool:
       ip: 172.250.0.0 # if we use RiaB, Makefile script will override this value with the value defined in Makefile script.
   upf:
+    enb:
+       subnet: 192.168.11.8/29 # This is the same subnet defined in the setup, check the note at the end of the page.
+    access:
+       gateway: 192.168.11.17
+       ip: 192.168.11.19/29
+    core:
+       gateway: 192.168.11.1
+       ip: 192.168.11.3/29
+    privileged: true
     name: "oaisim"
     sriov:
       enabled: false
@@ -168,8 +177,10 @@ config:
         address: 10.128.100.100 #if we use RiaB, Makefile script will automatically apply appropriate IP address
       s1mme:
         interface: eno1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
+        address: 192.168.13.21 # This is the primary IP address defined to the OAI-CU/DU machine - see `Install OAI CU/DU`
       s1u:
         interface: eno1
+        address: 192.168.11.10 # This is the secondary IP address defined to the OAI-CU/DU machine - see `Install OAI CU/DU`
     plmnID:
       mcc: "315"
       mnc: "010"
@@ -330,3 +341,5 @@ import:
 #   ah-eson-test-server:
 #     enabled: false
 ```
+
+*Note: The IP addresses prefix (i.e., 192.168.x.z) correspond to the prefix assigned to the same subnet where the whole setup is defined. In a custom setup, make sure these IP addresses subnet match too.*
