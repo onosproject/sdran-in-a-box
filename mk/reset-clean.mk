@@ -31,7 +31,7 @@ reset-omec:
 
 reset-atomix:
 	kubectl delete -f https://raw.githubusercontent.com/atomix/raft-storage-controller/master/deploy/raft-storage-controller.yaml || true
-	kubectl delete -f https://raw.githubusercontent.com/atomix/cache-storage-controller/master/deploy/cache-storage-controller.yaml || true
+	kubectl delete -f https://raw.githubusercontent.com/atomix/atomix-memory-storage/master/deploy/atomix-memory-storage.yaml || true
 	kubectl delete -f https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml || true
 	cd $(M); rm -f atomix
 
