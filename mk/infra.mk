@@ -80,8 +80,8 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 $(M)/atomix: | $(M)/k8s-ready
 	kubectl get po -n kube-system | grep atomix-controller | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml
 	kubectl get po -n kube-system | grep raft-storage-controller | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/atomix/raft-storage-controller/master/deploy/raft-storage-controller.yaml
-	kubectl get po -n kube-system | grep cache-storage-controller | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/atomix/cache-storage-controller/master/deploy/cache-storage-controller.yaml
-	@until [ $$(kubectl get po -n kube-system | grep -e atomix-controller -e raft-storage-controller -e cache-storage-controller | grep 1/1 | wc -l) == 3 ]; do sleep 1; done
+	kubectl get po -n kube-system | grep atomix-memory-storage | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/atomix/atomix-memory-storage/master/deploy/atomix-memory-storage.yaml
+	@until [ $$(kubectl get po -n kube-system | grep -e atomix-controller -e raft-storage-controller -e atomix-memory-storage | grep 1/1 | wc -l) == 3 ]; do sleep 1; done
 	touch $@
 
 $(M)/onos-operator: | $(M)/k8s-ready
