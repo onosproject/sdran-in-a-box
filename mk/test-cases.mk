@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
 
 # PHONY definitions
-TEST_PHONY					:= test-user-plane test-kpimon test-kpimon-v1 test-kpimon-v2 test-pci
+TEST_PHONY					:= test-user-plane test-kpimon test-pci
 
 test-user-plane: | $(M)/omec $(M)/oai-ue
 	@echo "*** T1: Internal network test: ping 192.168.250.1 (Internal router IP) ***"; \
