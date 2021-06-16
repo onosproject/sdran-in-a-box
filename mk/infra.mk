@@ -53,6 +53,9 @@ $(M)/helm-ready: | $(M)/k8s-ready
 	@if [ "$$SDRAN_USERNAME" == "" ]; then read -r -p "Username for ONF SDRAN private chart: " SDRAN_USERNAME; \
 	read -r -p "Password for ONF SDRAN private chart: " SDRAN_PASSWORD; fi ;\
 	helm repo add sdran $(HELM_SDRAN_URL) --username $$SDRAN_USERNAME --password $$SDRAN_PASSWORD;
+	helm repo add atomix https://charts.atomix.io
+	helm repo add onos https://charts.onosproject.org
+	helm repo update
 	touch $@
 
 /opt/cni/bin/simpleovs: | $(M)/k8s-ready
@@ -78,13 +81,11 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	touch $@
 
 $(M)/atomix: | $(M)/k8s-ready
-	kubectl get po -n kube-system | grep atomix-controller | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml
-	kubectl get po -n kube-system | grep raft-storage-controller | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/atomix/raft-storage-controller/master/deploy/raft-storage-controller.yaml
-	kubectl get po -n kube-system | grep atomix-memory-storage | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/atomix/atomix-memory-storage/master/deploy/atomix-memory-storage.yaml
-	@until [ $$(kubectl get po -n kube-system | grep -e atomix-controller -e raft-storage-controller -e atomix-memory-storage | grep 1/1 | wc -l) == 3 ]; do sleep 1; done
+	helm install -n kube-system atomix-controller atomix/atomix-controller --wait || true
+	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --wait || true
+	helm install -n kube-system atomix-memory-storage atomix/atomix-memory-storage --wait || true
 	touch $@
 
 $(M)/onos-operator: | $(M)/k8s-ready
-	kubectl get po -n kube-system | grep config-operator | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/onosproject/onos-operator/v0.4.0/deploy/onos-operator.yaml
-	@until [ $$(kubectl get po -n kube-system | grep -e config-operator -e topo-operator | grep 1/1 | wc -l) == 2 ]; do sleep 1; done
+	helm install onos-operator onos/onos-operator -n kube-system --wait || true
 	touch $@

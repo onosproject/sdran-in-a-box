@@ -7,8 +7,6 @@ RIC_PHONY					:= omec
 ric: $(M)/ric
 
 $(M)/ric: | version $(M)/helm-ready $(M)/atomix $(M)/onos-operator
-	kubectl get po -n kube-system | grep config-operator | grep -v Terminating || kubectl create -f https://raw.githubusercontent.com/onosproject/onos-operator/v0.4.0/deploy/onos-operator.yaml
-	@until [ $$(kubectl get po -n kube-system | grep -e config-operator -e topo-operator | grep 1/1 | wc -l) == 2 ]; do sleep 1; done
 	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	cd $(SDRANCHARTDIR)/sd-ran; rm -rf charts Chart.lock tmpcharts; helm dep update
 	helm upgrade --install $(HELM_ARGS) \
