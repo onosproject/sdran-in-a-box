@@ -16,14 +16,6 @@ test-kpimon: | $(M)/ric
 	@echo "*** Get KPIMON result through CLI ***"; \
 	kubectl exec -it deploy/onos-cli -n riab -- onos kpimon list numues;
 
-test-kpimon-v1: | $(M)/ric
-	@echo "*** Get KPIMON result through CLI ***"; \
-	kubectl exec -it deploy/onos-cli -n riab -- onos kpimonv1 list metrics;
-
-test-kpimon-v2: | $(M)/ric
-	@echo "*** Get KPIMON result through CLI ***"; \
-	kubectl exec -it deploy/onos-cli -n riab -- onos kpimonv2 list metrics;
-
 test-pci: | $(M)/ric
 	@echo "*** Get PCI result through CLI ***"; \
 	kubectl exec -it deployment/onos-cli -n riab -- onos pci listall numconflicts;

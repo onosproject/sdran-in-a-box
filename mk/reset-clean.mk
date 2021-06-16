@@ -30,15 +30,13 @@ reset-omec:
 	cd $(M); rm -f omec
 
 reset-atomix:
-	kubectl delete -f https://raw.githubusercontent.com/atomix/raft-storage-controller/master/deploy/raft-storage-controller.yaml || true
-	kubectl delete -f https://raw.githubusercontent.com/atomix/atomix-memory-storage/master/deploy/atomix-memory-storage.yaml || true
-	kubectl delete -f https://raw.githubusercontent.com/atomix/kubernetes-controller/master/deploy/atomix-controller.yaml || true
+	helm uninstall atomix-controller -n kube-system || true
+	helm uninstall atomix-memory-storage -n kube-system || true
+	helm uninstall atomix-raft-storage -n kube-system || true
 	cd $(M); rm -f atomix
 
 reset-onos-op:
-	kubectl delete -f https://raw.githubusercontent.com/onosproject/onos-operator/v0.4.0/deploy/onos-operator.yaml || true
-	@until [ $$(kubectl get po -n kube-system -l name=topo-operator --no-headers | wc -l) == 0 ]; do sleep 1; done
-	@until [ $$(kubectl get po -n kube-system -l name=config-operator --no-headers | wc -l) == 0 ]; do sleep 1; done
+	helm uninstall onos-operator -n kube-system || true
 	cd $(M); rm -f onos-operator
 
 reset-ric:

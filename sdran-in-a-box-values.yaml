@@ -180,9 +180,9 @@ images:
 # For SD-RAN Umbrella chart:
 # ONOS-KPIMON xAPP is imported in the RiaB by default
 import:
-  onos-kpimon-v1:
+  onos-uenib:
     enabled: false
-  onos-kpimon-v2:
+  onos-kpimon:
     enabled: true
   onos-pci:
     enabled: false
