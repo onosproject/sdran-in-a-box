@@ -22,6 +22,7 @@ SDRANCHARTCID-V1.1.0		?= 6670e6da25129b665b024a7c6d0fd79cfda52f25
 SDRANCHARTCID-V1.1.1		?= 479ff0b59d4ae9f09cd9f7be6ea9a189f207b810
 SDRANCHARTCID-V1.1.1-REV3	?= sd-ran-1.1.4-rev3
 SDRANCHARTCID-V1.1.1-REV4	?= sd-ran-1.1.4-rev4
+SDRANCHARTCID-V1.1.1-REV5	?= sd-ran-1.1.4-rev5
 
 #  Helm arguments
 DEFAULT_HELM_ARGS			:= --set import.ran-simulator.enabled=true --set import.onos-pci.enabled=true
@@ -39,6 +40,7 @@ HELM_VALUES_V1.1.0			?= $(RIABDIR)/sdran-in-a-box-values-v1.1.0.yaml
 HELM_VALUES_V1.1.1			?= $(RIABDIR)/sdran-in-a-box-values-v1.1.1.yaml
 HELM_VALUES_V1.1.1-REV3		?= $(RIABDIR)/sdran-in-a-box-values-v1.1.1-rev3.yaml
 HELM_VALUES_V1.1.1-REV4		?= $(RIABDIR)/sdran-in-a-box-values-v1.1.1-rev4.yaml
+HELM_VALUES_V1.1.1-REV5		?= $(RIABDIR)/sdran-in-a-box-values-v1.1.1-rev5.yaml
 HELM_VALUES_STABLE			?= $(RIABDIR)/sdran-in-a-box-values-master-stable.yaml
 HELM_VALUES_LATEST			?= $(RIABDIR)/sdran-in-a-box-values.yaml
 HELM_VALUES_DEV				?= $(RIABDIR)/sdran-in-a-box-values.yaml
