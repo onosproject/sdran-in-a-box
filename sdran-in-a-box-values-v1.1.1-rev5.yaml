@@ -133,8 +133,8 @@ onos-kpimon-v1:
 onos-kpimon-v2:
   image:
     pullPolicy: IfNotPresent
-    repository: onosproject/onos-kpimon
-    tag: v0.1.11
+    repository: woojoong/onos-kpimon
+    tag: radisys-fix-5
   config:
     kpimon:
       config_json:
@@ -144,12 +144,16 @@ onos-kpimon-v2:
   logging:
     loggers:
       root:
-        level: info
+        level: debug
 onos-pci:
   image:
     pullPolicy: IfNotPresent
-    repository: onosproject/onos-pci
-    tag: v0.1.5
+    repository: woojoong/onos-pci
+    tag: radisys-fix-5
+  logging:
+    loggers:
+      root:
+        level: debug
 fb-ah-xapp:
   image:
     repository: onosproject/fb-ah-xapp
