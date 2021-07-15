@@ -108,6 +108,55 @@ If we runs Facebook-AirHop xAPP on the remote machine, we have to make a SSH tun
 $ ssh <id>@<RiaB server IP address> -L "*:8080:<RiaB server IP address>:30095"
 ```
 
+## Failed to install with `Create kubeadm token for joining nodes with 24h expiration` message
+In order to resolve this problem, we need to reinstall RiaB again.
+You should `make clean` or `make clean-all` and then install RiaB again.
+
+## Failed to clean RiaB
+When we clean up RiaB, sometimes we can see below error messages.
+```bash
+TASK [reset : reset | gather mounted kubelet dirs] *******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+fatal: [node1]: FAILED! => {"changed": true, "cmd": "set -o pipefail && mount | grep /var/lib/kubelet/ | awk '{print $3}' | tac", "delta": "0:00:00.007286", "end": "2021-07-15 19:15:47.566996", "msg": "non-zero return code", "rc": 1, "start": "2021-07-15 19:15:47.559710", "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+PLAY RECAP ***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+localhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+node1                      : ok=14   changed=7    unreachable=0    failed=1    skipped=22   rescued=0    ignored=0
+```
+
+The easiest way to solve this issue is to remove Kubernetes manually.
+Here is the instructions to remote the Kubernetes.
+```bash
+sudo reboot
+
+docker rm -f $(docker ps -qa)
+docker rmi -f $(docker images -q)
+docker volume rm $(docker volume ls -q)
+
+sudo su
+
+for mount in $(mount | grep tmpfs | grep '/var/lib/kubelet' | awk '{ print $3 }') /var/lib/kubelet /var/lib/rancher; do umount $mount; done
+
+rm -rf /etc/ceph \
+       /etc/cni \
+       /etc/kubernetes \
+       /opt/cni \
+       /opt/rke \
+       /run/secrets/kubernetes.io \
+       /run/calico \
+       /run/flannel \
+       /var/lib/calico \
+       /var/lib/etcd \
+       /var/lib/cni \
+       /var/lib/kubelet \
+       /var/lib/rancher/rke/log \
+       /var/log/containers \
+       /var/log/kube-audit \
+       /var/log/pods \
+       /var/run/calico
+
+sudo reboot
+```
+
 ## Other issues?
 Please contact ONF SD-RAN team, if you see any issue. Any issue report from users is very welcome.
 Mostly, the redeployment by using `make clean-all and make [option]` resolves issues.
