@@ -125,12 +125,7 @@ ran-simulator:
     pullPolicy: IfNotPresent
     repository: onosproject/ran-simulator
     tag: latest
-onos-kpimon-v1:
-  image:
-    pullPolicy: IfNotPresent
-    repository: onosproject/onos-kpimon
-    tag: latest
-onos-kpimon-v2:
+onos-kpimon:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-kpimon
@@ -185,6 +180,8 @@ import:
   onos-kpimon:
     enabled: true
   onos-pci:
+    enabled: false
+  onos-mlb:
     enabled: false
 # Other ONOS-RIC micro-services
 #   onos-topo:
