@@ -1,0 +1,73 @@
+# Copyright 2019-present Open Networking Foundation
+#
+# SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
+
+---
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: core-net
+spec:
+  config: '{
+    "cniVersion": "0.3.1",
+    "type": "simpleovs",
+    "ipam": {
+        "type": "static"
+    }
+  }'
+---
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: access-net
+spec:
+  config: '{
+    "cniVersion": "0.3.1",
+    "type": "simpleovs",
+    "ipam": {
+        "type": "static"
+    }
+  }'
+---
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: enb-net
+spec:
+  config: '{
+    "cniVersion": "0.3.1",
+    "type": "simpleovs",
+    "ipam": {
+        "type": "static"
+    }
+  }'
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: router
+  labels:
+    app: router
+  annotations:
+    k8s.v1.cni.cncf.io/networks: '[
+            { "name": "core-net", "interface": "core-rtr", "ips": ["CORE_SUBNET"] },
+            { "name": "enb-net", "interface": "enb-rtr", "ips": ["ENB_SUBNET"] },
+            { "name": "access-net", "interface": "access-rtr", "ips": ["ACCESS_SUBNET"] }
+    ]'
+spec:
+  containers:
+  - name: quagga
+    command: ["/bin/bash", "-c"]
+    args:
+      - >
+        sysctl -w net.ipv4.ip_forward=1;
+        iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE;
+        trap : TERM INT; sleep infinity & wait
+    image: opencord/quagga
+    securityContext:
+      privileged: true
+      capabilities:
+        add:
+          - NET_ADMIN
+    ports:
+    - containerPort: 2601
