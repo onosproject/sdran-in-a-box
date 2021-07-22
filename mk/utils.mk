@@ -15,29 +15,29 @@ fetch-all-charts:
 	git fetch --all;
 
 routing-hw-oai:
-	sudo ethtool -K $(OAI_ENB_NET_INTERFACE) tx off rx off gro off gso off
+	sudo ethtool -K $(OAI_ENB_NET_INTERFACE) tx off rx off gro off gso off || true
 	sudo route del -net $(ENB_SUBNET) dev $(OAI_ENB_NET_INTERFACE) || true
-	sudo route add -net $(ENB_SUBNET) gw $(shell echo $(OMEC_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(OAI_ENB_NET_INTERFACE)
-	sudo route add -net $(ACCESS_SUBNET) gw $(shell echo $(OMEC_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(OAI_ENB_NET_INTERFACE)
-	sudo route add -net $(CORE_SUBNET) gw $(shell echo $(OMEC_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(OAI_ENB_NET_INTERFACE)
+	sudo route add -net $(ENB_SUBNET) gw $(shell echo $(OMEC_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(OAI_ENB_NET_INTERFACE) || true
+	sudo route add -net $(ACCESS_SUBNET) gw $(shell echo $(OMEC_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(OAI_ENB_NET_INTERFACE) || true
+	sudo route add -net $(CORE_SUBNET) gw $(shell echo $(OMEC_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(OAI_ENB_NET_INTERFACE) || true
 
 
 routing-hw-omec:
 	$(eval ROUTER_IP=$(shell kubectl exec -it router -- ifconfig eth0 | grep inet | awk '{print $$2}' | awk -F ':' '{print $$2}'))
 	$(eval ROUTER_IF=$(shell route -n | grep $(ROUTER_IP)  | awk '{print $$NF}'))
-	sudo ethtool -K $(ROUTER_IF) gro off rx off
-	sudo ethtool -K $(OMEC_DEFAULT_INTERFACE) rx off tx on gro off gso on
-	sudo ethtool -K enb rx off tx on gro off gso on
-	sudo route add -host $(shell echo $(OAI_ENB_NET_IP) | awk -F '/' '{print $$1}') gw $(shell echo $(OAI_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(OMEC_DEFAULT_INTERFACE)
-	kubectl exec -it router -- route add -host $(shell echo $(OAI_ENB_NET_IP) | awk -F '/' '{print $$1}') gw $(shell echo $(OMEC_ENB_NET_IP) | awk -F '/' '{print $$1}') dev enb-rtr
-	kubectl exec -it router -- ifconfig core-rtr mtu 1550
-	kubectl exec -it router -- ifconfig access-rtr mtu 1550
-	kubectl exec -it router -- sudo apt update
-	kubectl exec -it router -- sudo apt install ethtool
-	kubectl exec -it router -- sudo ethtool -K eth0 tx off rx off gro off gso off
-	kubectl exec -it router -- sudo ethtool -K enb-rtr tx off rx off gro off gso off
-	kubectl exec -it router -- sudo ethtool -K access-rtr tx off rx off gro off gso off
-	kubectl exec -it router -- sudo ethtool -K core-rtr tx off rx off gro off gso off
-	kubectl exec -it upf-0 -n $(RIAB_NAMESPACE) -- ip l set mtu 1550 dev access
-	kubectl exec -it upf-0 -n $(RIAB_NAMESPACE) -- ip l set mtu 1550 dev core
-	sudo route add -net $(UE_IP_POOL)/$(UE_IP_MASK) gw $(ENB_GATEWAY) dev enb
+	sudo ethtool -K $(ROUTER_IF) gro off rx off || true
+	sudo ethtool -K $(OMEC_DEFAULT_INTERFACE) rx off tx on gro off gso on || true
+	sudo ethtool -K enb rx off tx on gro off gso on || true
+	sudo route add -host $(shell echo $(OAI_ENB_NET_IP) | awk -F '/' '{print $$1}') gw $(shell echo $(OAI_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(OMEC_DEFAULT_INTERFACE) || true
+	kubectl exec -it router -- route add -host $(shell echo $(OAI_ENB_NET_IP) | awk -F '/' '{print $$1}') gw $(shell echo $(OMEC_ENB_NET_IP) | awk -F '/' '{print $$1}') dev enb-rtr || true
+	kubectl exec -it router -- ifconfig core-rtr mtu 1550 || true
+	kubectl exec -it router -- ifconfig access-rtr mtu 1550 || true
+	kubectl exec -it router -- sudo apt update || true
+	kubectl exec -it router -- sudo apt install ethtool || true
+	kubectl exec -it router -- sudo ethtool -K eth0 tx off rx off gro off gso off || true
+	kubectl exec -it router -- sudo ethtool -K enb-rtr tx off rx off gro off gso off || true
+	kubectl exec -it router -- sudo ethtool -K access-rtr tx off rx off gro off gso off || true
+	kubectl exec -it router -- sudo ethtool -K core-rtr tx off rx off gro off gso off || true
+	kubectl exec -it upf-0 -n $(RIAB_NAMESPACE) -- ip l set mtu 1550 dev access || true
+	kubectl exec -it upf-0 -n $(RIAB_NAMESPACE) -- ip l set mtu 1550 dev core || true
+	sudo route add -net $(UE_IP_POOL)/$(UE_IP_MASK) gw $(ENB_GATEWAY) dev enb || true
