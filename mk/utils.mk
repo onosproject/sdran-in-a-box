@@ -33,7 +33,7 @@ routing-hw-omec:
 	kubectl exec -it router -- ifconfig core-rtr mtu 1550 || true
 	kubectl exec -it router -- ifconfig access-rtr mtu 1550 || true
 	kubectl exec -it router -- sudo apt update || true
-	kubectl exec -it router -- sudo apt install ethtool || true
+	kubectl exec -it router -- sudo apt install ethtool -y || true
 	kubectl exec -it router -- sudo ethtool -K eth0 tx off rx off gro off gso off || true
 	kubectl exec -it router -- sudo ethtool -K enb-rtr tx off rx off gro off gso off || true
 	kubectl exec -it router -- sudo ethtool -K access-rtr tx off rx off gro off gso off || true
