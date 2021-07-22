@@ -182,6 +182,11 @@ config:
 #     pullPolicy: IfNotPresent
 #     repository: onosproject/onos-pci
 #     tag: latest
+# onos-mlb:
+#   image:
+#     pullPolicy: IfNotPresent
+#     repository: onosproject/onos-mlb
+#     tag: latest
 # fb-ah-xapp:
 #   image:
 #     repository: onosproject/fb-ah-xapp
