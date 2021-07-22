@@ -13,10 +13,54 @@ resources:
 
 config:
   spgwc:
+    multiUpfs: true
     pfcp: true
+    jsonCfgFiles:
+      subscriber_mapping.json:
+        subscriber-selection-rules:
+          - priority: 5
+            keys:
+              serving-plmn:
+                mcc: 208
+                mnc: 10
+                tac: 1
+              imsi-range:
+                from: 200000000000000
+                to: 299999999999999
+            selected-apn-profile: apn-profile1
+            selected-qos-profile: qos-profile1
+            selected-access-profile:
+              - access-all
+            selected-user-plane-profile: user-plane1
+          - priority: 10
+            keys:
+              match-all: true
+            selected-apn-profile: apn-profile1
+            selected-qos-profile: qos-profile1
+            selected-access-profile:
+              - access-all
+            selected-user-plane-profile: user-plane1
+        apn-profiles:
+          apn-profile1:
+            apn-name: internet
+            usage: 1
+            network: lbo
+            gx_enabled: true
+            dns_primary: 8.8.8.4
+            dns_secondary: 8.8.8.8
+            mtu: 1460
     ueIpPool:
       ip: 172.250.0.0 # if we use RiaB, Makefile script will override this value with the value defined in Makefile script.
   upf:
+    privileged: true
+    enb:
+      subnet: 192.168.251.0/24
+    access:
+      gateway: 192.168.252.1
+      ip: 192.168.252.3/24
+    core:
+      gateway: 192.168.250.1
+      ip: 192.168.250.3/24
     name: "oaisim"
     sriov:
       enabled: false
@@ -41,6 +85,9 @@ config:
             dig3: -1
           apnlist:
             internet: "spgwc"
+          plmnlist:
+            plmn1: "mcc=315,mnc=010"
+            plmn2: "mcc=208,mnc=01"
   hss:
     bootstrap:
       users:
@@ -177,7 +224,7 @@ images:
 # ONOS-KPIMON xAPP is imported in the RiaB by default
 import:
   onos-uenib:
-    enabled: false
+    enabled: true
   onos-kpimon:
     enabled: true
   onos-pci:
