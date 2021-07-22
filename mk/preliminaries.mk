@@ -42,5 +42,5 @@ $(M)/system-check: | $(M) $(M)/repos
 
 $(M)/setup: | $(M)/system-check
 	sudo $(SCRIPTDIR)/cloudlab-disksetup.sh
-	sudo apt update; sudo apt install -y software-properties-common python3-pip jq httpie ipvsadm
+	sudo apt update; sudo apt install -y software-properties-common python3-pip jq httpie ipvsadm ethtool
 	touch $@
