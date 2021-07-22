@@ -5,8 +5,8 @@
 TEST_PHONY					:= test-user-plane test-kpimon test-pci
 
 test-user-plane: | $(M)/omec $(M)/oai-ue
-	@echo "*** T1: Internal network test: ping $(CORE_GATEWAY) (Internal router IP) ***"; \
-	ping -c 3 $(CORE_GATEWAY) -I oaitun_ue1; \
+	@echo "*** T1: Internal network test: ping $(shell echo $(CORE_GATEWAY) | awk -F '/' '{print $$1}') (Internal router IP) ***"; \
+	ping -c 3 $(shell echo $(CORE_GATEWAY) | awk -F '/' '{print $$1}') -I oaitun_ue1; \
 	echo "*** T2: Internet connectivity test: ping to 8.8.8.8 ***"; \
 	ping -c 3 8.8.8.8 -I oaitun_ue1; \
 	echo "*** T3: DNS test: ping to google.com ***"; \

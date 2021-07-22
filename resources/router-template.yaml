@@ -50,9 +50,9 @@ metadata:
     app: router
   annotations:
     k8s.v1.cni.cncf.io/networks: '[
-            { "name": "core-net", "interface": "core-rtr", "ips": ["CORE_SUBNET"] },
-            { "name": "enb-net", "interface": "enb-rtr", "ips": ["ENB_SUBNET"] },
-            { "name": "access-net", "interface": "access-rtr", "ips": ["ACCESS_SUBNET"] }
+            { "name": "core-net", "interface": "core-rtr", "ips": ["CORE_GATEWAY"] },
+            { "name": "enb-net", "interface": "enb-rtr", "ips": ["ENB_GATEWAY"] },
+            { "name": "access-net", "interface": "access-rtr", "ips": ["ACCESS_GATEWAY"] }
     ]'
 spec:
   containers:

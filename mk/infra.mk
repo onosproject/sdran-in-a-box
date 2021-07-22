@@ -74,11 +74,11 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	sudo ip addr add $(OMEC_ENB_NET_IP) dev enb || true
 	sudo ip link set enb up
 	sudo ethtool --offload enb tx off
-	sudo ip route replace $(ACCESS_SUBNET) via $(ENB_GATEWAY) dev enb
+	sudo ip route replace $(ACCESS_SUBNET) via $(shell echo $(ENB_GATEWAY) | awk -F '/' '{print $$1}')  dev enb
 	cp $(RESOURCEDIR)/router-template.yaml $(RESOURCEDIR)/router.yaml
-	sed -i -e "s#CORE_SUBNET#$(CORE_SUBNET)#" $(RESOURCEDIR)/router.yaml
-	sed -i -e "s#ENB_SUBNET#$(ENB_SUBNET)#" $(RESOURCEDIR)/router.yaml
-	sed -i -e "s#ACCESS_SUBNET#$(ACCESS_SUBNET)#" $(RESOURCEDIR)/router.yaml
+	sed -i -e "s#CORE_GATEWAY#$(CORE_GATEWAY)#" $(RESOURCEDIR)/router.yaml
+	sed -i -e "s#ENB_GATEWAY#$(ENB_GATEWAY)#" $(RESOURCEDIR)/router.yaml
+	sed -i -e "s#ACCESS_GATEWAY#$(ACCESS_GATEWAY)#" $(RESOURCEDIR)/router.yaml
 	kubectl apply -f $(RESOURCEDIR)/router.yaml
 	kubectl wait pod -n default --for=condition=Ready -l app=router --timeout=300s
 	kubectl -n default exec router ip route add $(UE_IP_POOL)/$(UE_IP_MASK) via $(shell echo $(UPF_CORE_NET_IP) | awk -F '/' '{print $$1}')

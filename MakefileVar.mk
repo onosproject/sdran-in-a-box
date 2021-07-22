@@ -91,13 +91,13 @@ NFAPI_UE_IPADDR				:= $(shell ip -4 a show $(NFAPI_UE_INTERFACE) | grep inet | a
 
 # For routing configuarion
 ENB_SUBNET                  := 192.168.251.0/24
-ENB_GATEWAY                 := 192.168.251.1
+ENB_GATEWAY                 := 192.168.251.1/24
 ACCESS_SUBNET               := 192.168.252.0/24
 UPF_ACCESS_NET_IP           := 192.168.252.3/24
-ACCESS_GATEWAY              := 192.168.252.1
+ACCESS_GATEWAY              := 192.168.252.1/24
 CORE_SUBNET                 := 192.168.250.0/24
 UPF_CORE_NET_IP             := 192.168.250.3/24
-CORE_GATEWAY                := 192.168.250.1
+CORE_GATEWAY                := 192.168.250.1/24
 OAI_ENB_NET_IP              := 192.168.251.5/24
 OAI_MACHINE_IP              := 10.90.103.21/16
 OAI_ENB_NET_INTERFACE       := $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')

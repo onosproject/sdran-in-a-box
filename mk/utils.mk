@@ -40,4 +40,4 @@ routing-hw-omec:
 	kubectl exec -it router -- sudo ethtool -K core-rtr tx off rx off gro off gso off || true
 	kubectl exec -it upf-0 -n $(RIAB_NAMESPACE) -- ip l set mtu 1550 dev access || true
 	kubectl exec -it upf-0 -n $(RIAB_NAMESPACE) -- ip l set mtu 1550 dev core || true
-	sudo route add -net $(UE_IP_POOL)/$(UE_IP_MASK) gw $(ENB_GATEWAY) dev enb || true
+	sudo route add -net $(UE_IP_POOL)/$(UE_IP_MASK) gw $(shell echo $(ENB_GATEWAY) | awk -F '/' '{print $$1}') dev enb || true
