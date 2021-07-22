@@ -14,8 +14,12 @@ test-user-plane: | $(M)/omec $(M)/oai-ue
 
 test-kpimon: | $(M)/ric
 	@echo "*** Get KPIMON result through CLI ***"; \
-	kubectl exec -it deploy/onos-cli -n riab -- onos kpimon list numues;
+	kubectl exec -it deploy/onos-cli -n riab -- onos kpimon list metrics;
 
 test-pci: | $(M)/ric
 	@echo "*** Get PCI result through CLI ***"; \
-	kubectl exec -it deployment/onos-cli -n riab -- onos pci listall numconflicts;
+	kubectl exec -it deployment/onos-cli -n riab -- onos pci get resolved;
+
+test-mlb: | $(M)/ric
+	@echo "*** Get MLB result through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos mlb list ocns;
