@@ -31,3 +31,11 @@ test-rnib: | $(M)/ric
 test-uenib: | $(M)/ric
 	@echo "*** Get UE-NIB result through CLI ***"; \
 	kubectl exec -it deployment/onos-cli -n riab -- onos uenib get ues -v;
+
+test-e2-connection: | $(M)/ric
+	@echo "*** Get E2 connections through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos e2t get connections;
+
+test-e2-subscription: | $(M)/ric
+	@echo "*** Get E2 subscriptions through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos e2t get subscriptions;
