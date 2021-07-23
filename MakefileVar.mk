@@ -88,3 +88,19 @@ NFAPI_DU_INTERFACE			:= $(shell ip -4 route list default | awk -F 'dev' '{ print
 NFAPI_DU_IPADDR				:= $(shell ip -4 a show $(NFAPI_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
 NFAPI_UE_INTERFACE			:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 NFAPI_UE_IPADDR				:= $(shell ip -4 a show $(NFAPI_UE_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
+
+# For routing configuarion
+ENB_SUBNET                  := 192.168.251.0/24
+ENB_GATEWAY                 := 192.168.251.1/24
+ACCESS_SUBNET               := 192.168.252.0/24
+UPF_ACCESS_NET_IP           := 192.168.252.3/24
+ACCESS_GATEWAY              := 192.168.252.1/24
+CORE_SUBNET                 := 192.168.250.0/24
+UPF_CORE_NET_IP             := 192.168.250.3/24
+CORE_GATEWAY                := 192.168.250.1/24
+OAI_ENB_NET_IP              := 192.168.251.5/24
+OAI_MACHINE_IP              := 192.168.254.1/24 # It's dummy IP address. It should be changed to appropriate routable IP address for OAI machine
+OAI_ENB_NET_INTERFACE       := $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+OMEC_ENB_NET_IP             := 192.168.251.4/24
+OMEC_DEFAULT_INTERFACE      := $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+OMEC_MACHINE_IP             := 192.168.254.2/24 # It's dummy IP address. It should be changed to appropriate routable IP address for OMEC machine

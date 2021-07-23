@@ -71,13 +71,17 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	sudo apt install -y openvswitch-switch
 	sudo ovs-vsctl --may-exist add-br br-enb-net
 	sudo ovs-vsctl --may-exist add-port br-enb-net enb -- set Interface enb type=internal
-	sudo ip addr add 192.168.251.4/24 dev enb || true
+	sudo ip addr add $(OMEC_ENB_NET_IP) dev enb || true
 	sudo ip link set enb up
 	sudo ethtool --offload enb tx off
-	sudo ip route replace 192.168.252.0/24 via 192.168.251.1 dev enb
+	sudo ip route replace $(ACCESS_SUBNET) via $(shell echo $(ENB_GATEWAY) | awk -F '/' '{print $$1}')  dev enb
+	cp $(RESOURCEDIR)/router-template.yaml $(RESOURCEDIR)/router.yaml
+	sed -i -e "s#CORE_GATEWAY#$(CORE_GATEWAY)#" $(RESOURCEDIR)/router.yaml
+	sed -i -e "s#ENB_GATEWAY#$(ENB_GATEWAY)#" $(RESOURCEDIR)/router.yaml
+	sed -i -e "s#ACCESS_GATEWAY#$(ACCESS_GATEWAY)#" $(RESOURCEDIR)/router.yaml
 	kubectl apply -f $(RESOURCEDIR)/router.yaml
 	kubectl wait pod -n default --for=condition=Ready -l app=router --timeout=300s
-	kubectl -n default exec router ip route add $(UE_IP_POOL)/$(UE_IP_MASK) via 192.168.250.3
+	kubectl -n default exec router ip route add $(UE_IP_POOL)/$(UE_IP_MASK) via $(shell echo $(UPF_CORE_NET_IP) | awk -F '/' '{print $$1}')
 	touch $@
 
 $(M)/atomix: | $(M)/k8s-ready

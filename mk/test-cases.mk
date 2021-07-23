@@ -5,8 +5,8 @@
 TEST_PHONY					:= test-user-plane test-kpimon test-pci
 
 test-user-plane: | $(M)/omec $(M)/oai-ue
-	@echo "*** T1: Internal network test: ping 192.168.250.1 (Internal router IP) ***"; \
-	ping -c 3 192.168.250.1 -I oaitun_ue1; \
+	@echo "*** T1: Internal network test: ping $(shell echo $(CORE_GATEWAY) | awk -F '/' '{print $$1}') (Internal router IP) ***"; \
+	ping -c 3 $(shell echo $(CORE_GATEWAY) | awk -F '/' '{print $$1}') -I oaitun_ue1; \
 	echo "*** T2: Internet connectivity test: ping to 8.8.8.8 ***"; \
 	ping -c 3 8.8.8.8 -I oaitun_ue1; \
 	echo "*** T3: DNS test: ping to google.com ***"; \
@@ -23,3 +23,19 @@ test-pci: | $(M)/ric
 test-mlb: | $(M)/ric
 	@echo "*** Get MLB result through CLI ***"; \
 	kubectl exec -it deployment/onos-cli -n riab -- onos mlb list ocns;
+
+test-rnib: | $(M)/ric
+	@echo "*** Get R-NIB result through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos topo get entity -v;
+
+test-uenib: | $(M)/ric
+	@echo "*** Get UE-NIB result through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos uenib get ues -v;
+
+test-e2-connection: | $(M)/ric
+	@echo "*** Get E2 connections through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos e2t get connections;
+
+test-e2-subscription: | $(M)/ric
+	@echo "*** Get E2 subscriptions through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos e2t get subscriptions;
