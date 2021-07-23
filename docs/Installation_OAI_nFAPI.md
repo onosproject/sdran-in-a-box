@@ -1,6 +1,6 @@
 # Installation with CU-CP and OAI nFAPI emulator
 This document covers how to install ONOS RIC services with CU-CP and OAI nFAPI emulator.
-With this option, RiaB will deploy ONOS RIC services including ONOS-KPIMON-V2 (KPM 2.0 supported) and ONOS-PCI xAPPs together with CU-CP, OAI DU (nFAPI), and OAI UE (nFAPI).
+With this option, RiaB will deploy ONOS RIC services including ONOS-KPIMON (KPM 2.0 supported) together with CU-CP, OAI DU (nFAPI), and OAI UE (nFAPI).
 
 ## Clone this repository
 To begin with, clone this repository:
@@ -22,15 +22,16 @@ To deploy RiaB with OAI nFAPI emulator, we should go to `sdran-in-a-box` directo
 ```bash
 $ cd /path/to/sdran-in-a-box
 # type one of below commands
-# for "latest" version
-$ make # make riab-oai, or make riab-oai-latest
 # for "master-stable" version
-$ make riab-oai-master-stable
+$ make riab OPT=oai VER=stable # or just make riab OPT=oai
+# for "latest" version
+$ make riab OPT=oai VER=latest
 # for a specific version
-$ make riab-oai-v1.0.0 # for release SD-RAN 1.0
-$ make riab-oai-v1.1.0 # for release SD-RAN 1.1
+$ make riab OPT=oai VER=v1.0.0 # for release SD-RAN 1.0
+$ make riab OPT=oai VER=v1.1.0 # for release SD-RAN 1.1
+$ make riab OPT=oai VER=v1.2.0 # for release SD-RAN 1.2
 # for a "dev" version
-$ make riab-oai-dev
+$ make riab OPT=oai VER=dev # for release SD-RAN 1.1
 ```
 
 Once we push one of above commands, the deployment procedure starts.
@@ -75,41 +76,42 @@ touch /tmp/build/milestones/helm-ready
 If we don't see any error or failure messages, everything is deployed.
 ```bash
 $ kubectl get po --all-namespaces
-NAMESPACE     NAME                                          READY   STATUS    RESTARTS   AGE
-default       router                                        1/1     Running   0          1h
-kube-system   atomix-controller-694586d498-mj2kr            1/1     Running   0          1h
-kube-system   cache-storage-controller-5996c8fd45-z6pgr     1/1     Running   0          1h
-kube-system   calico-kube-controllers-86d8c59b9f-vpztg      1/1     Running   0          1h
-kube-system   calico-node-jxqp6                             1/1     Running   0          1h
-kube-system   config-operator-69f7498fb5-4gzzp              1/1     Running   0          1h
-kube-system   coredns-dff8fc7d-9fw8d                        1/1     Running   0          1h
-kube-system   dns-autoscaler-5d74bb9b8f-6mvnv               1/1     Running   0          1h
-kube-system   kube-apiserver-node1                          1/1     Running   0          1h
-kube-system   kube-controller-manager-node1                 1/1     Running   0          1h
-kube-system   kube-multus-ds-amd64-d6v5q                    1/1     Running   0          1h
-kube-system   kube-proxy-rsfvr                              1/1     Running   0          1h
-kube-system   kube-scheduler-node1                          1/1     Running   0          1h
-kube-system   kubernetes-dashboard-667c4c65f8-cdcqz         1/1     Running   0          1h
-kube-system   kubernetes-metrics-scraper-54fbb4d595-ffd4g   1/1     Running   0          1h
-kube-system   nodelocaldns-lbhf2                            1/1     Running   0          1h
-kube-system   raft-storage-controller-7755865dcd-j44kq      1/1     Running   0          1h
-kube-system   topo-operator-558f4545bd-7ncr7                1/1     Running   0          1h
-riab          cassandra-0                                   1/1     Running   0          1h
-riab          hss-0                                         1/1     Running   0          1h
-riab          mme-0                                         4/4     Running   0          1h
-riab          oai-enb-cu-0                                  1/1     Running   0          1h
-riab          oai-enb-du-0                                  1/1     Running   0          1h
-riab          oai-ue-0                                      1/1     Running   0          1h
-riab          onos-cli-6655c68cb4-jhprs                     1/1     Running   0          1h
-riab          onos-config-59884c6766-r5ckf                  2/2     Running   0          1h
-riab          onos-consensus-db-1-0                         1/1     Running   0          1h
-riab          onos-e2sub-7588dcbc7b-qc8xk                   1/1     Running   0          1h
-riab          onos-e2t-56549f6648-kjrh4                     1/1     Running   0          1h
-riab          onos-kpimon-v2-846f556cfb-z5x88               1/1     Running   0          1h
-riab          onos-topo-5df4cf454c-dr5bf                    1/1     Running   0          1h
-riab          pcrf-0                                        1/1     Running   0          1h
-riab          spgwc-0                                       2/2     Running   0          1h
-riab          upf-0                                         4/4     Running   0          1h
+NAMESPACE     NAME                                                READY   STATUS    RESTARTS   AGE
+default       router                                              1/1     Running   0          42h
+kube-system   atomix-controller-7785674d5d-wnn8v                  1/1     Running   0          42h
+kube-system   atomix-memory-storage-controller-66644577fb-qfs48   1/1     Running   0          42h
+kube-system   atomix-raft-storage-controller-687d8497d4-wbfx5     1/1     Running   0          42h
+kube-system   calico-kube-controllers-db474b467-jwbjj             1/1     Running   0          8d
+kube-system   calico-node-8jzz4                                   1/1     Running   0          8d
+kube-system   coredns-dff8fc7d-cvx65                              1/1     Running   0          8d
+kube-system   dns-autoscaler-5d74bb9b8f-99ktb                     1/1     Running   0          8d
+kube-system   kube-apiserver-node1                                1/1     Running   0          8d
+kube-system   kube-controller-manager-node1                       1/1     Running   0          8d
+kube-system   kube-multus-ds-amd64-5gvnf                          1/1     Running   0          8d
+kube-system   kube-proxy-xmtkj                                    1/1     Running   0          8d
+kube-system   kube-scheduler-node1                                1/1     Running   0          8d
+kube-system   kubernetes-dashboard-667c4c65f8-v2lvk               1/1     Running   0          8d
+kube-system   kubernetes-metrics-scraper-54fbb4d595-bd2w9         1/1     Running   0          8d
+kube-system   nodelocaldns-ppljr                                  1/1     Running   0          8d
+kube-system   onos-operator-config-9896789b8-bngw2                1/1     Running   0          42h
+kube-system   onos-operator-topo-6b44c56d8d-d5bwz                 1/1     Running   0          42h
+riab          cassandra-0                                         1/1     Running   0          42h
+riab          hss-0                                               1/1     Running   0          42h
+riab          mme-0                                               4/4     Running   0          42h
+riab          oai-enb-cu-0                                        1/1     Running   0          8m31s
+riab          oai-enb-du-0                                        1/1     Running   0          7m20s
+riab          oai-ue-0                                            1/1     Running   0          6m9s
+riab          onos-cli-8584c45c84-wdrrq                           1/1     Running   0          9m37s
+riab          onos-config-798b8c8579-cr6pq                        4/4     Running   0          9m37s
+riab          onos-consensus-db-1-0                               1/1     Running   0          9m37s
+riab          onos-consensus-store-1-0                            1/1     Running   0          9m37s
+riab          onos-e2t-5c55869d6f-wpwdj                           3/3     Running   0          9m37s
+riab          onos-kpimon-68549c5bb9-9fpnn                        1/1     Running   0          9m37s
+riab          onos-topo-858d7999d-gdzkt                           3/3     Running   0          9m37s
+riab          onos-uenib-55c568b444-5kvrg                         3/3     Running   0          9m37s
+riab          pcrf-0                                              1/1     Running   0          42h
+riab          spgwc-0                                             2/2     Running   0          42h
+riab          upf-0                                               4/4     Running   0          42h
 ```
 
 NOTE: If we see any issue when deploying RiaB, please check [Troubleshooting](./troubleshooting.md)
@@ -156,66 +158,58 @@ If we can see that ping is working without any loss, the user plane is working w
 
 ### The E2E test on SD-RAN control plane
 In order to verify the SD-RAN control plane, we should command below for each version.
-* `make test-kpimon`: only for SD-RAN release 1.0
+* `make test-kpimon`: to see the number of active UEs
 ```bash
 $ make test-kpimon
+...
 *** Get KPIMON result through CLI ***
-Key[PLMNID, nodeID]                       num(Active UEs)
-{eNB-CU-Eurecom-LTEBox [0 2 16] 57344}   1
+Node ID          Cell Object ID       Cell Global ID            Time    RRC.ConnEstabAtt.sum    RRC.ConnEstabSucc.sum    RRC.ConnMax    RRC.ConnMean    RRC.ConnReEstabAtt.sum
+e00                           1                e0000      22:39:24.0                       1                        1              1               0                         0
 ```
-* `make test-kpimon-v2`: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions
+
+* `make test-e2-connection` and `make test-e2-subscription`: to see e2 connection and subscription
 ```bash
-$ make test-kpimon-v2
-*** Get KPIMON result through CLI ***
-PlmnID    egNB ID   Cell ID           Time           RRC.ConnEstabAtt.sum   RRC.ConnEstabSucc.sum   RRC.ConnMax   RRC.ConnMean   RRC.ConnReEstabAtt.sum
-1112066   57344     298517943869440   12:04:03.0     0                      0                       0             0              0
+$ make test-e2-connection
+...
+*** Get E2 connections through CLI ***
+Connection ID                          PLMN ID   Node ID   Node Type   IP Addr        Port    Status
+3cc2a76c-10d8-47c2-a85a-18014234e02d   10f802    e00       E_NB        192.168.69.1   50671   8m52.352s
+
+$ make test-e2-subscription
+...
+*** Get E2 subscriptions through CLI ***
+Subscription ID                        Revision   Service Model ID   E2 NodeID   Encoding   Phase               State
+9a8f85fa67a6ef913ef4c0fa8f8fdee4:e00   4          oran-e2sm-kpm:v2   e00         ASN1_PER   SUBSCRIPTION_OPEN   SUBSCRIPTION_COMPLETE
 ```
 
-* `make detach-ue && make test-kpimon` for SD-RAN release 1.0; `detach-ue` detaches a UE so the number of active UEs decreases
+* `make test-rnib` and `make test-uenib`: to check information in R-NIB and UE-NIB
 ```bash
-$ make test-kpimon
-*** Get KPIMON result through CLI ***
-Key[PLMNID, nodeID]                       num(Active UEs)
-{eNB-CU-Eurecom-LTEBox [0 2 16] 57344}   1
-$ make detach-ue
-echo -en "AT+CPIN=0000\r" | nc -u -w 1 localhost 10000
+$ make test-rnib
+...
+*** Get R-NIB result through CLI ***
+ID: e00
+Kind ID: e2node
+Labels: <None>
+Aspects:
+- onos.topo.E2Node={"serviceModels":{"1.3.6.1.4.1.53148.1.2.2.2":{"oid":"1.3.6.1.4.1.53148.1.2.2.2","name":"ORAN-E2SM-KPM","ranFunctions":[{"@type":"type.googleapis.com/onos.topo.KPMRanFunction","reportStyles":[{"name":"O-CU-UP Measurement Container for the EPC connected deployment","type":6,"measurements":[{"id":"value:1","name":"RRC.ConnEstabAtt.sum"},{"id":"value:2","name":"RRC.ConnEstabSucc.sum"},{"id":"value:3","name":"RRC.ConnReEstabAtt.sum"},{"id":"value:4","name":"RRC.ConnMean"},{"id":"value:5","name":"RRC.ConnMax"}]}]}]}}}
 
-OK
-echo -en "AT+CGATT=0\r" | nc -u -w 1 localhost 10000
+ID: e0000
+Kind ID: e2cell
+Labels: <None>
+Aspects:
+- onos.topo.E2Cell={"cellObjectId":"1","cellGlobalId":{"value":"e0000","type":"ECGI"}}
 
-OK
-$ make test-kpimon
-*** Get KPIMON result through CLI ***
-Key[PLMNID, nodeID]                       num(Active UEs)
-{eNB-CU-Eurecom-LTEBox [0 2 16] 57344}   0
+wkim@k8s-1:~/sdran-in-a-box$ make test-uenib
+...
+*** Get UE-NIB result through CLI ***
+ID: e00:1
+Aspects:
+- RRC.ConnReEstabAtt.sum=0
+- RRC.ConnMean=1
+- RRC.ConnMax=1
+- RRC.ConnEstabAtt.sum=1
+- RRC.ConnEstabSucc.sum=1
 ```
-
-* `make detach-ue && make test-kpimon-v2`: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions; `detach-ue` detaches a UE so the number of active UEs decreases
-```bash
-$ make test-kpimon-v2
-*** Get KPIMON result through CLI ***
-PlmnID    egNB ID   Cell ID           Time           RRC.ConnEstabAtt.sum   RRC.ConnEstabSucc.sum   RRC.ConnMax   RRC.ConnMean   RRC.ConnReEstabAtt.sum
-1112066   57344     298517943869440   12:04:03.0     1                      1                       1             1              0
-$ make detach-ue
-echo -en "AT+CPIN=0000\r" | nc -u -w 1 localhost 10000
-
-OK
-echo -en "AT+CGATT=0\r" | nc -u -w 1 localhost 10000
-
-OK
-$ make test-kpimon-v2
-*** Get KPIMON result through CLI ***
-PlmnID    egNB ID   Cell ID           Time           RRC.ConnEstabAtt.sum   RRC.ConnEstabSucc.sum   RRC.ConnMax   RRC.ConnMean   RRC.ConnReEstabAtt.sum
-1112066   57344     298517943869440   12:04:03.0     1                      1                       0             0              0
-```
-
-If we can see like the above code block, the SD-RAN cotrol plane is working fine.
-
-NOTE 1: If we enable ONOS-KPIMON-V1 in the `sdran-in-a-box-values-<version>.yaml`, we can also use `make test-kpimon-v1` in SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev version.
-
-NOTE 2: Currently, there is no way to reattach the detached UE. For reattachment, we should redeploy RiaB (at least ONOS RIC services, CU-CP, OAI nFAPI emulator).
-
-NOTE 3: Even though RiaB deploys ONOS-PCI xAPP, `make test-pci` does not print anything. The reason is that CU-CP does not support the RC-PRE service model.
 
 ## Other commands
 ### Reset and delete RiaB environment
