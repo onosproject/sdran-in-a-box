@@ -80,8 +80,8 @@ else ifeq ($(OPT), fbah)
 	@echo "Helm arguments for Facebook-AirHop usecase: $(HELM_ARGS_FBAH)"
 else ifeq ($(OPT), mlb)
 	$(eval OPT=ransim)
-	$(eval HELM_ARGS=$(HELM_ARGS_RANSIM))
-	@echo "Helm arguments for ransim: $(HELM_ARGS_MLB)"
+	$(eval HELM_ARGS=$(HELM_ARGS_MLB))
+	@echo "Helm arguments for mlb: $(HELM_ARGS_MLB)"
 else
 	$(eval OPT=ransim)
 	$(eval HELM_ARGS=$(HELM_ARGS_RANSIM))
