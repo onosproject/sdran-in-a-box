@@ -142,6 +142,11 @@ onos-topo:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-topo
     tag: latest
+onos-uenib:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-uenib
+    tag: latest
 onos-config:
   image:
     pullPolicy: IfNotPresent
