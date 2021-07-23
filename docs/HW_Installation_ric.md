@@ -40,7 +40,7 @@ riab          onos-config-59884c6766-kgdwd                  2/2     Running    0
 riab          onos-consensus-db-1-0                         1/1     Running    0          10m
 riab          onos-e2sub-7588dcbc7b-tvpkz                   1/1     Running    0          10m
 riab          onos-e2t-56549f6648-bbzxz                     1/1     Running    0          10m
-riab          onos-kpimon-v2-846f556cfb-nd9fs               1/1     Running    0          10m
+riab          onos-kpimon-846f556cfb-nd9fs               1/1     Running    0          10m
 riab          onos-pci-85f465c9cf-gfkp2                     1/1     Running    0          10m
 riab          onos-topo-5df4cf454c-8lrcf                    1/1     Running    0          10m
 ```

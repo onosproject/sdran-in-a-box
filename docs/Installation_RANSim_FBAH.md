@@ -1,6 +1,6 @@
 # Installation with RAN-Simulator and Facebook-AirHop xAPP
 This document covers how to install ONOS RIC services with RAN-Simulator and Facebook-Airhop xAPP.
-With this option, RiaB will deploy ONOS RIC services including ONOS-KPIMON-V2 (KPM 2.0 supported) together with RAN-Simulator and Facebook-AirHop xAPP.
+With this option, RiaB will deploy ONOS RIC services including ONOS-KPIMON (KPM 2.0 supported) together with RAN-Simulator and Facebook-AirHop xAPP.
 
 ## Clone this repository
 To begin with, clone this repository:
@@ -20,14 +20,16 @@ To deploy RiaB with RAN-Simulator and Facebook-AirHop xAPP, we should go to `sdr
 ```bash
 $ cd /path/to/sdran-in-a-box
 # type one of below commands
-# for "latest" version
-$ make-fbah # or make riab-fbah-latest
 # for "master-stable" version
-$ make riab-fbah-master-stable
+$ make riab OPT=fbah VER=stable # or just make riab OPT=fbah
+# for "latest" version
+$ make riab OPT=fbah VER=latest
 # for a specific version
-$ make riab-fbah-v1.1.0 # for release SD-RAN 1.1
+$ make riab OPT=fbah VER=v1.0.0 # for release SD-RAN 1.0
+$ make riab OPT=fbah VER=v1.1.0 # for release SD-RAN 1.1
+$ make riab OPT=fbah VER=v1.2.0 # for release SD-RAN 1.2
 # for a "dev" version
-$ make riab-fbah-dev
+$ make riab OPT=fbah VER=dev # for release SD-RAN 1.1
 ```
 
 Once we push one of above commands, the deployment procedure starts.
@@ -72,37 +74,43 @@ touch /tmp/build/milestones/helm-ready
 If we don't see any error or failure messages, everything is deployed.
 ```bash
 $ kubectl get po --all-namespaces
-NAMESPACE     NAME                                          READY   STATUS    RESTARTS   AGE
-default       router                                        1/1     Running   0          44h
-kube-system   atomix-controller-694586d498-pndsn            1/1     Running   0          96s
-kube-system   cache-storage-controller-5996c8fd45-wc8hz     1/1     Running   0          95s
-kube-system   calico-kube-controllers-86d8c59b9f-vpztg      1/1     Running   0          45h
-kube-system   calico-node-jxqp6                             1/1     Running   0          45h
-kube-system   config-operator-69f7498fb5-nglg2              1/1     Running   0          95s
-kube-system   coredns-dff8fc7d-9fw8d                        1/1     Running   0          45h
-kube-system   dns-autoscaler-5d74bb9b8f-6mvnv               1/1     Running   0          45h
-kube-system   kube-apiserver-node1                          1/1     Running   0          45h
-kube-system   kube-controller-manager-node1                 1/1     Running   0          45h
-kube-system   kube-multus-ds-amd64-d6v5q                    1/1     Running   0          45h
-kube-system   kube-proxy-rsfvr                              1/1     Running   0          45h
-kube-system   kube-scheduler-node1                          1/1     Running   0          45h
-kube-system   kubernetes-dashboard-667c4c65f8-cdcqz         1/1     Running   0          45h
-kube-system   kubernetes-metrics-scraper-54fbb4d595-ffd4g   1/1     Running   0          45h
-kube-system   nodelocaldns-lbhf2                            1/1     Running   0          45h
-kube-system   raft-storage-controller-7755865dcd-bdjkf      1/1     Running   0          96s
-kube-system   topo-operator-558f4545bd-h4pds                1/1     Running   0          94s
-riab          ah-eson-test-server-67495c98d8-8vqth          1/1     Running   0          71s
-riab          fb-ah-gui-9dc8c86dc-zpmw5                     1/1     Running   0          71s
-riab          fb-ah-xapp-7c4f7466fb-n5qg4                   1/1     Running   0          71s
-riab          onos-cli-6655c68cb4-l8f76                     1/1     Running   0          71s
-riab          onos-config-59884c6766-d9v4z                  2/2     Running   0          71s
-riab          onos-consensus-db-1-0                         1/1     Running   0          71s
-riab          onos-e2sub-7588dcbc7b-rnvdk                   1/1     Running   0          71s
-riab          onos-e2t-56549f6648-d9zsf                     1/1     Running   0          70s
-riab          onos-kpimon-v2-846f556cfb-pgrcf               1/1     Running   0          71s
-riab          onos-pci-85f465c9cf-szlgw                     1/1     Running   0          71s
-riab          onos-topo-5df4cf454c-hj7sz                    1/1     Running   0          71s
-riab          ran-simulator-b6754dc97-f679m                 1/1     Running   0          71s
+NAMESPACE     NAME                                                READY   STATUS              RESTARTS   AGE
+default       router                                              1/1     Running             0          42h
+kube-system   atomix-controller-7785674d5d-wnn8v                  1/1     Running             0          42h
+kube-system   atomix-memory-storage-controller-66644577fb-qfs48   1/1     Running             0          42h
+kube-system   atomix-raft-storage-controller-687d8497d4-wbfx5     1/1     Running             0          42h
+kube-system   calico-kube-controllers-db474b467-jwbjj             1/1     Running             0          8d
+kube-system   calico-node-8jzz4                                   1/1     Running             0          8d
+kube-system   coredns-dff8fc7d-cvx65                              1/1     Running             0          8d
+kube-system   dns-autoscaler-5d74bb9b8f-99ktb                     1/1     Running             0          8d
+kube-system   kube-apiserver-node1                                1/1     Running             0          8d
+kube-system   kube-controller-manager-node1                       1/1     Running             0          8d
+kube-system   kube-multus-ds-amd64-5gvnf                          1/1     Running             0          8d
+kube-system   kube-proxy-xmtkj                                    1/1     Running             0          8d
+kube-system   kube-scheduler-node1                                1/1     Running             0          8d
+kube-system   kubernetes-dashboard-667c4c65f8-v2lvk               1/1     Running             0          8d
+kube-system   kubernetes-metrics-scraper-54fbb4d595-bd2w9         1/1     Running             0          8d
+kube-system   nodelocaldns-ppljr                                  1/1     Running             0          8d
+kube-system   onos-operator-config-9896789b8-bngw2                1/1     Running             0          42h
+kube-system   onos-operator-topo-6b44c56d8d-d5bwz                 1/1     Running             0          42h
+riab          ah-eson-test-server-67495c98d8-qn4wm                1/1     Running             0          53s
+riab          cassandra-0                                         1/1     Running             0          42h
+riab          fb-ah-gui-9dc8c86dc-268tv                           1/1     Running             0          53s
+riab          fb-ah-xapp-5956479779-s9cnq                         1/1     Running             1          53s
+riab          hss-0                                               1/1     Running             0          42h
+riab          mme-0                                               4/4     Running             0          42h
+riab          onos-cli-8584c45c84-lv56x                           1/1     Running             0          53s
+riab          onos-config-798b8c8579-qrzpx                        4/4     Running             0          53s
+riab          onos-consensus-db-1-0                               1/1     Running             0          53s
+riab          onos-consensus-store-1-0                            1/1     Running             0          53s
+riab          onos-e2t-5c55869d6f-vs8qh                           3/3     Running             0          53s
+riab          onos-kpimon-68549c5bb9-46pzs                        1/1     Running             0          53s
+riab          onos-topo-858d7999d-fp4h2                           3/3     Running             0          53s
+riab          onos-uenib-55c568b444-2clh9                         3/3     Running             0          53s
+riab          pcrf-0                                              1/1     Running             0          42h
+riab          ran-simulator-5d48f6bc59-sdvs9                      1/1     Running             0          53s
+riab          spgwc-0                                             2/2     Running             0          42h
+riab          upf-0                                               4/4     Running             0          42h
 ```
 
 NOTE: If we see any issue when deploying RiaB, please check [Troubleshooting](./troubleshooting.md)
@@ -112,17 +120,18 @@ In order to check whether everything is running, we should conduct some E2E test
 Since RAN-Sim does only generate SD-RAN control messages, we can run E2E tests on the SD-RAN control plane.
 
 ### The E2E test on SD-RAN control plane
-* `make test-kpimon-v2`: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions
+* `make test-kpimon`: 
 ```bash
-$ make test-kpimon-v2
+$ make test-kpimon
+...
 *** Get KPIMON result through CLI ***
-PlmnID    egNB ID   Cell ID           Time         RRC.Conn.Avg   RRC.Conn.Max   RRC.ConnEstabAtt.Tot   RRC.ConnEstabSucc.Tot   RRC.ConnReEstabAtt.HOFail   RRC.ConnReEstabAtt.Other   RRC.ConnReEstabAtt.Tot   RRC.ConnReEstabAtt.reconfigFail
-1279014   5153      343332707639553   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
-1279014   5153      343332707639554   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
-1279014   5154      343332707639809   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
-1279014   5153      343332707639555   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
-1279014   5154      343332707639810   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
-1279014   5154      343332707639811   23:25:28.0   5              5              0                      0                       0                           0                          0                        0
+Node ID          Cell Object ID       Cell Global ID            Time    RRC.Conn.Avg    RRC.Conn.Max    RRC.ConnEstabAtt.Sum    RRC.ConnEstabSucc.Sum    RRC.ConnReEstabAtt.HOFail    RRC.ConnReEstabAtt.Other    RRC.ConnReEstabAtt.Sum    RRC.ConnReEstabAtt.reconfigFail
+5153            13842601454c001             1454c001      22:26:21.0               1               1                       0                        0                            0                           0                         0                                  0
+5153            13842601454c002             1454c002      22:26:21.0               4               5                       0                        0                            0                           0                         0                                  0
+5153            13842601454c003             1454c003      22:26:21.0               0               1                       0                        0                            0                           0                         0                                  0
+5154            138426014550001             14550001      22:26:21.0               1               2                       0                        0                            0                           0                         0                                  0
+5154            138426014550002             14550002      22:26:21.0               4               5                       0                        0                            0                           0                         0                                  0
+5154            138426014550003             14550003      22:26:21.0               0               2                       0                        0                            0                           0                         0                                  0
 ```
 
 * Use Facebook-AirHop GUI page: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions
