@@ -94,11 +94,19 @@ config:
 #    pullPolicy: Always
 #    repository: onosproject/onos-topo
 #    tag: latest
+#  logging:
+#    loggers:
+#      root:
+#        level: info
 #onos-config:
 #  image:
 #    pullPolicy: Always
 #    repository: onosproject/onos-config
 #    tag: latest
+#  logging:
+#    loggers:
+#      root:
+#        level: info
 #onos-e2t:
 #  image:
 #    pullPolicy: Always
@@ -117,21 +125,37 @@ config:
 #       repository: onosproject/service-model-docker-e2sm_ni-1.0.0
 #       tag: v0.6.5
 #       pullPolicy: IfNotPresent
+#  logging:
+#    loggers:
+#      root:
+#        level: info
 #onos-e2sub:
 #  image:
 #    pullPolicy: Always
 #    repository: onosproject/onos-e2sub
 #    tag: latest
+#  logging:
+#    loggers:
+#      root:
+#        level: info
 #onos-sdran-cli:
 #  image:
 #    pullPolicy: Always
 #    repository: onosproject/onos-sdran-cli
 #    tag: latest
+#  logging:
+#    loggers:
+#      root:
+#        level: info
 #onos-kpimon:
 #  image:
 #    pullPolicy: Always
 #    repository: onosproject/onos-kpimon
 #    tag: latest
+#  logging:
+#    loggers:
+#      root:
+#        level: info
 
 # For OMEC & OAI
 images:
