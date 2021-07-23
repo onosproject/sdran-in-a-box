@@ -18,6 +18,8 @@ When complete, the hardware installation detains the settings shown in the follo
 
 In the diagram above are presented the 4 machines described in this setup (NUC OAI-CU/DU, NUC OAI-UE, ONOS-RIC, EPC-OMEC) interconnected via a logical layer 2 network. In each represented machine, the red squared items represent the components instantiated on them using RiaB. In particular, the EPC-OMEC machine highlights the internal structure of the omec-user-plane components, presenting how the UPF and Quagga router are interconnected via different (Open vSwitch) bridges to perform the user plane communication of the EPC. Notice, the UE component is represented by a NUC OAI-UE, likewise it could be replaced by a LTE handset.
 
+In addition, this setup has three internal subnets: (i) enb subnet - 192.168.11.8/29, (ii) core subnet - 192.168.11.0/29, and (iii) access subnet - 192.168.11.16/29. The enb subnet is to make a connection between CU/DU machine and Quagga internal router in OMEC machine. The core subnet is for S1u interface whereas the access subnet is for Sgi interface.
+
 ## Credentials
 The tutorials here presented utilize the sdRan-in-a-Box (RiaB) repository, while installing and running the RiaB components, we might have to write some credentials for (i) opencord gerrit, (ii) onosproject github, and (iii) sdran private Helm chart repository. Make sure you have this member-only credentials before starting to install RiaB.
 
@@ -300,19 +302,21 @@ images:
     bess: docker.io/onosproject/riab-bess-upf:v1.0.0
     pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0
 # For OAI
-    oaicucp: docker.io/onosproject/oai-enb-cu:v0.1.4
-    oaidu: docker.io/onosproject/oai-enb-du:v0.1.4
-    oaiue: docker.io/onosproject/oai-ue:v0.1.4
+    oaicucp: docker.io/onosproject/oai-enb-cu:v0.1.6
+    oaidu: docker.io/onosproject/oai-enb-du:v0.1.6
+    oaiue: docker.io/onosproject/oai-ue:v0.1.6
 
 # For SD-RAN Umbrella chart:
 # ONOS-KPIMON xAPP is imported in the RiaB by default
 import:
-  onos-kpimon-v1:
-    enabled: false
-  onos-kpimon-v2:
+  onos-uenib:
+    enabled: true
+  onos-kpimon:
     enabled: true
   onos-pci:
-    enabled: true
+    enabled: false
+  onos-mlb:
+    enabled: false
 # Other ONOS-RIC micro-services
 #   onos-topo:
 #     enabled: true
@@ -343,3 +347,25 @@ import:
 ```
 
 *Note: The IP addresses prefix (i.e., 192.168.x.z) correspond to the prefix assigned to the same subnet where the whole setup is defined. In a custom setup, make sure these IP addresses subnet match too.*
+
+## Change MakefileVar.mk file
+In the sdran-in-a-box directory, we can find `MakefileVar.mk` file. We should change that file accordingly. Go to the last block and change it as follows:
+```
+# For routing configuarion
+ENB_SUBNET                  := 192.168.11.8/29
+ENB_GATEWAY                 := 192.168.11.9/29
+ACCESS_SUBNET               := 192.168.11.16/29
+UPF_ACCESS_NET_IP           := 192.168.11.19/29
+ACCESS_GATEWAY              := 192.168.11.17/29
+CORE_SUBNET                 := 192.168.11.0/29
+UPF_CORE_NET_IP             := 192.168.11.3/29
+CORE_GATEWAY                := 192.168.11.1/29
+OAI_ENB_NET_IP              := 192.168.11.10/29
+OAI_MACHINE_IP              := 192.168.13.21/16
+OAI_ENB_NET_INTERFACE       := $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+OMEC_ENB_NET_IP             := 192.168.11.12/29
+OMEC_DEFAULT_INTERFACE      := $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+OMEC_MACHINE_IP             := 192.168.10.21/29
+```
+
+*Note: please do not forget to write the subnet mask at the end of IP address or subnet.*

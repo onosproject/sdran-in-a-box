@@ -7,8 +7,10 @@ This section explains how to install the RIC components using RiaB in the ONOS-R
 ```bash
 $ cd /path/to/sdran-in-a-box
 $ sudo apt install build-essential
-$ make ric-oai-latest
+$ make riab OPT=ric
 ```
+
+*Note: If we want to deploy a specific RIC version, we should add `VER=VERSION` argument; VERSION should be one of {v1.0.0, v1.1.0, v1.2.0, latest, stable}.*
 
 ## Verify whether everything is up and running
 After a while, RiaB Makefile completes to install K8s and deploy ONOS-RIC components.
