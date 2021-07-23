@@ -81,7 +81,7 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	sed -i -e "s#ACCESS_GATEWAY#$(ACCESS_GATEWAY)#" $(RESOURCEDIR)/router.yaml
 	kubectl apply -f $(RESOURCEDIR)/router.yaml
 	kubectl wait pod -n default --for=condition=Ready -l app=router --timeout=300s
-	kubectl -n default exec router ip route add $(UE_IP_POOL)/$(UE_IP_MASK) via $(shell echo $(UPF_CORE_NET_IP) | awk -F '/' '{print $$1}')
+	kubectl -n default exec router ip route add $(UE_IP_POOL)/$(UE_IP_MASK) via $(shell echo $(UPF_CORE_NET_IP) | awk -F '/' '{print $$1}') || true
 	touch $@
 
 $(M)/atomix: | $(M)/k8s-ready
