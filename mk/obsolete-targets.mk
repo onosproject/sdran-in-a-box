@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
 
 # PHONY definitions
-OBS_PHONY					:= set-option-oai set-option-ransim set-option-fbah set-option-ric set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-v1.1.0-sdran-chart set-v1.1.1-sdran-chart set-latest-riab-values set-v1.0.0-riab-values set-v1.1.0-riab-values set-v1.1.1-riab-values set-master-stable-riab-values atomix riab-oai riab-ransim riab-ric riab-fbah riab-oai-latest riab-ransim-latest riab-ric-latest riab-fbah-latest riab-oai-v1.0.0 riab-ransim-v1.0.0 riab-ric-v1.0.0 riab-oai-v1.1.0 riab-ransim-v1.1.0 riab-ric-v1.1.0 riab-fbah-v1.1.0 riab-oai-v1.1.1 riab-ransim-v1.1.1 riab-ric-v1.1.1 riab-fbah-v1.1.1 riab-oai-dev riab-ransim-dev riab-ric-dev riab-fbah-dev oai-enb-usrp oai-ue-usrp ric-oai-latest riab-oai-master-stable riab-ransim-master-stable riab-ric-master-stable riab-fbah-master-stable
+OBS_PHONY					:= set-option-oai set-option-ransim set-option-fbah set-option-ric set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-v1.1.0-sdran-chart set-latest-riab-values set-v1.0.0-riab-values set-v1.1.0-riab-values set-master-stable-riab-values atomix riab-oai riab-ransim riab-ric riab-fbah riab-oai-latest riab-ransim-latest riab-ric-latest riab-fbah-latest riab-oai-v1.0.0 riab-ransim-v1.0.0 riab-ric-v1.0.0 riab-oai-v1.1.0 riab-ransim-v1.1.0 riab-ric-v1.1.0 riab-fbah-v1.1.0 riab-oai-dev riab-ransim-dev riab-ric-dev riab-fbah-dev oai-enb-usrp oai-ue-usrp ric-oai-latest riab-oai-master-stable riab-ransim-master-stable riab-ric-master-stable riab-fbah-master-stable
 
 set-option-oai:
 	$(eval HELM_ARGS=$(HELM_ARGS_OAI))
@@ -38,11 +38,6 @@ set-v1.1.0-sdran-chart:
 	git fetch origin $(SDRANCHARTCID-V1.1.0); \
 	git checkout $(SDRANCHARTCID-V1.1.0)
 
-set-v1.1.1-sdran-chart:
-	cd $(SDRANCHARTDIR); \
-	git fetch origin $(SDRANCHARTCID-V1.1.1); \
-	git checkout $(SDRANCHARTCID-V1.1.1)
-
 set-latest-riab-values:
 	$(eval HELM_VALUES=$(HELM_VALUES_LATEST))
 	$(eval VER=latest)
@@ -54,10 +49,6 @@ set-v1.0.0-riab-values:
 set-v1.1.0-riab-values:
 	$(eval HELM_VALUES=$(HELM_VALUES_V1.1.0))
 	$(eval VER=v1.1.0)
-
-set-v1.1.1-riab-values:
-	$(eval HELM_VALUES=$(HELM_VALUES_V1.1.1))
-	$(eval VER=v1.1.1)
 
 set-master-stable-riab-values:
 	$(eval HELM_VALUES=$(HELM_VALUES_STABLE))
@@ -83,11 +74,6 @@ riab-oai-v1.1.0: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aet
 riab-ransim-v1.1.0: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.1.0-sdran-chart set-v1.1.0-riab-values ric
 riab-ric-v1.1.0: set-option-ric $(M)/system-check $(M)/helm-ready set-v1.1.0-sdran-chart set-v1.1.0-riab-values ric
 riab-fbah-v1.1.0: set-option-fbah $(M)/system-check $(M)/helm-ready set-v1.1.0-sdran-chart set-v1.1.0-riab-values ric
-
-riab-oai-v1.1.1: set-option-oai $(M)/system-check $(M)/helm-ready set-stable-aether-chart set-v1.1.1-sdran-chart set-v1.1.1-riab-values omec ric oai
-riab-ransim-v1.1.1: set-option-ransim $(M)/system-check $(M)/helm-ready set-v1.1.1-sdran-chart set-v1.1.1-riab-values ric
-riab-ric-v1.1.1: set-option-ric $(M)/system-check $(M)/helm-ready set-v1.1.1-sdran-chart set-v1.1.1-riab-values ric
-riab-fbah-v1.1.1: set-option-fbah $(M)/system-check $(M)/helm-ready set-v1.1.1-sdran-chart set-v1.1.1-riab-values ric
 
 riab-oai-dev: set-option-oai $(M)/system-check $(M)/helm-ready set-latest-riab-values omec ric oai
 riab-ransim-dev: set-option-ransim $(M)/system-check $(M)/helm-ready set-latest-riab-values ric

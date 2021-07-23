@@ -12,7 +12,6 @@ $ git clone https://github.com/onosproject/sdran-in-a-box
 $ cd /path/to/sdran-in-a-box
 $ git checkout v1.0.0 # for release 1.0
 $ git checkout v1.1.0 # for release 1.1
-$ git checkout v1.1.1 # for release 1.1.1
 $ git checkout master # for master
 ```
 
@@ -29,7 +28,6 @@ $ make riab-ransim-master-stable
 # for a specific version
 $ make riab-ransim-v1.0.0 # for release SD-RAN 1.0
 $ make riab-ransim-v1.1.0 # for release SD-RAN 1.1
-$ make riab-ransim-v1.1.1 # for release SD-RAN 1.1.1
 # for a "dev" version
 $ make riab-ransim-dev
 ```
