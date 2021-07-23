@@ -12,34 +12,51 @@ In the RiaB makefile targets are included options to execute OAI CU/DU/UE compon
 
 We should then configure the network parameters (e.g., routing rules, MTU size, and packet fregmentation) on the OAI-CU/DU machine.
 
-
-### Configure the secondary IP address on the OAI NUC
-Before run CU-CP, the NUC machine for OAI should have a secondary IP address on the Ethernet port.
-The secondary IP address should have one of the IP address in `192.168.11.8/29` subnet.
-The purpose of this IP address is to communicate with the other NUC machine which RiaB is running inside.
+### Configure the IP addresses on the OAI NUC
+Before run CU-CP, the NUC machine for OAI has to have two IP addresses on the Ethernet port.
+The one IP address is the IP address in 192.168.11.8/29 subnet to communiacte with Quagga internal router in OMEC VM.
+The other ons is for the IP address to communicate with the OMEC machine and RIC machine.
+This the the IP assignment:
 ```bash
-$ sudo ip a add 192.168.11.10/29 dev eno1
+$ ip a show eno1
+2: eno1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 1c:69:7a:6e:97:91 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.11.10/29 brd 192.168.11.15 scope global eno1
+       valid_lft forever preferred_lft forever
+    inet 192.168.13.21/16 brd 192.168.255.255 scope global eno1
+       valid_lft forever preferred_lft forever
+...
 ```
-*NOTE: The reference setup has 192.168.11.10/29 for the secondary IP address, as defined in the same network prefix 192.168. as OMEC-EPC.*
 
-
-### Install some network tools
+Here, the most important thing is the order of IP address. The IP address `192.168.11.10/29` should be first and the IP address `192.168.13.21/16` should be the secondary IP address.
+Otherwise, the user traffic does not work as well as the CU-CP cannot make a E2 connection.
+In order to assign two IP address like above, we can configure the `netplan`.
 ```bash
-$ sudo apt install net-tools ethtool
+$ cat /etc/netplan/50-cloud-init.yaml
+# This file is generated from information provided by the datasource.  Changes
+# to it will not persist across an instance reboot.  To disable cloud-init's
+# network configuration capabilities, write a file
+# /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg with the following:
+# network: {config: disabled}
+network:
+    ethernets:
+        eno1:
+            addresses:
+            - 192.168.11.10/29
+            - 192.168.13.21/16
+            gateway4: 192.168.0.1
+            nameservers:
+                addresses:
+                - 8.8.8.8
+    version: 2
 ```
-
-*NOTE: Normally, those tools are already installed. If not, we can command it.*
 
 ### Configuration in OAI-CU/DU machine
-Last, we should configure network configuration in the OAI-CU/DU NUC machine.
-We should go to the the OAI-CU/DU NUC machine and change the network configuration such as TX/RX checksum, GRO, and routing rules.
+Then, We should go to the the OAI-CU/DU NUC machine and add some routing rules
 
 ```bash
-$ sudo ethtool -K eno1 tx off rx off gro off gso off
-$ sudo route del -net 192.168.11.8/29 dev eno1 # ignore error if happened
-$ sudo route add -net 192.168.11.0/29 gw 192.168.10.21 dev eno1 # This route forwards traffic to the EPC machine 
-$ sudo route add -net 192.168.11.8/29 gw 192.168.10.21 dev eno1 # This route forwards traffic to the EPC machine 
-$ sudo route add -net 192.168.11.16/29 gw 192.168.10.21 dev eno1 # This route forwards traffic to the EPC machine 
+$ cd /path/to/sdran-in-a-box
+$ make routing-hw-oai
 ```
 
 ## Run OAI eNB CU/DU 
@@ -47,7 +64,7 @@ $ sudo route add -net 192.168.11.16/29 gw 192.168.10.21 dev eno1 # This route fo
 ```bash
 $ cd /path/to/sdran-in-a-box
 $ sudo apt install build-essential
-$ make oai-enb-usrp
+$ make oai-hw
 ```
 
 This command starts the execution of oai-enb-cu and oai-enb-du components.
@@ -57,6 +74,7 @@ After the conditions (pod/oai-enb-cu-0 condition met and pod/oai-enb-du-0 condit
 
 The pod pod/oai-enb-du-0 takes some time to start as it needs to configure the USRP first.
 
+*Note: If we want to deploy a specific release version of OAI in SD-RAN project, we should add `VER=VERSION` argument; VERSION should be one of {v1.0.0, v1.1.0, v1.2.0, latest, stable}.*
 
 ## Stop/Clean OAI components
 
