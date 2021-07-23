@@ -235,6 +235,15 @@ onos-mlb:
     loggers:
       root:
         level: info
+  config:
+    mlb:
+      e2tEndpoint: "onos-e2t:5150"
+      thresholds:
+        overload: 100
+        target: 0
+      config_json:
+        controller:
+          interval: 10
 fb-ah-xapp:
   image:
     repository: onosproject/fb-ah-xapp
@@ -273,7 +282,9 @@ images:
     oaiue: docker.io/onosproject/oai-ue:latest
 
 # For SD-RAN Umbrella chart:
-# ONOS-KPIMON xAPP is imported in the RiaB by default
+# ONOS-KPIMON xAPP and ONOS-UENIB are imported in the RiaB by default
+# ONOS-PCI xApp is imported in the RiaB when using OPT=ransim and OPT=mlb
+# ONOS-MLB xApp is imported in the RiaB when using OPT=mlb
 import:
   onos-uenib:
     enabled: true
