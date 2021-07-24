@@ -8,6 +8,14 @@ In the RiaB makefile targets are included options to execute OAI CU/DU/UE compon
 
 **Notice: The sdran-in-a-box-values.yaml contain the latest versions/tags of the OAI docker images. In order to use the versions of the OAI docker images specified in RiaB v1.0.0 or v1.1.0 releases make sure to respectively copy and paste to the sdran-in-a-box-values.yaml file the contents of the files sdran-in-a-box-values-v1.0.0.yaml and sdran-in-a-box-values-v1.1.0.yaml as needed.**
 
+## Update UE image tag in sdran-in-a-box-values-version.yaml file
+In the `sdran-in-a-box-values-version.yaml` file, we can find `oai-ue` image tag. The `oai-ue` tag should be `sdran-1.1.2`:
+```yaml
+   oaicucp: docker.io/onosproject/oai-enb-cu:v0.1.6
+   oaidu: docker.io/onosproject/oai-enb-du:v0.1.6
+   oaiue: docker.io/onosproject/oai-ue:sdran-1.1.2
+```
+
 ## Run OAI UE
 ```bash
 $ cd /path/to/sdran-in-a-box
