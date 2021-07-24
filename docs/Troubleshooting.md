@@ -102,6 +102,11 @@ docker tag atomix/dragonboat-raft-storage-node:latest  atomix/raft-storage-node:
 After that proceed with the execution of the Riab setup again.
 
 ## Cannot see Google Map view on the Facebook-AirHop xAPP GUI
+### for all SD-RAN releases
+Please remove caches and then try again.
+Or, it would be good to use `Incognito window` in Chrome.
+
+### only for SD-RAN release 1.1 and 1.1.1
 The Google Map API in the Facebook-AirHop xAPP GUI only allows us to use `localhost:8080` URL.
 If we runs Facebook-AirHop xAPP on the remote machine, we have to make a SSH tunnel from the local machine to the remote machine:
 ```bash
