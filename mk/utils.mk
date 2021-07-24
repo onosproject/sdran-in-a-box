@@ -46,7 +46,7 @@ enable-fbah-gui:
 	kubectl wait --for=condition=available deployment/fb-ah-xapp -n riab --timeout=300s
 	kubectl wait --for=condition=available deployment/fb-ah-gui -n riab --timeout=300s
 	kubectl wait --for=condition=available deployment/fb-kpimon-xapp -n riab --timeout=300s
-	until [ $(kubectl exec -it deployment/onos-cli -n riab -- onos topo get entity --no-headers | grep e2cell | wc -l) -eq 6 ]; do sleep 1; done
+	until [ $(shell kubectl exec -it deployment/onos-cli -n riab -- onos topo get entity --no-headers | grep e2cell | wc -l) -eq 6 ]; do sleep 1; done
 	$(SCRIPTDIR)/push-cell-loc.sh
 	kubectl rollout -n riab restart deployments/fb-ah-gui
 	kubectl rollout -n riab status deployments/fb-ah-gui
