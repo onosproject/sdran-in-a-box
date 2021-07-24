@@ -33,7 +33,7 @@ $ make riab OPT=ransim VER=v1.1.0 # for release SD-RAN 1.1
 $ make riab OPT=ransim VER=v1.1.1 # for release SD-RAN 1.1
 $ make riab OPT=ransim VER=v1.2.0 # for release SD-RAN 1.2
 # for a "dev" version
-$ make riab OPT=ransim VER=dev # for release SD-RAN 1.1
+$ make riab OPT=ransim VER=dev # for release SD-RAN 1.2
 ```
 
 Once we push one of above commands, the deployment procedure starts.
