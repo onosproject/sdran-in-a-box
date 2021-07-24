@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
 
 # PHONY definitions
-RIC_PHONY					:= omec
+RIC_PHONY					:= ric
 
 ric: $(M)/ric
 

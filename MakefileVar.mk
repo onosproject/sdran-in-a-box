@@ -20,7 +20,7 @@ SDRANCHARTCID-LATEST		?= origin/master
 SDRANCHARTCID-V1.0.0		?= v1.0.0 #branch: v1.0.0
 SDRANCHARTCID-V1.1.0		?= 6670e6da25129b665b024a7c6d0fd79cfda52f25
 SDRANCHARTCID-V1.1.1		?= 479ff0b59d4ae9f09cd9f7be6ea9a189f207b810
-SDRANCHARTCID-V1.2.0		?= e98e5c2b20bde69b9b9d1ec4b3166c2aeab589da
+SDRANCHARTCID-V1.2.0		?= e106e660b702ca4ab0c0f7d7a920b04420074faf
 
 #  Helm arguments
 DEFAULT_HELM_ARGS			:= --set import.ran-simulator.enabled=true --set import.onos-pci.enabled=true
