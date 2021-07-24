@@ -10,7 +10,6 @@ $ git clone https://github.com/onosproject/sdran-in-a-box
 **NOTE: If we want to use a specific release, we can change the branch with `git checkout [args]` command:**
 ```bash
 $ cd /path/to/sdran-in-a-box
-$ git checkout v1.0.0 # for release 1.0
 $ git checkout v1.1.0 # for release 1.1
 $ git checkout v1.1.1 # for release 1.1.1
 $ git checkout v1.2.0 # for release 1.2
@@ -27,12 +26,11 @@ $ make riab OPT=fbah VER=stable # or just make riab OPT=fbah
 # for "latest" version
 $ make riab OPT=fbah VER=latest
 # for a specific version
-$ make riab OPT=fbah VER=v1.0.0 # for release SD-RAN 1.0
 $ make riab OPT=fbah VER=v1.1.0 # for release SD-RAN 1.1
 $ make riab OPT=fbah VER=v1.1.1 # for release SD-RAN 1.1.1
 $ make riab OPT=fbah VER=v1.2.0 # for release SD-RAN 1.2
 # for a "dev" version
-$ make riab OPT=fbah VER=dev # for release SD-RAN 1.1
+$ make riab OPT=fbah VER=dev # for release SD-RAN 1.2
 ```
 
 Once we push one of above commands, the deployment procedure starts.
