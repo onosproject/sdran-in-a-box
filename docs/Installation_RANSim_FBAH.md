@@ -131,11 +131,23 @@ Node ID          Cell Object ID       Cell Global ID            Time    RRC.Conn
 
 * Use Facebook-AirHop GUI page: for SD-RAN release 1.1, release 1.1.1, and release 1.2, master-stable, latest, and dev versions
 
+### GUI [for SD-RAN release 1.2]
+
 To access GUI, we should open web browser like [Chrome](https://www.google.com/chrome/) or [Safari](https://www.apple.com/safari/).
 Next, go to `http://<RiaB server IP address>:30095`
 Then, we can see the xAPP webpage.
 
-![FBAH WEB GUI](./figures/fbah-no-map.png)
+![FBAH WEB GUI](./figures/fbah-with-map-v1.2.png)
+
+*Note: If we put the mouse cursor over the black circles, some tool tips should pop up.*
+
+### GUI [for SD-RAN release 1.1 and 1.1.1]
+
+To access GUI, we should open web browser like [Chrome](https://www.google.com/chrome/) or [Safari](https://www.apple.com/safari/).
+Next, go to `http://<RiaB server IP address>:30095`
+Then, we can see the xAPP webpage.
+
+![FBAH WEB GUI](./figures/fbah-no-map-v1.1.png)
 
 On this page, we can see the `Cells` table which shows ECGI, PCI, and each cell's neighbor cells.
 
@@ -145,7 +157,7 @@ $ ssh <id>@<RiaB server IP address> -L "*:8080:<RiaB server IP address>:30095"
 ```
 After that, go to `http://localhost:8080` on the web browser.
 
-![FBAH WEB GUI](./figures/fbah-with-map.png)
+![FBAH WEB GUI](./figures/fbah-with-map-v1.1.png)
 
 Since the Google Map API only allows us to use the url `localhost:8080` to show Google Map view, we should make the SSH tunnel.
 

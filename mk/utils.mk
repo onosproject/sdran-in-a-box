@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
 
 # PHONY definitions
-UTIL_PHONY					:= detach-ue fetch-all-charts
+UTIL_PHONY					:= detach-ue fetch-all-charts enable-fbah-gui routing-hw-oai routing-hw-omec
 
 detach-ue: | $(M)/oai-enb-cu $(M)/oai-enb-du $(M)/oai-ue
 	echo -en "AT+CPIN=0000\r" | nc -u -w 1 localhost 10000
@@ -41,3 +41,14 @@ routing-hw-omec:
 	kubectl exec -it upf-0 -n $(RIAB_NAMESPACE) -- ip l set mtu 1550 dev access || true
 	kubectl exec -it upf-0 -n $(RIAB_NAMESPACE) -- ip l set mtu 1550 dev core || true
 	sudo route add -net $(UE_IP_POOL)/$(UE_IP_MASK) gw $(shell echo $(ENB_GATEWAY) | awk -F '/' '{print $$1}') dev enb || true
+
+enable-fbah-gui:
+	kubectl wait --for=condition=available deployment/fb-ah-xapp -n riab --timeout=300s
+	kubectl wait --for=condition=available deployment/fb-ah-gui -n riab --timeout=300s
+	kubectl wait --for=condition=available deployment/fb-kpimon-xapp -n riab --timeout=300s
+	until [ $(shell kubectl exec -it deployment/onos-cli -n riab -- onos topo get entity --no-headers | grep e2cell | wc -l) -eq 6 ]; do sleep 1; done
+	$(SCRIPTDIR)/push-cell-loc.sh
+	kubectl rollout -n riab restart deployments/fb-ah-gui
+	kubectl rollout -n riab status deployments/fb-ah-gui
+	kubectl rollout -n riab restart deployments/fb-ah-xapp
+	kubectl rollout -n riab status deployments/fb-ah-xapp
