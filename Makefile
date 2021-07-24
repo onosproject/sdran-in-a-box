@@ -100,6 +100,11 @@ else ifeq ($(VER), v1.1.0)
 	$(eval HELM_VALUES=$(HELM_VALUES_V1.1.0))
 	@echo "Helm values.yaml file: $(HELM_VALUES_V1.1.0)"
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-V1.1.0)
+else ifeq ($(VER), v1.1.1)
+	$(eval VER=v1.1.1)
+	$(eval HELM_VALUES=$(HELM_VALUES_V1.1.1))
+	@echo "Helm values.yaml file: $(HELM_VALUES_V1.1.1)"
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-V1.1.1)
 else ifeq ($(VER), stable)
 	$(eval VER=stable)
 	$(eval HELM_VALUES=$(HELM_VALUES_STABLE))
