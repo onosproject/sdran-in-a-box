@@ -214,6 +214,29 @@ Aspects:
 - RRC.ConnEstabSucc.sum=1
 ```
 
+* Run `make test-kpimon` before and after phone detached: to check the number of active UEs changed
+```bash
+$ make test-kpimon
+...
+*** Get KPIMON result through CLI ***
+Node ID          Cell Object ID       Cell Global ID            Time    RRC.ConnEstabAtt.sum    RRC.ConnEstabSucc.sum    RRC.ConnMax    RRC.ConnMean    RRC.ConnReEstabAtt.sum
+e00                           1                e0000      01:42:19.0                       1                        1              1               1                         0
+wkim@k8s-1:~/sdran-in-a-box$ make detach-ue
+...
+echo -en "AT+CPIN=0000\r" | nc -u -w 1 localhost 10000
+
+OK
+echo -en "AT+CGATT=0\r" | nc -u -w 1 localhost 10000
+
+OK
+wkim@k8s-1:~/sdran-in-a-box$ make test-kpimon
+...
+*** Get KPIMON result through CLI ***
+Node ID          Cell Object ID       Cell Global ID            Time    RRC.ConnEstabAtt.sum    RRC.ConnEstabSucc.sum    RRC.ConnMax    RRC.ConnMean    RRC.ConnReEstabAtt.sum
+e00                           1                e0000      01:42:40.0                       1                        1              1               0                         0
+```
+As we can see, `RRC.ConnMean` which shows the number of active UEs changed from 1 to 0, since a emulated UE is detached.
+
 ## Other commands
 ### Reset and delete RiaB environment
 If we want to reset our RiaB environment or delete RiaB compoents, we can use below commands:
