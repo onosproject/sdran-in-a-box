@@ -129,7 +129,7 @@ Node ID          Cell Object ID       Cell Global ID            Time    RRC.Conn
 5154            138426014550003             14550003      22:26:21.0               0               2                       0                        0                            0                           0                         0                                  0
 ```
 
-* Use Facebook-AirHop GUI page: for SD-RAN release 1.1, release 1.1.1, master-stable, latest, and dev versions
+* Use Facebook-AirHop GUI page: for SD-RAN release 1.1, release 1.1.1, and release 1.2, master-stable, latest, and dev versions
 
 To access GUI, we should open web browser like [Chrome](https://www.google.com/chrome/) or [Safari](https://www.apple.com/safari/).
 Next, go to `http://<RiaB server IP address>:30095`

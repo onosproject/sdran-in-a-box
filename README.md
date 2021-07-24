@@ -24,12 +24,12 @@ On top of the SD-RAN infrastructure, we can conduct end-to-end tests in terms of
   * The user plane E2E test
     * Works with CU-CP / OAI nFAPI emulator and CU-CP / OAI DU and UE with USRP hardware cases, since RAN-Sim does not support the data traffic
   * The SD-RAN control plane E2E test
-    * Works with xAPPs such as onos-kpimon and onos-pci
+    * Works with xAPPs such as onos-kpimon, onos-pci, and onos-mlb
 
 ## RiaB versions and options
 
 ### Versions
-RiaB has three versions: **latest**, **master-stable**, **dev**, and each release/tag such as **v1.0.0** and **v1.1.0**.
+RiaB has three versions: **latest**, **master-stable**, **dev**, and each release/tag such as **v1.0.0**, **v1.1.0**, **v1.1.1**, and **v1.2.0**.
 
 #### Latest version
 The *latest* version of RiaB deploys latest Helm charts and latest Docker container images.
@@ -39,13 +39,13 @@ The *master-stable* version of RiaB deploys latest Helm charts but not latest Do
 It deploys the Docker containers according to the image tag described in each Helm chart. 
 
 #### Release/tag versions
-The release/tag version such as *v1.0.0* and *v1.1.0* deployes a specific SD-RAN release version of Helm charts and Docker container images.
+The release/tag version such as *v1.0.0*, *v1.1.0*, *v1.1.1*, and *v1.2.0* deployes a specific SD-RAN release version of Helm charts and Docker container images.
 
 #### Dev version
 The *dev* version deploys Helm charts in the `~/helm-charts/sdran-helm-charts` directory and Docker container images `sdran-in-a-box-values.yaml` file.
 All other versions initially change the `~/helm-charts/sdran-helm-charts` branch to the specific version.
 For example, the *latest* version and *master-stable* version change the the `~/helm-charts/sdran-helm-charts` branch to `master`, 
-while the *v1.0.0* and *v1.1.0* versions change that branch to *v1.0.0* and *v1.1.0*, respectively.
+while the *v1.0.0*, *v1.1.0*, *v1.1.1*, and *v1.2.0* versions change that branch to *v1.0.0*, *v1.1.0*, *v1.1.1*, and *v1.2.0*, respectively.
 If we change some Helm chart code in `~/helm-charts/sdran-helm-charts` directory for a test, the above versions will reset to the *master* or a specific version branch.
 However, since the *dev* option just uses the Helm chart in `~/helm-charts/sdran-helm-charts` as is, we can test the Helm chart chages.
 Also, once we specify image tags in the `sdran-in-a-box-values.yaml` files, this version deploys the Docker containers with the Helm chart change.

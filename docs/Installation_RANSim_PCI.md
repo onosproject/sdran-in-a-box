@@ -30,7 +30,7 @@ $ make riab OPT=ransim VER=latest
 # for a specific version
 $ make riab OPT=ransim VER=v1.0.0 # for release SD-RAN 1.0
 $ make riab OPT=ransim VER=v1.1.0 # for release SD-RAN 1.1
-$ make riab OPT=ransim VER=v1.1.1 # for release SD-RAN 1.1
+$ make riab OPT=ransim VER=v1.1.1 # for release SD-RAN 1.1.1
 $ make riab OPT=ransim VER=v1.2.0 # for release SD-RAN 1.2
 # for a "dev" version
 $ make riab OPT=ransim VER=dev # for release SD-RAN 1.2
@@ -165,9 +165,7 @@ ID                Total Resolved Conflicts   Most Recent Resolution
 Also, there are two more test Makefile targets `make test-rnib` and `make test-uenib` to check R-NIB and UE-NIB, which have cell and UE related monitoring information.
 ```bash
 $ make test-rnib
-HEAD is now at 6b3a267 update incubator chart url in aether helm charts
-Helm values.yaml file: /users/wkim/sdran-in-a-box//sdran-in-a-box-values-master-stable.yaml
-HEAD is now at cfa3805 Release 1.1.100 sdran umbrella chart (#750)
+...
 *** Get R-NIB result through CLI ***
 ID: 5153
 Kind ID: e2node
@@ -218,9 +216,7 @@ Aspects:
 - onos.topo.E2Cell={"cellObjectId":"13842601454c003","cellGlobalId":{"value":"1454c003"},"pci":148}
 
 $ make test-uenib
-HEAD is now at 6b3a267 update incubator chart url in aether helm charts
-Helm values.yaml file: /users/wkim/sdran-in-a-box//sdran-in-a-box-values-master-stable.yaml
-HEAD is now at cfa3805 Release 1.1.100 sdran umbrella chart (#750)
+...
 *** Get UE-NIB result through CLI ***
 ID: 5154:138426014550003
 Aspects:

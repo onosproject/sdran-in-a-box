@@ -175,9 +175,7 @@ sCell node ID   sCell PLMN ID   sCell cell ID   sCell object ID   nCell PLMN ID 
 Also, there are two more test Makefile targets `make test-rnib` and `make test-uenib` to check R-NIB and UE-NIB, which have cell and UE related monitoring information.
 ```bash
 $ make test-rnib
-HEAD is now at 6b3a267 update incubator chart url in aether helm charts
-Helm values.yaml file: /users/wkim/sdran-in-a-box//sdran-in-a-box-values-master-stable.yaml
-HEAD is now at cfa3805 Release 1.1.100 sdran umbrella chart (#750)
+...
 *** Get R-NIB result through CLI ***
 ID: 1454c001
 Kind ID: e2cell
@@ -215,10 +213,8 @@ Labels: <None>
 Aspects:
 - onos.topo.E2Cell={"cellObjectId":"13842601454c002","cellGlobalId":{"value":"1454c002"},"pci":218}
 
-wkim@k8s-1:~/sdran-in-a-box$ make test-uenib
-HEAD is now at 6b3a267 update incubator chart url in aether helm charts
-Helm values.yaml file: /users/wkim/sdran-in-a-box//sdran-in-a-box-values-master-stable.yaml
-HEAD is now at cfa3805 Release 1.1.100 sdran umbrella chart (#750)
+$ make test-uenib
+...
 *** Get UE-NIB result through CLI ***
 ID: 5154:138426:1454c002:CGITypeNRCGI
 Aspects:
