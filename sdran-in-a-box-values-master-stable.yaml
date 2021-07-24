@@ -178,15 +178,6 @@ config:
 #     loggers:
 #       root:
 #         level: info
-# onos-e2sub:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-e2sub
-#     tag: latest
-#   logging:
-#     loggers:
-#       root:
-#         level: info
 # onos-cli:
 #   image:
 #     pullPolicy: IfNotPresent
@@ -247,17 +238,22 @@ config:
 # fb-ah-xapp:
 #   image:
 #     repository: onosproject/fb-ah-xapp
-#     tag: 0.0.1
+#     tag: 0.0.4
+#     pullPolicy: IfNotPresent
+# fb-kpimon-xapp:
+#   image:
+#     repository: onosproject/fb-kpimon-xapp
+#     tag: 0.0.2
 #     pullPolicy: IfNotPresent
 # fb-ah-gui:
 #   image:
 #     repository: onosproject/fb-ah-gui
-#     tag: 0.0.1
+#     tag: 0.0.2
 #     pullPolicy: IfNotPresent
 # ah-eson-test-server:
 #   image:
 #     repository: onosproject/ah-eson-test-server
-#     tag: 0.0.1
+#     tag: 0.0.2
 #     pullPolicy: IfNotPresent
 
 
@@ -315,10 +311,12 @@ import:
 #     enabled: false
 #   nem-monitoring:
 #     enabled: false
-# fb-ah-xapp, fb-ah-gui, and ah-eson-test-server are automatically imported when pushing fbc-pci option
+# fb-ah-xapp, fb-ah-gui, fb-kpimon-xapp and ah-eson-test-server are automatically imported when pushing fbc-pci option
 #   fb-ah-xapp:
 #     enabled: false
 #   fb-ah-gui:
 #     enabled: false
 #   ah-eson-test-server:
+#     enabled: false
+#   fb-kpimon-xapp:
 #     enabled: false

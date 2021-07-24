@@ -178,15 +178,6 @@ onos-e2t:
     loggers:
       root:
         level: info
-onos-e2sub:
-  image:
-    pullPolicy: IfNotPresent
-    repository: onosproject/onos-e2sub
-    tag: latest
-  logging:
-    loggers:
-      root:
-        level: info
 onos-cli:
   image:
     pullPolicy: IfNotPresent
@@ -247,17 +238,22 @@ onos-mlb:
 fb-ah-xapp:
   image:
     repository: onosproject/fb-ah-xapp
-    tag: 0.0.1
+    tag: 0.0.4
+    pullPolicy: IfNotPresent
+fb-kpimon-xapp:
+  image:
+    repository: onosproject/fb-kpimon-xapp
+    tag: 0.0.2
     pullPolicy: IfNotPresent
 fb-ah-gui:
   image:
     repository: onosproject/fb-ah-gui
-    tag: 0.0.1
+    tag: 0.0.2
     pullPolicy: IfNotPresent
 ah-eson-test-server:
   image:
     repository: onosproject/ah-eson-test-server
-    tag: 0.0.1
+    tag: 0.0.2
     pullPolicy: IfNotPresent
 
 # For OMEC & OAI
@@ -321,3 +317,10 @@ import:
 #     enabled: false
 #   ah-eson-test-server:
 #     enabled: false
+# Monitoring/Logging
+#   fluent-bit:
+#     enabled: true
+#   opendistro-es:
+#     enabled: true
+#   prometheus-stack:
+#     enabled: true

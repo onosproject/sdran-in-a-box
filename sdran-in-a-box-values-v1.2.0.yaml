@@ -141,7 +141,7 @@ onos-topo:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-topo
-    tag: latest
+    tag: v0.7.10
   logging:
     loggers:
       root:
@@ -150,7 +150,7 @@ onos-uenib:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-uenib
-    tag: latest
+    tag: v0.1.0
   logging:
     loggers:
       root:
@@ -159,7 +159,7 @@ onos-config:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-config
-    tag: latest
+    tag: v0.8.4
   logging:
     loggers:
       root:
@@ -173,7 +173,7 @@ onos-e2t:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-e2t
-    tag: latest
+    tag: v0.7.38
   logging:
     loggers:
       root:
@@ -182,7 +182,7 @@ onos-cli:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-cli
-    tag: latest
+    tag: v0.7.33
   logging:
     loggers:
       root:
@@ -191,7 +191,7 @@ ran-simulator:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/ran-simulator
-    tag: latest
+    tag: v0.7.56
   pci:
     modelName: "model"
     metricName: "metrics"
@@ -203,7 +203,7 @@ onos-kpimon:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-kpimon
-    tag: latest
+    tag: v0.1.26
   logging:
     loggers:
       root:
@@ -212,7 +212,7 @@ onos-pci:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-pci
-    tag: latest
+    tag: v0.1.19
   logging:
     loggers:
       root:
@@ -221,7 +221,7 @@ onos-mlb:
   image:
     pullPolicy: IfNotPresent
     repository: onosproject/onos-mlb
-    tag: latest
+    tag: v0.0.7
   logging:
     loggers:
       root:
@@ -256,6 +256,7 @@ ah-eson-test-server:
     tag: 0.0.2
     pullPolicy: IfNotPresent
 
+
 # For OMEC & OAI
 images:
   pullPolicy: IfNotPresent
@@ -273,9 +274,9 @@ images:
     bess: docker.io/onosproject/riab-bess-upf:v1.0.0
     pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0
 # For OAI
-    oaicucp: docker.io/onosproject/oai-enb-cu:latest
-    oaidu: docker.io/onosproject/oai-enb-du:latest
-    oaiue: docker.io/onosproject/oai-ue:latest
+    oaicucp: docker.io/onosproject/oai-enb-cu:v0.1.6
+    oaidu: docker.io/onosproject/oai-enb-du:v0.1.6
+    oaiue: docker.io/onosproject/oai-ue:v0.1.6
 
 # For SD-RAN Umbrella chart:
 # ONOS-KPIMON xAPP and ONOS-UENIB are imported in the RiaB by default
@@ -310,17 +311,12 @@ import:
 #     enabled: false
 #   nem-monitoring:
 #     enabled: false
-# fb-ah-xapp, fb-ah-gui, and ah-eson-test-server are automatically imported when pushing fbc-pci option
+# fb-ah-xapp, fb-ah-gui, fb-kpimon-xapp and ah-eson-test-server are automatically imported when pushing fbc-pci option
 #   fb-ah-xapp:
 #     enabled: false
 #   fb-ah-gui:
 #     enabled: false
 #   ah-eson-test-server:
 #     enabled: false
-# Monitoring/Logging
-#   fluent-bit:
-#     enabled: true
-#   opendistro-es:
-#     enabled: true
-#   prometheus-stack:
-#     enabled: true
+#   fb-kpimon-xapp:
+#     enabled: false
