@@ -13,9 +13,13 @@ resources:
 
 config:
   spgwc:
-    multiUpfs: true
-    pfcp: true
-    jsonCfgFiles:
+    cfgFiles:
+      cp.json:
+        ip_pool_config:
+          ueIpPool:
+            ip: 172.250.0.0 # if we use RiaB, Makefile script will override this value with the value defined in MakefileVar.mk file.
+          staticUeIpPool:
+            ip: 172.249.0.0 # if we use RiaB, Makefile script will override this value with the value defined in MakefileVar.mk file.
       subscriber_mapping.json:
         subscriber-selection-rules:
           - priority: 5
@@ -49,8 +53,39 @@ config:
             dns_primary: 8.8.8.4
             dns_secondary: 8.8.8.8
             mtu: 1460
-    ueIpPool:
-      ip: 172.250.0.0 # if we use RiaB, Makefile script will override this value with the value defined in Makefile script.
+        user-plane-profiles:
+          user-plane1:
+            user-plane: upf
+            global-address: true
+            qos-tags:
+              tag1: BW
+            access-tags:
+              tag1: ACC
+        qos-profiles:
+          mobile:
+            qci: 9
+            arp: 1
+            apn-ambr:
+              - 12345678
+              - 12345678
+        access-profiles:
+          access-all:
+            type: allow-all
+          internet-only:
+            type: internet-only
+            filter: No_private_network
+          intranet-only:
+            type: intranet-only
+            filter: only_private_network
+          apps-only:
+            type: specific-network
+            filter: only_apps_network
+          specific-app:
+            type: specific-destination-only
+            filter: allow-app-name
+          excluding-app:
+            type: excluding-this-app
+            filter: exclude-app-name
   upf:
     privileged: true
     enb:
@@ -71,18 +106,15 @@ config:
     cfgFiles:
       upf.json:
         mode: af_packet
+        cpiface:
+          dnn: "8internet"
+          hostname: "upf"
+          enable_ue_ip_alloc: false
+          ue_ip_pool: 172.250.0.0/16 # if we use RiaB, Makefile script will override this value with the value defined in MakefileVar.mk file.
   mme:
     cfgFiles:
       config.json:
         mme:
-          mcc:
-            dig1: 2
-            dig2: 0
-            dig3: 8
-          mnc:
-            dig1: 0
-            dig2: 1
-            dig3: -1
           apnlist:
             internet: "spgwc"
           plmnlist:
@@ -91,13 +123,25 @@ config:
   hss:
     bootstrap:
       users:
-        - apn: "internet"
+        - apn: internet
           key: "465b5ce8b199b49faa5f0a2ee238a6bc"
           opc: "d4416644f6154936193433dd20a0ace0"
           sqn: 96
-          imsiStart: "208014567891201"
+          imsiStart: "208014567891200"
           msisdnStart: "1122334455"
+          mme_identity: mme.riab.svc.cluster.local
+          mme_realm: riab.svc.cluster.local
           count: 10
+      staticusers:
+        - apn: internet
+          key: "465b5ce8b199b49faa5f0a2ee238a6bc"
+          opc: "d4416644f6154936193433dd20a0ace0"
+          sqn: 96
+          imsi: "208014567891300"
+          msisdn: "1122334455"
+          staticAddr: 0.0.0.0
+          mme_identity: mme.riab.svc.cluster.local
+          mme_realm: riab.svc.cluster.local
       mmes:
         - id: 1
           mme_identity: mme.riab.svc.cluster.local
@@ -134,7 +178,88 @@ config:
       e2:
         address: 127.0.0.1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
         port: 36421
-
+# for 5g core
+  smf:
+    cfgFiles:
+      smfcfg.conf:
+        configuration:
+          mongodb:
+            name: smf
+            url: mongodb://mongodb:27017
+  pcf:
+    cfgFiles:
+      pcfcfg.conf:
+        info:
+          version: 1.0.0
+          description: PCF initial local configuration
+        configuration:
+          mongodb:
+            name: free5gc
+            url: mongodb://mongodb:27017
+  nrf:
+    cfgFiles:
+      nrfcfg.conf:
+        configuration:
+          MongoDBName: free5gc
+          MongoDBUrl: mongodb://mongodb:27017
+  simapp:
+    cfgFiles:
+      simapp.yaml:
+        configuration:
+          provision-network-slice: true
+          subscribers:
+          - ueId-start: 2089300007487
+            ueId-end: 2089300007487
+            plmnId: 20893
+            opc: "981d464c7c52eb6e5036234984ad0bcf"
+            op: ""
+            key: "5122250214c33e723a5dd523fc145fc0"
+            sequenceNumber: "16f3b3f70fc2"
+          device-groups:
+          - name:  "5g-gnbsim-user"
+            imsis:
+              - "2089300007487"
+              - "2089300007488"
+            ip-domain-name: "pool1"
+            ip-domain-expanded:
+              dnn: internet
+              dns-primary: "8.8.8.8"
+              mtu: 1460
+              ue-ip-pool: "172.250.0.0/16"
+            site-info: "riab"
+          network-slices:
+          - name: "default"
+            slice-id:
+              sd: "010203"
+              sst: 1
+            site-device-group:
+            - "5g-gnbsim-user"
+            applications-information:
+            - app-name: "default-app"
+              end-port: 40000
+              endpoint: "1.1.1.1/32"
+              protocol: 17
+              start-port: 40000
+            deny-applications:
+            - "iot-app-deny"
+            permit-applications:
+            - "iot-app1-permit"
+            - "iot-app2-permit"
+            qos:
+              downlink: 20000000
+              traffic-class: "platinum"
+              uplink: 4000000
+            site-info:
+              gNodeBs:
+              - name: "riab-gnb1"
+                tac: 1
+              plmn:
+                mcc: "208"
+                mnc: "93"
+              site-name: "riab"
+              upf:
+                upf-name: "upf"
+                upf-port: 8805
 # for the development, we can use the custom images
 # For ONOS-RIC
 # onos-topo:
