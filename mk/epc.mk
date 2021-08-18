@@ -32,7 +32,7 @@ $(M)/omec: | version $(M)/helm-ready $(M)/fabric
 $(M)/5gc: | version $(M)/helm-ready $(M)/fabric
 	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	helm repo update
-	helm dep up $(AETHERCHARTDIR)/omec/5g-control-plane \
+	helm dep up $(AETHERCHARTDIR)/omec/5g-control-plane
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
