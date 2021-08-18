@@ -12,6 +12,8 @@ resources:
   enabled: false
 
 config:
+  coreDump:
+    enabled: false
   spgwc:
     cfgFiles:
       cp.json:

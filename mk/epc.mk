@@ -23,7 +23,7 @@ $(M)/omec: | version $(M)/helm-ready $(M)/fabric
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
-		--set config.upf.cfgFiles.upf.json.cpiface.ue_ip_pool=$(UE_IP_POOL)/$(UE_IP_MASK)
+		--set config.upf.cfgFiles.upf.json.cpiface.ue_ip_pool=$(UE_IP_POOL)/$(UE_IP_MASK) \
 		omec-user-plane \
 		$(AETHERCHARTDIR)/omec/omec-user-plane && \
 	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=omec-user-plane --timeout=300s
