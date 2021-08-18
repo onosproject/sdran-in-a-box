@@ -32,7 +32,7 @@ $(M)/omec: | version $(M)/helm-ready $(M)/fabric
 $(M)/5gc: | version $(M)/helm-ready $(M)/fabric
 	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	helm repo update
-	helm dep up $(AETHERCHARTDIR)/omec/5g-control-plane
+	helm dep up $(AETHERCHARTDIR)/omec/5g-control-plane \
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
@@ -48,7 +48,7 @@ $(M)/5gc: | version $(M)/helm-ready $(M)/fabric
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
-		--set config.upf.cfgFiles.upf.json.cpiface.ue_ip_pool=$(UE_IP_POOL)/$(UE_IP_MASK)
+		--set config.upf.cfgFiles.upf.json.cpiface.ue_ip_pool=$(UE_IP_POOL)/$(UE_IP_MASK) \
 		fgc-core \
 		$(AETHERCHARTDIR)/omec/5g-control-plane && \
 	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=fgc-core --timeout=300s && \

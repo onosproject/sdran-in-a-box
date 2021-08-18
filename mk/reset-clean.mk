@@ -29,6 +29,14 @@ reset-omec:
 	helm delete -n $(RIAB_NAMESPACE) omec-user-plane || true
 	cd $(M); rm -f omec
 
+reset-5gc:
+	helm uninstall -n $(RIAB_NAMESPACE) sim-app || true
+	helm uninstall -n $(RIAB_NAMESPACE) fgc-core || true
+	helm uninstall -n $(RIAB_NAMESPACE) 5g-core-up || true
+	helm uninstall -n $(RIAB_NAMESPACE) 5g-ransim-plane || true
+	helm uninstall -n $(RIAB_NAMESPACE) mongo || true
+	cd $(M); rm -f 5gc
+
 reset-atomix:
 	helm uninstall atomix-controller -n kube-system || true
 	helm uninstall atomix-memory-storage -n kube-system || true
@@ -53,7 +61,7 @@ reset-oai-test: reset-omec reset-fabric reset-oai reset-ric
 
 reset-ransim-test: reset-ric
 
-reset-test: reset-oai-test reset-ransim-test reset-onos-op reset-atomix
+reset-test: reset-oai-test reset-5gc reset-ransim-test reset-onos-op reset-atomix
 
 clean: reset-test
 	helm repo remove sdran || true
