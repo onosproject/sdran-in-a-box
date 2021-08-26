@@ -15,7 +15,8 @@ SDRANCHARTDIR				?= $(CHARTDIR)/sdran-helm-charts
 RESOURCEDIR					?= $(RIABDIR)/resources
 
 # Commit IDs
-AETHERCHARTCID				?= 6b3a267e428402d6bb8531bd921c1d202bb338b2
+AETHERCHARTCID-V1.0.0		?= 6b3a267e428402d6bb8531bd921c1d202bb338b2
+AETHERCHARTCID-LATEST		?= 9f79ab87a96ae9ee2bb9a1540f4cd1574261611b
 SDRANCHARTCID-LATEST		?= origin/master
 SDRANCHARTCID-V1.0.0		?= v1.0.0 #branch: v1.0.0
 SDRANCHARTCID-V1.1.0		?= 6670e6da25129b665b024a7c6d0fd79cfda52f25
@@ -70,6 +71,8 @@ HELM_VERSION				?= v3.2.4
 # OMEC parameters
 UE_IP_POOL					?= 172.250.0.0
 UE_IP_MASK					?= 16
+STATIC_UE_IP_POOL			?= 172.249.0.0
+STATIC_UE_IP_MASK			?= 16
 
 # For system check
 CPU_FAMILY					:= $(shell lscpu | grep 'CPU family:' | awk '{print $$3}')

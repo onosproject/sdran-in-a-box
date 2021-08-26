@@ -51,9 +51,7 @@ $(M)/repos: | $(M)
 	cd $(CHARTDIR)
 	@if [[ ! -d "$(AETHERCHARTDIR)" ]]; then \
                 echo "aether-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires HTTPS key"; \
-				git clone $(CORD_GERRIT_URL)/aether-helm-charts $(AETHERCHARTDIR); \
-				cd $(AETHERCHARTDIR); \
-				git checkout $(AETHERCHARTCID); \
+				git clone $(CORD_GERRIT_URL)/aether-helm-charts $(AETHERCHARTDIR) || true; \
 	fi
 	@if [[ ! -d "$(SDRANCHARTDIR)" ]]; then \
                 echo "sdran-helm-chart repo is not in $(CHARTDIR) directory. Start to clone - it requires Github credential"; \
@@ -89,44 +87,51 @@ else
 endif
 
 version: | $(M) $(M)/repos
-	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID)
 ifeq ($(VER), v1.0.0)
 	$(eval VER=v1.0.0)
 	$(eval HELM_VALUES=$(HELM_VALUES_V1.0.0))
 	@echo "Helm values.yaml file: $(HELM_VALUES_V1.0.0)"
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-V1.0.0)
+	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-V1.0.0)
 else ifeq ($(VER), v1.1.0)
 	$(eval VER=v1.1.0)
 	$(eval HELM_VALUES=$(HELM_VALUES_V1.1.0))
 	@echo "Helm values.yaml file: $(HELM_VALUES_V1.1.0)"
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-V1.1.0)
+	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-V1.0.0)
 else ifeq ($(VER), v1.1.1)
 	$(eval VER=v1.1.1)
 	$(eval HELM_VALUES=$(HELM_VALUES_V1.1.1))
 	@echo "Helm values.yaml file: $(HELM_VALUES_V1.1.1)"
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-V1.1.1)
+	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-V1.0.0)
 else ifeq ($(VER), v1.2.0)
 	$(eval VER=v1.2.0)
 	$(eval HELM_VALUES=$(HELM_VALUES_V1.2.0))
 	@echo "Helm values.yaml file: $(HELM_VALUES_V1.2.0)"
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-V1.2.0)
+	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-V1.0.0)
 else ifeq ($(VER), stable)
 	$(eval VER=stable)
 	$(eval HELM_VALUES=$(HELM_VALUES_STABLE))
 	@echo "Helm values.yaml file: $(HELM_VALUES_STABLE)"
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
+	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
 else ifeq ($(VER), latest)
 	$(eval VER=latest)
 	$(eval HELM_VALUES=$(HELM_VALUES_LATEST))
 	@echo "Helm values.yaml file: $(HELM_VALUES_LATEST)"
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
+	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
 else ifeq ($(VER), dev)
 	$(eval VER=dev)
 	$(eval HELM_VALUES=$(HELM_VALUES_DEV))
 	@echo "Helm values.yaml file: $(HELM_VALUES_DEV)"
+	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
 else
 	$(eval VER=stable)
 	$(eval HELM_VALUES=$(HELM_VALUES_STABLE))
 	@echo "Helm values.yaml file: $(HELM_VALUES_STABLE)"
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
+	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
 endif

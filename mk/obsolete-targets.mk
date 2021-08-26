@@ -22,7 +22,7 @@ set-option-ric:
 
 set-stable-aether-chart:
 	cd $(AETHERCHARTDIR); \
-	git checkout $(AETHERCHARTCID);
+	git checkout $(AETHERCHARTCID-LATEST);
 
 set-latest-sdran-chart:
 	cd $(SDRANCHARTDIR); \
