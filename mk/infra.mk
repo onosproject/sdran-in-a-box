@@ -85,11 +85,55 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	touch $@
 
 $(M)/atomix: | $(M)/k8s-ready
+	helm repo update
+ifeq ($(VER), v1.0.0)
+	kubectl create -f https://raw.githubusercontent.com/atomix/kubernetes-controller/0a9e82ef37df25cf567a4dbc18f35b2bb454bda1/deploy/atomix-controller.yaml
+	kubectl create -f https://raw.githubusercontent.com/atomix/raft-storage-controller/668951dff14e339f3c71b489863cbca8ec326a96/deploy/raft-storage-controller.yaml
+	kubectl create -f https://raw.githubusercontent.com/atomix/cache-storage-controller/85014c6216e3d8cdf22df09aab3d1f16852fc584/deploy/cache-storage-controller.yaml
+else ifeq ($(VER), v1.1.0)
+	helm install -n kube-system atomix-controller atomix/atomix-controller --version 0.5.2 --wait || true
+	helm install -n kube-system raft-storage-controller atomix/raft-storage-controller --version 0.5.1 --wait || true
+	helm install -n kube-system cache-storage-controller atomix/cache-storage-controller --version 0.4.0 --wait || true
+else ifeq ($(VER), v1.1.1)
+	helm install -n kube-system atomix-controller atomix/atomix-controller --version 0.5.2 --wait || true
+	helm install -n kube-system raft-storage-controller atomix/raft-storage-controller --version 0.5.1 --wait || true
+	helm install -n kube-system cache-storage-controller atomix/cache-storage-controller --version 0.4.0 --wait || true
+else ifeq ($(VER), v1.2.0)
+	helm install -n kube-system atomix-controller atomix/atomix-controller --version 0.6.7 --wait || true
+	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --version 0.1.8 --wait || true
+	helm install -n kube-system atomix-memory-storage atomix/atomix-memory-storage --version 0.1.1 --wait || true
+else ifeq ($(VER), stable)
 	helm install -n kube-system atomix-controller atomix/atomix-controller --wait || true
 	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --wait || true
-	helm install -n kube-system atomix-memory-storage atomix/atomix-memory-storage --wait || true
+else ifeq ($(VER), latest)
+	helm install -n kube-system atomix-controller atomix/atomix-controller --wait || true
+	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --wait || true
+else ifeq ($(VER), dev)
+	helm install -n kube-system atomix-controller atomix/atomix-controller --wait || true
+	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --wait || true
+else
+	helm install -n kube-system atomix-controller atomix/atomix-controller --wait || true
+	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --wait || true
+endif
 	touch $@
 
 $(M)/onos-operator: | $(M)/k8s-ready
+	helm repo update
+ifeq ($(VER), v1.0.0)
+	@echo v1.0.0 does not need onos-operator: skip deploying onos-operator chart
+else ifeq ($(VER), v1.1.0)
+	helm install onos-operator onos/onos-operator -n kube-system --version 0.4.1 --wait || true
+else ifeq ($(VER), v1.1.1)
+	helm install onos-operator onos/onos-operator -n kube-system --version 0.4.1 --wait || true
+else ifeq ($(VER), v1.2.0)
+	helm install onos-operator onos/onos-operator -n kube-system --version 0.4.6 --wait || true
+else ifeq ($(VER), stable)
 	helm install onos-operator onos/onos-operator -n kube-system --wait || true
+else ifeq ($(VER), latest)
+	helm install onos-operator onos/onos-operator -n kube-system --wait || true
+else ifeq ($(VER), dev)
+	helm install onos-operator onos/onos-operator -n kube-system --wait || true
+else
+	helm install onos-operator onos/onos-operator -n kube-system --wait || true
+endif
 	touch $@
