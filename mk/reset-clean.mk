@@ -41,9 +41,9 @@ reset-atomix:
 	helm uninstall atomix-controller -n kube-system || true
 	helm uninstall atomix-memory-storage -n kube-system || true
 	helm uninstall atomix-raft-storage -n kube-system || true
-	kubectl delete -f https://raw.githubusercontent.com/atomix/kubernetes-controller/0a9e82ef37df25cf567a4dbc18f35b2bb454bda1/deploy/atomix-controller.yaml
-	kubectl delete -f https://raw.githubusercontent.com/atomix/raft-storage-controller/668951dff14e339f3c71b489863cbca8ec326a96/deploy/raft-storage-controller.yaml
-	kubectl delete -f https://raw.githubusercontent.com/atomix/cache-storage-controller/85014c6216e3d8cdf22df09aab3d1f16852fc584/deploy/cache-storage-controller.yaml
+	kubectl delete -f https://raw.githubusercontent.com/atomix/kubernetes-controller/0a9e82ef37df25cf567a4dbc18f35b2bb454bda1/deploy/atomix-controller.yaml || true
+	kubectl delete -f https://raw.githubusercontent.com/atomix/raft-storage-controller/668951dff14e339f3c71b489863cbca8ec326a96/deploy/raft-storage-controller.yaml || true
+	kubectl delete -f https://raw.githubusercontent.com/atomix/cache-storage-controller/85014c6216e3d8cdf22df09aab3d1f16852fc584/deploy/cache-storage-controller.yaml || true
 	cd $(M); rm -f atomix
 
 reset-onos-op:
