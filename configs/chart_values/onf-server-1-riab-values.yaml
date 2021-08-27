@@ -235,6 +235,28 @@ onos-mlb:
       config_json:
         controller:
           interval: 10
+onos-mho:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-mho
+    tag: latest
+  logging:
+    loggers:
+      root:
+        level: info
+  config:
+    mho:
+        e2tEndpoint: "onos-e2t:5150"
+        config_json:
+          reportingPeriod: 1000
+          periodic: true
+          uponRcvMeasReport: true
+          uponChangeRrcStatus: true
+          A3OffsetRange: 0
+          HysteresisRange: 0
+          CellIndividualOffset: 0
+          FrequencyOffset: 0
+          TimeToTrigger: 0
 fb-ah-xapp:
   image:
     repository: onosproject/fb-ah-xapp
@@ -281,6 +303,7 @@ images:
 # ONOS-KPIMON xAPP and ONOS-UENIB are imported in the RiaB by default
 # ONOS-PCI xApp is imported in the RiaB when using OPT=ransim and OPT=mlb
 # ONOS-MLB xApp is imported in the RiaB when using OPT=mlb
+# ONOS-MHO xApp is imported in the RiaB when using OPT=mho
 import:
   onos-uenib:
     enabled: true
@@ -289,6 +312,8 @@ import:
   onos-pci:
     enabled: false
   onos-mlb:
+    enabled: false
+  onos-mho:
     enabled: false
 # Other ONOS-RIC micro-services
 #   onos-topo:
