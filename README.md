@@ -24,7 +24,7 @@ On top of the SD-RAN infrastructure, we can conduct end-to-end tests in terms of
   * The user plane E2E test
     * Works with CU-CP / OAI nFAPI emulator and CU-CP / OAI DU and UE with USRP hardware cases, since RAN-Sim does not support the data traffic
   * The SD-RAN control plane E2E test
-    * Works with xAPPs such as onos-kpimon, onos-pci, and onos-mlb
+    * Works with xAPPs such as onos-kpimon, onos-pci, onos-mlb and onos-mho
 
 ## RiaB versions and options
 
