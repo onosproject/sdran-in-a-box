@@ -286,14 +286,14 @@ images:
 # latest Aether helm chart commit ID: 3d1e936e87b4ddae784a33f036f87899e9d00b95
 #    init: docker.io/omecproject/pod-init:1.0.0
 #    depCheck: quay.io/stackanetes/kubernetes-entrypoint:v0.3.1
-    hssdb: docker.io/onosproject/riab-hssdb:v1.0.0
-    hss: docker.io/onosproject/riab-hss:v1.0.0
-    mme: docker.io/onosproject/riab-nucleus-mme:v1.0.0
-    spgwc: docker.io/onosproject/riab-spgw:v1.0.0-onfvm-1
-    pcrf: docker.io/onosproject/riab-pcrf:v1.0.0
-    pcrfdb: docker.io/onosproject/riab-pcrfdb:v1.0.0
-    bess: docker.io/onosproject/riab-bess-upf:v1.0.0-onfvm-1
-    pfcpiface: docker.io/onosproject/riab-pfcpiface:v1.0.0-onfvm-1
+    hssdb: docker.io/onosproject/riab-hssdb:master-9de5dba
+    hss: docker.io/onosproject/riab-hss:master-9de5dba
+    mme: docker.io/onosproject/riab-nucleus-mme:master-9e2bf16
+    spgwc: docker.io/onosproject/riab-spgw:master-d8b0987-onfvm-1
+    pcrf: docker.io/onosproject/riab-pcrf:pcrf-b29af70
+    pcrfdb: docker.io/onosproject/riab-pcrfdb:pcrf-b29af70
+    bess: docker.io/onosproject/riab-bess-upf:master-635b4d4-onfvm-1
+    pfcpiface: docker.io/onosproject/riab-pfcpiface:master-635b4d4-onfvm-1
 # For OAI
     oaicucp: docker.io/onosproject/oai-enb-cu:latest
     oaidu: docker.io/onosproject/oai-enb-du:latest
