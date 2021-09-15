@@ -26,7 +26,7 @@ $(M)/oai-enb-cu: | version $(M)/helm-ready $(M)/ric
 		oai-enb-cu \
 		$(SDRANCHARTDIR)/oai-enb-cu && \
 		sleep 60 && \
-		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-enb-cu --timeout=300s && \
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=oai-enb-cu --timeout=600s && \
 		sleep 10
 	touch $@
 
@@ -42,7 +42,7 @@ $(M)/oai-enb-cu-hw: | version $(M)/helm-ready
 		oai-enb-cu \
 		$(SDRANCHARTDIR)/oai-enb-cu && \
 		sleep 60 && \
-		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=oai-enb-cu --timeout=300s && \
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=oai-enb-cu --timeout=600s && \
 		sleep 10
 	touch $@
 
@@ -61,7 +61,7 @@ $(M)/oai-enb-du: | version $(M)/helm-ready
 		oai-enb-du \
 		$(SDRANCHARTDIR)/oai-enb-du && \
 		sleep 60 && \
-		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=oai-enb-du --timeout=300s && \
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=oai-enb-du --timeout=600s && \
 		sleep 10
 	touch $@
 
@@ -76,5 +76,5 @@ $(M)/oai-ue: | version $(M)/helm-ready
 		oai-ue \
 		$(SDRANCHARTDIR)/oai-ue && \
 		sleep 60 && \
-		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=oai-ue --timeout=300s && \
+		kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l app=oai-ue --timeout=600s && \
 	touch $@
