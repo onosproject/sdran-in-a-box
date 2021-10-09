@@ -82,15 +82,18 @@ OS_VENDOR					:= $(shell lsb_release -i -s)
 OS_RELEASE					:= $(shell lsb_release -r -s)
 
 # For RIC
-F1_CU_INTERFACE				:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
-F1_CU_IPADDR				:= $(shell ip -4 a show $(F1_CU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
-F1_DU_INTERFACE				:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
-F1_DU_IPADDR				:= $(shell ip -4 a show $(F1_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | head -n 1)
+E2_F1_CU_INTERFACE			:= cu_e2f1_if
+E2_F1_CU_IPADDR				:= 192.168.200.21/24
+E2_F1_DU_INTERFACE			:= du_e2f1_if
+E2_F1_DU_IPADDR				:= 192.168.200.22/24
 S1MME_CU_INTERFACE			:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 NFAPI_DU_INTERFACE			:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 NFAPI_DU_IPADDR				:= $(shell ip -4 a show $(NFAPI_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
 NFAPI_UE_INTERFACE			:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 NFAPI_UE_IPADDR				:= $(shell ip -4 a show $(NFAPI_UE_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
+E2T_NODEPORT_INTERFACE		:= e2t_e2_if
+E2T_NODEPORT_IPADDR			:= 192.168.200.11/24
+E2_F1_BRIDGE_NAME			:= br-e2f1-net
 
 # For routing configuarion
 ENB_SUBNET                  := 192.168.251.0/24

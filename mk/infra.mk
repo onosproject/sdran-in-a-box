@@ -73,6 +73,16 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	sudo ovs-vsctl --may-exist add-port br-enb-net enb -- set Interface enb type=internal
 	sudo ip addr add $(OMEC_ENB_NET_IP) dev enb || true
 	sudo ip link set enb up
+	sudo ovs-vsctl --may-exist add-br $(E2_F1_BRIDGE_NAME)
+	sudo ovs-vsctl --may-exist add-port $(E2_F1_BRIDGE_NAME) $(E2_F1_CU_INTERFACE) -- set Interface $(E2_F1_CU_INTERFACE) type=internal
+	sudo ovs-vsctl --may-exist add-port $(E2_F1_BRIDGE_NAME) $(E2_F1_DU_INTERFACE) -- set Interface $(E2_F1_DU_INTERFACE) type=internal
+	sudo ovs-vsctl --may-exist add-port $(E2_F1_BRIDGE_NAME) $(E2T_NODEPORT_INTERFACE) -- set Interface $(E2T_NODEPORT_INTERFACE) type=internal
+	sudo ip addr add $(E2_F1_CU_IPADDR) dev $(E2_F1_CU_INTERFACE) || true
+	sudo ip addr add $(E2_F1_DU_IPADDR) dev $(E2_F1_DU_INTERFACE) || true
+	sudo ip addr add $(E2T_NODEPORT_IPADDR) dev $(E2T_NODEPORT_INTERFACE) || true
+	sudo ip link set $(E2_F1_CU_INTERFACE) up
+	sudo ip link set $(E2_F1_DU_INTERFACE) up
+	sudo ip link set $(E2T_NODEPORT_INTERFACE) up
 	sudo ethtool --offload enb tx off
 	sudo ip route replace $(ACCESS_SUBNET) via $(shell echo $(ENB_GATEWAY) | awk -F '/' '{print $$1}')  dev enb
 	cp $(RESOURCEDIR)/router-template.yaml $(RESOURCEDIR)/router.yaml
