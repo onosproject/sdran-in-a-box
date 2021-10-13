@@ -35,7 +35,7 @@ $(M)/oai-enb-cu-hw: | version $(M)/helm-ready
 		--values $(HELM_VALUES) \
 		--set config.oai-enb-cu.networks.s1mme.interface=$(S1MME_CU_INTERFACE) \
 		--set config.oai-enb-cu.networks.f1.interface=$(E2_F1_CU_INTERFACE) \
-		--set config.onos-e2t.networks.e2.address=$(E2T_NODEPORT_IPADDR)
+		--set config.onos-e2t.networks.e2.address=$(E2T_NODEPORT_IPADDR) \
 		--set config.oai-enb-cu.networks.f1.address=$(E2_F1_CU_IPADDR) \
 		--set config.oai-enb-du.networks.f1.interface=$(E2_F1_DU_INTERFACE) \
 		--set config.oai-enb-du.networks.f1.address=$(E2_F1_DU_IPADDR) \
@@ -54,7 +54,7 @@ $(M)/oai-enb-du: | version $(M)/helm-ready
 		--set config.oai-enb-cu.networks.f1.address=$(E2_F1_CU_IPADDR) \
 		--set config.oai-enb-du.networks.f1.interface=$(E2_F1_DU_INTERFACE) \
 		--set config.oai-enb-du.networks.f1.address=$(E2_F1_DU_IPADDR) \
-		--set config.onos-e2t.networks.e2.address=$(E2T_NODEPORT_IPADDR)
+		--set config.onos-e2t.networks.e2.address=$(E2T_NODEPORT_IPADDR) \
 		--set config.oai-enb-du.networks.nfapi.interface=$(NFAPI_DU_INTERFACE) \
 		--set config.oai-enb-du.networks.nfapi.address=$(NFAPI_DU_IPADDR) \
 		--set config.oai-ue.networks.nfapi.interface=$(NFAPI_UE_INTERFACE) \

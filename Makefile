@@ -123,21 +123,21 @@ else ifeq ($(VER), stable)
 	$(eval HELM_VALUES=$(HELM_VALUES_STABLE))
 	@echo "Helm values.yaml file: $(HELM_VALUES_STABLE)"
 	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
-	ifeq ($(OPT), oai)
-		@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
-	else
-		@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
-	endif
+ifeq ($(OPT), oai)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
+else
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
+endif
 else ifeq ($(VER), latest)
 	$(eval VER=latest)
 	$(eval HELM_VALUES=$(HELM_VALUES_LATEST))
 	@echo "Helm values.yaml file: $(HELM_VALUES_LATEST)"
 	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
-	ifeq ($(OPT), oai)
-		@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
-	else
-		@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
-	endif
+ifeq ($(OPT), oai)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
+else
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
+endif
 else ifeq ($(VER), dev)
 	$(eval VER=dev)
 	$(eval HELM_VALUES=$(HELM_VALUES_DEV))
@@ -148,9 +148,9 @@ else
 	$(eval HELM_VALUES=$(HELM_VALUES_STABLE))
 	@echo "Helm values.yaml file: $(HELM_VALUES_STABLE)"
 	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
-	ifeq ($(OPT), oai)
-		@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
-	else
-		@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
-	endif
+ifeq ($(OPT), oai)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
+else
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
+endif
 endif
