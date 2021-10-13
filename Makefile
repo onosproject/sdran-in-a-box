@@ -26,22 +26,22 @@ $(BUILD): | $(WORKSPACE)
 	mkdir -p $(BUILD)
 
 ifeq ($(OPT), ransim)
-riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
+riab: option version preliminaries infra-k8s infra-fabric routing-quagga infra-atomix infra-onos-op ric
 	@echo Done
 else ifeq ($(OPT), oai)
-riab: option version preliminaries infra-k8s infra-fabric infra-atomix infra-onos-op omec ric oai
+riab: option version preliminaries infra-k8s infra-fabric routing-quagga infra-atomix infra-onos-op omec routing-omec ric oai
 	@echo Done
 else ifeq ($(OPT), ric)
-riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
+riab: option version preliminaries infra-k8s infra-fabric routing-quagga infra-atomix infra-onos-op ric
 	@echo Done
 else ifeq ($(OPT), fbah)
-riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric enable-fbah-gui
+riab: option version preliminaries infra-k8s infra-fabric routing-quagga infra-atomix infra-onos-op ric enable-fbah-gui
 	@echo Done
 else ifeq ($(OPT), mlb)
-riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
+riab: option version preliminaries infra-k8s infra-fabric routing-quagga infra-atomix infra-onos-op ric
 	@echo Done
 else ifeq ($(OPT), mho)
-riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
+riab: option version preliminaries infra-k8s infra-fabric routing-quagga infra-atomix infra-onos-op ric
 	@echo Done
 else
 riab: option version
@@ -122,14 +122,22 @@ else ifeq ($(VER), stable)
 	$(eval VER=stable)
 	$(eval HELM_VALUES=$(HELM_VALUES_STABLE))
 	@echo "Helm values.yaml file: $(HELM_VALUES_STABLE)"
-	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
 	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
+ifeq ($(OPT), oai)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
+else
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
+endif
 else ifeq ($(VER), latest)
 	$(eval VER=latest)
 	$(eval HELM_VALUES=$(HELM_VALUES_LATEST))
 	@echo "Helm values.yaml file: $(HELM_VALUES_LATEST)"
-	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
 	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
+ifeq ($(OPT), oai)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
+else
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
+endif
 else ifeq ($(VER), dev)
 	$(eval VER=dev)
 	$(eval HELM_VALUES=$(HELM_VALUES_DEV))
@@ -139,6 +147,10 @@ else
 	$(eval VER=stable)
 	$(eval HELM_VALUES=$(HELM_VALUES_STABLE))
 	@echo "Helm values.yaml file: $(HELM_VALUES_STABLE)"
-	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
 	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
+ifeq ($(OPT), oai)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
+else
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
+endif
 endif

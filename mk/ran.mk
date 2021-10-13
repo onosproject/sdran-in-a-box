@@ -13,16 +13,15 @@ oai-hw: oai-enb-cu-hw oai-enb-du
 oai-enb-cu-hw: $(M)/oai-enb-cu-hw
 
 $(M)/oai-enb-cu: | version $(M)/helm-ready $(M)/ric
-	$(eval e2t_addr=$(shell  kubectl get svc onos-e2t -n $(RIAB_NAMESPACE) --no-headers | awk '{print $$3'}))
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
 		--set config.oai-enb-cu.networks.s1mme.interface=$(S1MME_CU_INTERFACE) \
-		--set config.onos-e2t.networks.e2.address=$(e2t_addr) \
-		--set config.oai-enb-cu.networks.f1.interface=$(F1_CU_INTERFACE) \
-		--set config.oai-enb-cu.networks.f1.address=$(F1_CU_IPADDR) \
-		--set config.oai-enb-du.networks.f1.interface=$(F1_DU_INTERFACE) \
-		--set config.oai-enb-du.networks.f1.address=$(F1_DU_IPADDR) \
+		--set config.onos-e2t.networks.e2.address=$(E2T_NODEPORT_IPADDR) \
+		--set config.oai-enb-cu.networks.f1.interface=$(E2_F1_CU_INTERFACE) \
+		--set config.oai-enb-cu.networks.f1.address=$(E2_F1_CU_IPADDR) \
+		--set config.oai-enb-du.networks.f1.interface=$(E2_F1_DU_INTERFACE) \
+		--set config.oai-enb-du.networks.f1.address=$(E2_F1_DU_IPADDR) \
 		oai-enb-cu \
 		$(SDRANCHARTDIR)/oai-enb-cu && \
 		sleep 60 && \
@@ -35,10 +34,11 @@ $(M)/oai-enb-cu-hw: | version $(M)/helm-ready
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
 		--set config.oai-enb-cu.networks.s1mme.interface=$(S1MME_CU_INTERFACE) \
-		--set config.oai-enb-cu.networks.f1.interface=$(F1_CU_INTERFACE) \
-		--set config.oai-enb-cu.networks.f1.address=$(F1_CU_IPADDR) \
-		--set config.oai-enb-du.networks.f1.interface=$(F1_DU_INTERFACE) \
-		--set config.oai-enb-du.networks.f1.address=$(F1_DU_IPADDR) \
+		--set config.oai-enb-cu.networks.f1.interface=$(E2_F1_CU_INTERFACE) \
+		--set config.onos-e2t.networks.e2.address=$(E2T_NODEPORT_IPADDR) \
+		--set config.oai-enb-cu.networks.f1.address=$(E2_F1_CU_IPADDR) \
+		--set config.oai-enb-du.networks.f1.interface=$(E2_F1_DU_INTERFACE) \
+		--set config.oai-enb-du.networks.f1.address=$(E2_F1_DU_IPADDR) \
 		oai-enb-cu \
 		$(SDRANCHARTDIR)/oai-enb-cu && \
 		sleep 60 && \
@@ -50,10 +50,11 @@ $(M)/oai-enb-du: | version $(M)/helm-ready
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
-		--set config.oai-enb-cu.networks.f1.interface=$(F1_CU_INTERFACE) \
-		--set config.oai-enb-cu.networks.f1.address=$(F1_CU_IPADDR) \
-		--set config.oai-enb-du.networks.f1.interface=$(F1_DU_INTERFACE) \
-		--set config.oai-enb-du.networks.f1.address=$(F1_DU_IPADDR) \
+		--set config.oai-enb-cu.networks.f1.interface=$(E2_F1_CU_INTERFACE) \
+		--set config.oai-enb-cu.networks.f1.address=$(E2_F1_CU_IPADDR) \
+		--set config.oai-enb-du.networks.f1.interface=$(E2_F1_DU_INTERFACE) \
+		--set config.oai-enb-du.networks.f1.address=$(E2_F1_DU_IPADDR) \
+		--set config.onos-e2t.networks.e2.address=$(E2T_NODEPORT_IPADDR) \
 		--set config.oai-enb-du.networks.nfapi.interface=$(NFAPI_DU_INTERFACE) \
 		--set config.oai-enb-du.networks.nfapi.address=$(NFAPI_DU_IPADDR) \
 		--set config.oai-ue.networks.nfapi.interface=$(NFAPI_UE_INTERFACE) \

@@ -294,12 +294,12 @@ config:
 #     loggers:
 #       root:
 #         level: info
-# onos-e2t:
-#   service:
-#     external:
-#       enabled: true
-#     e2:
-#      nodePort: 36421
+onos-e2t:
+  service:
+    external:
+      enabled: true
+    e2:
+     nodePort: 36421
 #   image:
 #     pullPolicy: IfNotPresent
 #     repository: onosproject/onos-e2t
