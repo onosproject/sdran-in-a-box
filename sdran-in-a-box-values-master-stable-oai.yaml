@@ -300,10 +300,23 @@ onos-e2t:
       enabled: true
     e2:
      nodePort: 36421
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-e2t
-#     tag: latest
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-e2t
+    tag: v0.8.12
+  servicemodels:
+    - name: e2sm_kpm_v2
+      version: 1.0.0
+      image:
+        repository: onosproject/service-model-docker-e2sm_kpm_v2-1.0.0
+        tag: v0.7.63-e2ap101
+        pullPolicy: IfNotPresent
+    - name: e2sm_rsm
+      version: 1.0.0
+      image:
+        repository: onosproject/service-model-docker-e2sm_rsm-1.0.0
+        tag: v0.7.63-e2ap101
+        pullPolicy: IfNotPresent
 #   logging:
 #     loggers:
 #       root:

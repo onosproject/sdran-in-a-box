@@ -43,6 +43,9 @@ HELM_VALUES_V1.2.0			?= $(RIABDIR)/sdran-in-a-box-values-v1.2.0.yaml
 HELM_VALUES_STABLE			?= $(RIABDIR)/sdran-in-a-box-values-master-stable.yaml
 HELM_VALUES_LATEST			?= $(RIABDIR)/sdran-in-a-box-values.yaml
 HELM_VALUES_DEV				?= $(RIABDIR)/sdran-in-a-box-values.yaml
+HELM_VALUES_STABLE_E2AP101	?= $(RIABDIR)/sdran-in-a-box-values-master-stable-e2ap101.yaml
+HELM_VALUES_LATEST_E2AP101	?= $(RIABDIR)/sdran-in-a-box-values-e2ap101.yaml
+HELM_VALUES_DEV_E2AP101		?= $(RIABDIR)/sdran-in-a-box-values-e2ap101.yaml
 
 # Options - ransim (by default), oai, ric, and fbah
 DEFAULT_OPT					:= ransim

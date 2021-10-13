@@ -265,149 +265,162 @@ config:
               upf:
                 upf-name: "upf"
                 upf-port: 8805
+
 # for the development, we can use the custom images
 # For ONOS-RIC
-# onos-topo:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-topo
-#     tag: latest
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-uenib:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-uenib
-#     tag: latest
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-config:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-config
-#     tag: latest
-#   logging:
-#     loggers:
-#       root:
-#         level: info
+onos-topo:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-topo
+    tag: latest
+  logging:
+    loggers:
+      root:
+        level: info
+onos-uenib:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-uenib
+    tag: latest
+  logging:
+    loggers:
+      root:
+        level: info
+onos-config:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-config
+    tag: latest
+  logging:
+    loggers:
+      root:
+        level: info
 onos-e2t:
   service:
     external:
       enabled: true
     e2:
      nodePort: 36421
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-e2t
-#     tag: latest
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-cli:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-cli
-#     tag: latest
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# ran-simulator:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/ran-simulator
-#     tag: latest
-#   pci:
-#     modelName: "model"
-#     metricName: "metrics"
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-kpimon:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-kpimon
-#     tag: latest
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-pci:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-pci
-#     tag: latest
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-mlb:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-mlb
-#     tag: latest
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-#   config:
-#     mlb:
-#       e2tEndpoint: "onos-e2t:5150"
-#       thresholds:
-#         overload: 100
-#         target: 0
-#       config_json:
-#         controller:
-#           interval: 10
-#onos-mho:
-#  image:
-#    pullPolicy: IfNotPresent
-#    repository: onosproject/onos-mho
-#    tag: latest
-#  logging:
-#    loggers:
-#      root:
-#        level: info
-#  config:
-#    mho:
-#      e2tEndpoint: "onos-e2t:5150"
-#      config_json:
-#      reportingPeriod: 1000
-#      periodic: true
-#      uponRcvMeasReport: true
-#      uponChangeRrcStatus: true
-#      A3OffsetRange: 0
-#      HysteresisRange: 0
-#      CellIndividualOffset: 0
-#      FrequencyOffset: 0
-#      TimeToTrigger: 0
-# fb-ah-xapp:
-#   image:
-#     repository: onosproject/fb-ah-xapp
-#     tag: 0.0.4
-#     pullPolicy: IfNotPresent
-# fb-kpimon-xapp:
-#   image:
-#     repository: onosproject/fb-kpimon-xapp
-#     tag: 0.0.2
-#     pullPolicy: IfNotPresent
-# fb-ah-gui:
-#   image:
-#     repository: onosproject/fb-ah-gui
-#     tag: 0.0.2
-#     pullPolicy: IfNotPresent
-# ah-eson-test-server:
-#   image:
-#     repository: onosproject/ah-eson-test-server
-#     tag: 0.0.2
-#     pullPolicy: IfNotPresent
-
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-e2t
+    tag: latest
+  servicemodels:
+    - name: e2sm_kpm_v2
+      version: 1.0.0
+      image:
+        repository: onosproject/service-model-docker-e2sm_kpm_v2-1.0.0
+        tag: v0.7.63-e2ap101
+        pullPolicy: IfNotPresent
+    - name: e2sm_rsm
+      version: 1.0.0
+      image:
+        repository: onosproject/service-model-docker-e2sm_rsm-1.0.0
+        tag: v0.7.63-e2ap101
+        pullPolicy: IfNotPresent
+  logging:
+    loggers:
+      root:
+        level: info
+onos-cli:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-cli
+    tag: latest
+  logging:
+    loggers:
+      root:
+        level: info
+ran-simulator:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/ran-simulator
+    tag: latest
+  pci:
+    modelName: "model"
+    metricName: "metrics"
+  logging:
+    loggers:
+      root:
+        level: info
+onos-kpimon:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-kpimon
+    tag: latest
+  logging:
+    loggers:
+      root:
+        level: info
+onos-pci:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-pci
+    tag: latest
+  logging:
+    loggers:
+      root:
+        level: info
+onos-mlb:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-mlb
+    tag: latest
+  logging:
+    loggers:
+      root:
+        level: info
+  config:
+    mlb:
+      e2tEndpoint: "onos-e2t:5150"
+      thresholds:
+        overload: 100
+        target: 0
+      config_json:
+        controller:
+          interval: 10
+onos-mho:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-mho
+    tag: latest
+  logging:
+    loggers:
+      root:
+        level: info
+  config:
+    mho:
+      e2tEndpoint: "onos-e2t:5150"
+      config_json:
+      reportingPeriod: 1000
+      periodic: true
+      uponRcvMeasReport: true
+      uponChangeRrcStatus: true
+      A3OffsetRange: 0
+      HysteresisRange: 0
+      CellIndividualOffset: 0
+      FrequencyOffset: 0
+      TimeToTrigger: 0
+fb-ah-xapp:
+  image:
+    repository: onosproject/fb-ah-xapp
+    tag: 0.0.4
+    pullPolicy: IfNotPresent
+fb-kpimon-xapp:
+  image:
+    repository: onosproject/fb-kpimon-xapp
+    tag: 0.0.2
+    pullPolicy: IfNotPresent
+fb-ah-gui:
+  image:
+    repository: onosproject/fb-ah-gui
+    tag: 0.0.2
+    pullPolicy: IfNotPresent
+ah-eson-test-server:
+  image:
+    repository: onosproject/ah-eson-test-server
+    tag: 0.0.2
+    pullPolicy: IfNotPresent
 
 # For OMEC & OAI
 images:
@@ -426,9 +439,9 @@ images:
     bess: docker.io/onosproject/riab-bess-upf:master-635b4d4
     pfcpiface: docker.io/onosproject/riab-pfcpiface:master-635b4d4
 # For OAI
-#    oaicucp: docker.io/onosproject/oai-enb-cu:latest
-#    oaidu: docker.io/onosproject/oai-enb-du:latest
-#    oaiue: docker.io/onosproject/oai-ue:latest
+    oaicucp: docker.io/onosproject/oai-enb-cu:latest
+    oaidu: docker.io/onosproject/oai-enb-du:latest
+    oaiue: docker.io/onosproject/oai-ue:latest
 
 # For SD-RAN Umbrella chart:
 # ONOS-KPIMON xAPP and ONOS-UENIB are imported in the RiaB by default
@@ -463,12 +476,17 @@ import:
 #     enabled: false
 #   nem-monitoring:
 #     enabled: false
-# fb-ah-xapp, fb-ah-gui, fb-kpimon-xapp and ah-eson-test-server are automatically imported when pushing fbc-pci option
+# fb-ah-xapp, fb-ah-gui, and ah-eson-test-server are automatically imported when pushing fbc-pci option
 #   fb-ah-xapp:
 #     enabled: false
 #   fb-ah-gui:
 #     enabled: false
 #   ah-eson-test-server:
 #     enabled: false
-#   fb-kpimon-xapp:
-#     enabled: false
+# Monitoring/Logging
+#   fluent-bit:
+#     enabled: true
+#   opendistro-es:
+#     enabled: true
+#   prometheus-stack:
+#     enabled: true
