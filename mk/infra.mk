@@ -104,6 +104,7 @@ $(M)/fabric-cu-du: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	sudo ip addr add $(E2_F1_DU_IPADDR) dev $(E2_F1_DU_INTERFACE) || true
 	sudo ip link set $(E2_F1_CU_INTERFACE) up
 	sudo ip link set $(E2_F1_DU_INTERFACE) up
+	touch $@
 
 $(M)/atomix: | $(M)/k8s-ready
 	helm repo update
