@@ -34,6 +34,9 @@ riab: option version preliminaries infra-k8s infra-fabric routing-quagga infra-a
 else ifeq ($(OPT), ric)
 riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
 	@echo Done
+else ifeq ($(OPT), ric-e2ap101)
+riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
+	@echo Done
 else ifeq ($(OPT), fbah)
 riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric enable-fbah-gui
 	@echo Done
