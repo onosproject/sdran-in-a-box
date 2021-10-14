@@ -75,6 +75,10 @@ else ifeq ($(OPT), ric)
 	$(eval OPT=ric)
 	$(eval HELM_ARGS=$(HELM_ARGS_RIC))
 	@echo "Helm arguments for ric: $(HELM_ARGS_RIC)"
+else ifeq ($(OPT), ric-e2ap101)
+	$(eval OPT=ric-e2ap101)
+	$(eval HELM_ARGS=$(HELM_ARGS_RIC))
+	@echo "Helm arguments for ric: $(HELM_ARGS_RIC)"
 else ifeq ($(OPT), fbah)
 	$(eval OPT=fbah)
 	$(eval HELM_ARGS=$(HELM_ARGS_FBAH))
@@ -125,6 +129,8 @@ else ifeq ($(VER), stable)
 	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
 ifeq ($(OPT), oai)
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
+else ifeq ($(OPT), ric-e2ap101)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
 else
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
 endif
@@ -134,6 +140,8 @@ else ifeq ($(VER), latest)
 	@echo "Helm values.yaml file: $(HELM_VALUES_LATEST)"
 	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
 ifeq ($(OPT), oai)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
+else ifeq ($(OPT), ric-e2ap101)
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
 else
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
@@ -149,6 +157,8 @@ else
 	@echo "Helm values.yaml file: $(HELM_VALUES_STABLE)"
 	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-LATEST)
 ifeq ($(OPT), oai)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
+else ifeq ($(OPT), ric-e2ap101)
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-LATEST)
 else
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-LATEST)
