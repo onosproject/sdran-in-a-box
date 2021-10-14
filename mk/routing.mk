@@ -14,8 +14,8 @@ routing-hw-oai:
 routing-hw-omec: routing-omec routing-external-ran routing-quagga
 
 routing-ric-external-ran:
-	sudo route add -host $(E2_F1_CU_IPADDR) gw $(shell echo $(OAI_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(RIC_DEFAULT_IP) || true
-	sudo route add -host $(E2_F1_DU_IPADDR) gw $(shell echo $(OAI_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(RIC_DEFAULT_IP) || true
+	sudo route add -host $(shell echo $(E2_F1_CU_IPADDR) | awk -F '/' '{print $$1}') gw $(shell echo $(OAI_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(RIC_DEFAULT_IP) || true
+	sudo route add -host $(shell echo $(E2_F1_DU_IPADDR) | awk -F '/' '{print $$1}') gw $(shell echo $(OAI_MACHINE_IP) | awk -F '/' '{print $$1}') dev $(RIC_DEFAULT_IP) || true
 
 routing-omec:
 	sudo ethtool -K $(OMEC_DEFAULT_INTERFACE) rx off tx on gro off gso on || true
