@@ -80,8 +80,8 @@ else ifeq ($(OPT), ric)
 	@echo "Helm arguments for ric: $(HELM_ARGS_RIC)"
 else ifeq ($(OPT), ric-e2ap101)
 	$(eval OPT=ric-e2ap101)
-	$(eval HELM_ARGS=$(HELM_ARGS_RIC))
-	@echo "Helm arguments for ric: $(HELM_ARGS_RIC)"
+	$(eval HELM_ARGS=$(HELM_ARGS_RIC_E2AP101))
+	@echo "Helm arguments for ric: $(HELM_ARGS_RIC_E2AP101)"
 else ifeq ($(OPT), fbah)
 	$(eval OPT=fbah)
 	$(eval HELM_ARGS=$(HELM_ARGS_FBAH))
