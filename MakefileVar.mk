@@ -112,3 +112,5 @@ OAI_ENB_NET_INTERFACE		    := $(shell ip -4 route list default | awk -F 'dev' '{
 OMEC_ENB_NET_IP         	    := 192.168.251.4/24
 OMEC_DEFAULT_INTERFACE      	:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
 OMEC_MACHINE_IP	            	:= 192.168.254.2/24 # It's dummy IP address. It should be changed to appropriate routable IP address for OMEC machine
+RIC_MACHINE_IP					:= 192.168.254.3/24 # It's dummy IP address. It should be changed to appropriate routable IP address for RIC machine
+RIC_DEFAULT_IP					:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')

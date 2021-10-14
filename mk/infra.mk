@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
 
 # PHONY definitions
-INFRA_PHONY					:= infra-kubespray infra-k8s infra-fabric infra-atomix infra-onos-op
+INFRA_PHONY					:= infra-kubespray infra-k8s infra-fabric infra-atomix infra-onos-op infra-fabric-cu-du
 
 infra-kubespray: $(BUILD)/kubespray $(M)/kubespray-requirements
 infra-k8s: infra-kubespray $(M)/k8s-ready $(M)/helm-ready
 infra-fabric: $(M)/fabric
+infra-fabric-cu-du: $(M)/fabric-cu-du
 infra-atomix: $(M)/atomix
 infra-onos-op: $(M)/onos-operator
 
@@ -93,6 +94,16 @@ $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	kubectl wait pod -n default --for=condition=Ready -l app=router --timeout=300s
 	kubectl -n default exec router ip route add $(UE_IP_POOL)/$(UE_IP_MASK) via $(shell echo $(UPF_CORE_NET_IP) | awk -F '/' '{print $$1}') || true
 	touch $@
+
+$(M)/fabric-cu-du: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
+	sudo apt install -y openvswitch-switch
+	sudo ovs-vsctl --may-exist add-br $(E2_F1_BRIDGE_NAME)
+	sudo ovs-vsctl --may-exist add-port $(E2_F1_BRIDGE_NAME) $(E2_F1_CU_INTERFACE) -- set Interface $(E2_F1_CU_INTERFACE) type=internal
+	sudo ovs-vsctl --may-exist add-port $(E2_F1_BRIDGE_NAME) $(E2_F1_DU_INTERFACE) -- set Interface $(E2_F1_DU_INTERFACE) type=internal
+	sudo ip addr add $(E2_F1_CU_IPADDR) dev $(E2_F1_CU_INTERFACE) || true
+	sudo ip addr add $(E2_F1_DU_IPADDR) dev $(E2_F1_DU_INTERFACE) || true
+	sudo ip link set $(E2_F1_CU_INTERFACE) up
+	sudo ip link set $(E2_F1_DU_INTERFACE) up
 
 $(M)/atomix: | $(M)/k8s-ready
 	helm repo update
