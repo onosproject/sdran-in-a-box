@@ -12,7 +12,7 @@ include ./mk/*.mk
 OPT_SELECTION_PHONY			:= option
 VER_SELECTION_PHONY			:= version
 RUN_PHONY					:= riab
-MAIN_PHONY					:= $(OPT_SELECTION_PHONY) $(VER_SELECTION_PHONY) $(RUN_PHONY) $(PRELIMINARIES_PHONY) $(INFRA_PHONY) $(EPC_PHONY) $(RIC_PHONY) $(RAN_PHONY) $(TEST_PHONY) $(RESET_CLEAN_PHONY) $(UTIL_PHONY) $(OBS_PHONY)
+MAIN_PHONY					:= $(OPT_SELECTION_PHONY) $(VER_SELECTION_PHONY) $(RUN_PHONY) $(PRELIMINARIES_PHONY) $(INFRA_PHONY) $(EPC_PHONY) $(RIC_PHONY) $(RAN_PHONY) $(TEST_PHONY) $(RESET_CLEAN_PHONY) $(UTIL_PHONY) $(OBS_PHONY) $(ROUTING_PHONY)
 
 .PHONY: $(MAINPHONY)
 
@@ -31,11 +31,14 @@ riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
 else ifeq ($(OPT), oai)
 riab: option version preliminaries infra-k8s infra-fabric routing-quagga infra-atomix infra-onos-op omec routing-omec ric oai
 	@echo Done
+else ifeq ($(OPT), oai-ran-cu-du)
+riab: option version preliminaries infra-k8s infra-fabric-cu-du oai-enb-cu-hw oai-enb-du routing-hw-oai
+	@echo Done
 else ifeq ($(OPT), ric)
-riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
+riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric routing-ric-external-ran
 	@echo Done
 else ifeq ($(OPT), ric-e2ap101)
-riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
+riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric routing-ric-external-ran
 	@echo Done
 else ifeq ($(OPT), fbah)
 riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric enable-fbah-gui
@@ -72,6 +75,10 @@ ifeq ($(OPT), ransim)
 	@echo "Helm arguments for ransim: $(HELM_ARGS_RANSIM)"
 else ifeq ($(OPT), oai)
 	$(eval OPT=oai)
+	$(eval HELM_ARGS=$(HELM_ARGS_OAI))
+	@echo "Helm arguments for oai: $(HELM_ARGS_OAI)"
+else ifeq ($(OPT), oai-ran-cu-du)
+	$(eval OPT=oai-ran-cu-du)
 	$(eval HELM_ARGS=$(HELM_ARGS_OAI))
 	@echo "Helm arguments for oai: $(HELM_ARGS_OAI)"
 else ifeq ($(OPT), ric)
