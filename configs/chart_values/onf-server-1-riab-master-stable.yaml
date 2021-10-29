@@ -257,6 +257,11 @@ config:
 #         CellIndividualOffset: 0
 #         FrequencyOffset: 0
 #         TimeToTrigger: 0
+# onos-rsm:
+#   image:
+#     repository: onosproject/onos-rsm
+#     tag: latest
+#     pullPolicy: IfNotPresent
 # fb-ah-xapp:
 #   image:
 #     repository: onosproject/fb-ah-xapp
