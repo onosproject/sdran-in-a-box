@@ -365,7 +365,7 @@ onos-e2t:
 #       config_json:
 #         controller:
 #           interval: 10
-#onos-mho:
+# onos-mho:
 #  image:
 #    pullPolicy: IfNotPresent
 #    repository: onosproject/onos-mho
@@ -387,6 +387,11 @@ onos-e2t:
 #      CellIndividualOffset: 0
 #      FrequencyOffset: 0
 #      TimeToTrigger: 0
+# onos-rsm:
+#   image:
+#     repository: onosproject/onos-rsm
+#     tag: latest
+#     pullPolicy: IfNotPresent
 # fb-ah-xapp:
 #   image:
 #     repository: onosproject/fb-ah-xapp
