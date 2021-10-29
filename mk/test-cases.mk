@@ -44,6 +44,6 @@ test-rsm-dataplane: $(M)/ric $(M)/omec $(M)/oai-ue
 	@echo "*** Test downlink traffic (UDP) ***"
 	sudo apt install -y iperf3
 	kubectl exec -it router -- apt install -y iperf3
-	iperf3 -s -B $(ip a show oaitun_ue1 | grep inet | grep -v inet6 | awk '{print $2}' | awk -F '/' '{print $1}') -p 5001 > /dev/null &
-	kubectl exec -it router -- iperf3 -u -c $(ip a show oaitun_ue1 | grep inet | grep -v inet6 | awk '{print $2}' | awk -F '/' '{print $1}') -p 5001 -b 20M -l 1450 -O 2 -t 12 --get-server-output
+	iperf3 -s -B $$(ip a show oaitun_ue1 | grep inet | grep -v inet6 | awk '{print $$2}' | awk -F '/' '{print $$1}') -p 5001 > /dev/null &
+	kubectl exec -it router -- iperf3 -u -c $$(ip a show oaitun_ue1 | grep inet | grep -v inet6 | awk '{print $$2}' | awk -F '/' '{print $$1}') -p 5001 -b 20M -l 1450 -O 2 -t 12 --get-server-output
 	pkill -9 -ef iperf3
