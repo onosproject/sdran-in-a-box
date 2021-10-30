@@ -127,7 +127,7 @@ c0007daeef88f0702cce3e1b47f62420:e2:1/5154   107        oran-e2sm-kpm:v2      e2
 fc5e2d6967fd1923e6853e796571c946:e2:1/5153   111        oran-e2sm-kpm:v2      e2:1/5153   ASN1_PER   SUBSCRIPTION_OPEN   SUBSCRIPTION_COMPLETE
 ```
 
-Next, we can check KPIMON xApp CLI and PCI xApp CLI.
+Next, we can check KPIMON xAPP CLI and PCI xAPP CLI.
 In order to check KPIMON xAPP CLI, we should type `make test-kpimon`
 ```bash
 $ make test-kpimon
