@@ -13,6 +13,7 @@ $ cd /path/to/sdran-in-a-box
 $ git checkout v1.1.0 # for release 1.1
 $ git checkout v1.1.1 # for release 1.1.1
 $ git checkout v1.2.0 # for release 1.2
+$ git checkout v1.2.0 # for release 1.3
 $ git checkout master # for master
 ```
 
@@ -29,8 +30,9 @@ $ make riab OPT=fbah VER=latest
 $ make riab OPT=fbah VER=v1.1.0 # for release SD-RAN 1.1
 $ make riab OPT=fbah VER=v1.1.1 # for release SD-RAN 1.1.1
 $ make riab OPT=fbah VER=v1.2.0 # for release SD-RAN 1.2
+$ make riab OPT=fbah VER=v1.3.0 # for release SD-RAN 1.3
 # for a "dev" version
-$ make riab OPT=fbah VER=dev # for release SD-RAN 1.2
+$ make riab OPT=fbah VER=dev # for dev version
 ```
 
 Once we push one of above commands, the deployment procedure starts.
@@ -129,9 +131,9 @@ Node ID          Cell Object ID       Cell Global ID            Time    RRC.Conn
 5154            138426014550003             14550003      22:26:21.0               0               2                       0                        0                            0                           0                         0                                  0
 ```
 
-* Use Facebook-AirHop GUI page: for SD-RAN release 1.1, release 1.1.1, and release 1.2, master-stable, latest, and dev versions
+* Use Facebook-AirHop GUI page: for SD-RAN release 1.1, release 1.1.1, release 1.2, release 1.3, master-stable, latest, and dev versions
 
-### GUI [for SD-RAN release 1.2]
+### GUI [for SD-RAN release 1.2 and beyond]
 
 To access GUI, we should open web browser like [Chrome](https://www.google.com/chrome/) or [Safari](https://www.apple.com/safari/).
 Next, go to `http://<RiaB server IP address>:30095`

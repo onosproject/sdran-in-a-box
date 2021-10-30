@@ -14,6 +14,7 @@ $ git checkout v1.0.0 # for release 1.0
 $ git checkout v1.1.0 # for release 1.1
 $ git checkout v1.1.1 # for release 1.1.1
 $ git checkout v1.2.0 # for release 1.2
+$ git checkout v1.2.0 # for release 1.3
 $ git checkout master # for master
 ```
 
