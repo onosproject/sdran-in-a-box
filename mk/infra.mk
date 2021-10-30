@@ -127,7 +127,6 @@ else ifeq ($(VER), v1.2.0)
 else ifeq ($(VER), v1.3.0)
 	helm install -n kube-system atomix-controller atomix/atomix-controller --version 0.6.8 --wait || true
 	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --version 0.1.15 --wait || true
-	helm install -n kube-system atomix-memory-storage atomix/atomix-memory-storage --version 0.1.1 --wait || true
 else ifeq ($(VER), stable)
 	helm install -n kube-system atomix-controller atomix/atomix-controller --wait || true
 	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --wait || true

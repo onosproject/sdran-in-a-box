@@ -393,6 +393,7 @@ $ kubectl exec -it deployment/onos-cli -n riab -- onos uenib get ues -v
 ID: 455f5d5e-0f8e-4b8d-a857-c56e9bd455cb
 Aspects:
 - onos.uenib.RsmUeInfo={"globalUeId":"455f5d5e-0f8e-4b8d-a857-c56e9bd455cb","ueIdList":{"duUeF1apId":{"value":"49781"},"cuUeF1apId":{"value":"49781"},"ranUeNgapId":{},"enbUeS1apId":{"value":14951620},"amfUeNgapId":{}},"bearerIdList":[{"drbID":{"fourGDrbID":{"value":5,"qci":{"value":9}}}}],"cellGlobalId":"e_utra_cgi:{p_lmnidentity:{value:\"\\x02\\xf8\\x10\"} e_utracell_identity:{value:{value:\"\\x00\\xe0\\x00\\x00\" len:28}}}","cuE2NodeId":"e2:4/e00/2/64","duE2NodeId":"e2:4/e00/3/c8","sliceList":[]}
+
 $ kubectl exec -it deployment/onos-cli -n riab -- onos rsm set association --dlSliceID 1 --e2NodeID e2:4/e00/3/c8 --drbID 5 --DuUeF1apID 49871
 ```
 
