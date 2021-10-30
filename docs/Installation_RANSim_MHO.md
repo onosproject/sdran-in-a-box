@@ -1,4 +1,4 @@
-# Installation with RAN-Simulator and ONOS MHO xApp
+# Installation with RAN-Simulator and ONOS MHO xAPP
 This document covers how to install ONOS RIC services with RAN-Simulator.
 With this option, RiaB will deploy ONOS RIC services including ONOS-KPIMON (KPM 2.0 supported), and ONOS-MHO xAPPs together with RAN-Simulator
 
@@ -124,7 +124,7 @@ bab81642e0e6d82c57a54060feeabe6f:e2:1/5153   97         oran-e2sm-mho:v1   e2:1/
 84ce5613b27ac3b1e357879244014095:e2:1/5153   155        oran-e2sm-kpm:v2   e2:1/5153   ASN1_PER   SUBSCRIPTION_OPEN   SUBSCRIPTION_COMPLETE
 ```
 
-Next, we can check KPIMON xApp CLI and MHO xApp CLI.
+Next, we can check KPIMON xAPP CLI and MHO xAPP CLI.
 In order to check KPIMON xAPP CLI, we should type `make test-kpimon`
 ```bash
 $ make test-kpimon
@@ -137,7 +137,7 @@ e2:1/5154       138426014550001             14550001      03:12:23.0            
 
 *Note: It shows the current number of active UEs and the maximum number of active UEs. All other values should be 0.*
 
-Also, we should type `make test-mho` to check MHO xApp CLI.
+Also, we should type `make test-mho` to check MHO xAPP CLI.
 ```bash
 $ make test-mho
 ...

@@ -125,7 +125,7 @@ e2bc512b4c17accfe2b59877444e2bbd:e2:1/5155   93         oran-e2sm-kpm:v2      e2
 6eb185a4fc905039fd46a9af89c65030:e2:1/5154   85         oran-e2sm-rc-pre:v2   e2:1/5154   ASN1_PER   SUBSCRIPTION_OPEN   SUBSCRIPTION_COMPLETE
 ```
 
-Next, we can check KPIMON xApp CLI, PCI xApp CLI, and MLB xApp CLI.
+Next, we can check KPIMON xAPP CLI, PCI xAPP CLI, and MLB xAPP CLI.
 In order to check KPIMON xAPP CLI, we should type `make test-kpimon`
 ```bash
 $ make test-kpimon
