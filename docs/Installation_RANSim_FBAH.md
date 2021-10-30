@@ -77,37 +77,36 @@ touch /tmp/build/milestones/helm-ready
 If we don't see any error or failure messages, everything is deployed.
 ```bash
 $ kubectl get po --all-namespaces
-NAMESPACE     NAME                                                READY   STATUS    RESTARTS   AGE
-kube-system   atomix-controller-7785674d5d-wnn8v                  1/1     Running   0          45h
-kube-system   atomix-memory-storage-controller-66644577fb-qfs48   1/1     Running   0          45h
-kube-system   atomix-raft-storage-controller-687d8497d4-wbfx5     1/1     Running   0          45h
-kube-system   calico-kube-controllers-db474b467-jwbjj             1/1     Running   0          8d
-kube-system   calico-node-8jzz4                                   1/1     Running   0          8d
-kube-system   coredns-dff8fc7d-cvx65                              1/1     Running   0          8d
-kube-system   dns-autoscaler-5d74bb9b8f-99ktb                     1/1     Running   0          8d
-kube-system   kube-apiserver-node1                                1/1     Running   0          8d
-kube-system   kube-controller-manager-node1                       1/1     Running   0          8d
-kube-system   kube-multus-ds-amd64-5gvnf                          1/1     Running   0          8d
-kube-system   kube-proxy-xmtkj                                    1/1     Running   0          8d
-kube-system   kube-scheduler-node1                                1/1     Running   0          8d
-kube-system   kubernetes-dashboard-667c4c65f8-v2lvk               1/1     Running   0          8d
-kube-system   kubernetes-metrics-scraper-54fbb4d595-bd2w9         1/1     Running   0          8d
-kube-system   nodelocaldns-ppljr                                  1/1     Running   0          8d
-kube-system   onos-operator-config-9896789b8-bngw2                1/1     Running   0          45h
-kube-system   onos-operator-topo-6b44c56d8d-d5bwz                 1/1     Running   0          45h
-riab          ah-eson-test-server-85dfc8694f-74l52                1/1     Running   0          2m34s
-riab          fb-ah-gui-9dc8c86dc-q7wc6                           1/1     Running   0          2m34s
-riab          fb-ah-xapp-6b7748fc86-2q4br                         1/1     Running   3          2m34s
-riab          fb-kpimon-xapp-54bd54c94d-qzhlg                     1/1     Running   3          2m34s
-riab          onos-cli-8584c45c84-4ddll                           1/1     Running   0          2m34s
-riab          onos-config-798b8c8579-tfmcq                        4/4     Running   0          2m34s
-riab          onos-consensus-db-1-0                               1/1     Running   0          2m34s
-riab          onos-consensus-store-1-0                            1/1     Running   0          2m33s
-riab          onos-e2t-5c55869d6f-8xwzs                           3/3     Running   0          2m33s
-riab          onos-kpimon-68549c5bb9-7mtv4                        1/1     Running   0          2m34s
-riab          onos-topo-858d7999d-pdwf6                           3/3     Running   0          2m34s
-riab          onos-uenib-55c568b444-29zjb                         3/3     Running   0          2m34s
-riab          ran-simulator-5d48f6bc59-29dbn                      1/1     Running   0          2m34s
+NAMESPACE     NAME                                                     READY   STATUS    RESTARTS   AGE
+kube-system   atomix-controller-6b6d96775-fnjm2                        1/1     Running   0          17m
+kube-system   atomix-raft-storage-controller-77bd965f8d-97wql          1/1     Running   0          17m
+kube-system   calico-kube-controllers-6759976d49-zkvjt                 1/1     Running   0          3d7h
+kube-system   calico-node-n22vw                                        1/1     Running   0          3d7h
+kube-system   coredns-dff8fc7d-b8lvl                                   1/1     Running   52         3d7h
+kube-system   dns-autoscaler-5d74bb9b8f-5948j                          1/1     Running   0          3d7h
+kube-system   kube-apiserver-node1                                     1/1     Running   64         3d7h
+kube-system   kube-controller-manager-node1                            1/1     Running   64         3d7h
+kube-system   kube-multus-ds-amd64-wg99f                               1/1     Running   0          3d7h
+kube-system   kube-proxy-cvxz2                                         1/1     Running   1          3d7h
+kube-system   kube-scheduler-node1                                     1/1     Running   62         3d7h
+kube-system   kubernetes-dashboard-667c4c65f8-5kdcp                    1/1     Running   97         3d7h
+kube-system   kubernetes-metrics-scraper-54fbb4d595-slnlv              1/1     Running   63         3d7h
+kube-system   nodelocaldns-55nr9                                       1/1     Running   53         3d7h
+kube-system   onos-operator-app-d56cb6f55-n25qc                        1/1     Running   0          17m
+kube-system   onos-operator-config-7986b568b-hr8qk                     1/1     Running   0          17m
+kube-system   onos-operator-topo-76fdf46db5-rlkth                      1/1     Running   0          17m
+riab          ah-eson-test-server-85dfc8694f-8vfbg                     1/1     Running   0          79s
+riab          fb-ah-gui-66bb7d75cc-6zhhn                               1/1     Running   0          79s
+riab          fb-ah-xapp-69bb4d6d89-9vfmr                              1/2     Running   3          79s
+riab          fb-kpimon-xapp-689f6c99dd-cn96l                          1/2     Running   3          79s
+riab          onos-cli-9f75bc57c-68zpt                                 1/1     Running   0          79s
+riab          onos-config-5d7cd9dd8c-zprwv                             4/4     Running   0          79s
+riab          onos-consensus-store-0                                   1/1     Running   0          79s
+riab          onos-e2t-ff696bc5d-svwvl                                 3/3     Running   0          79s
+riab          onos-kpimon-6bdff5875c-z5z9s                             2/2     Running   0          79s
+riab          onos-topo-775f5f946f-fchq4                               3/3     Running   0          79s
+riab          onos-uenib-5b6445d58f-2mrxq                              3/3     Running   0          79s
+riab          ran-simulator-66c897df5c-hwvjp                           1/1     Running   0          79s
 ```
 
 NOTE: If we see any issue when deploying RiaB, please check [Troubleshooting](./troubleshooting.md)
