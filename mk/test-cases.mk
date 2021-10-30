@@ -50,6 +50,6 @@ test-rsm-dataplane: $(M)/ric $(M)/omec $(M)/oai-ue
 
 test-mho: | $(M)/ric
 	@echo "*** Get MHO result through CLI - Cells ***"; \
-	kubectl exec -it deployment/onos-cli -n riab -- onos mho get cells; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos mho get cells;
 	@echo "*** Get MHO result through CLI - UEs ***"; \
 	kubectl exec -it deployment/onos-cli -n riab -- onos mho get ues;
