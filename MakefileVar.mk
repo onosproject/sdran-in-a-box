@@ -16,6 +16,7 @@ RESOURCEDIR						?= $(RIABDIR)/resources
 
 # Commit IDs
 AETHERCHARTCID-V1.0.0			?= 6b3a267e428402d6bb8531bd921c1d202bb338b2
+AETHERCHARTCID-V1.3.0			?= 9f79ab87a96ae9ee2bb9a1540f4cd1574261611b
 AETHERCHARTCID-LATEST			?= 9f79ab87a96ae9ee2bb9a1540f4cd1574261611b
 SDRANCHARTCID-LATEST			?= origin/master
 SDRANCHARTCID-E2AP101-LATEST	?= origin/e2ap101
@@ -24,6 +25,7 @@ SDRANCHARTCID-V1.0.0			?= v1.0.0 #branch: v1.0.0
 SDRANCHARTCID-V1.1.0			?= 6670e6da25129b665b024a7c6d0fd79cfda52f25
 SDRANCHARTCID-V1.1.1			?= 479ff0b59d4ae9f09cd9f7be6ea9a189f207b810
 SDRANCHARTCID-V1.2.0			?= a30fbd674f97212ea77d4db1401dab0544e20905
+SDRANCHARTCID-V1.3.0			?= b2c912e15f1422441eaf934b24a8eedf3df66c53
 
 #  Helm arguments
 DEFAULT_HELM_ARGS				:= --set import.ran-simulator.enabled=true --set import.onos-pci.enabled=true
@@ -43,6 +45,7 @@ HELM_VALUES_V1.0.0				?= $(RIABDIR)/sdran-in-a-box-values-v1.0.0.yaml
 HELM_VALUES_V1.1.0				?= $(RIABDIR)/sdran-in-a-box-values-v1.1.0.yaml
 HELM_VALUES_V1.1.1				?= $(RIABDIR)/sdran-in-a-box-values-v1.1.1.yaml
 HELM_VALUES_V1.2.0				?= $(RIABDIR)/sdran-in-a-box-values-v1.2.0.yaml
+HELM_VALUES_V1.3.0				?= $(RIABDIR)/sdran-in-a-box-values-v1.3.0.yaml
 HELM_VALUES_STABLE				?= $(RIABDIR)/sdran-in-a-box-values-master-stable.yaml
 HELM_VALUES_LATEST				?= $(RIABDIR)/sdran-in-a-box-values.yaml
 HELM_VALUES_DEV					?= $(RIABDIR)/sdran-in-a-box-values.yaml
@@ -51,7 +54,7 @@ HELM_VALUES_DEV					?= $(RIABDIR)/sdran-in-a-box-values.yaml
 DEFAULT_OPT						:= ransim
 OPT								?= $(DEFAULT_OPT)
 
-# Versions - v1.0.0, v1.1.0, v1.1.1, v1.2.0 stable, latest, and dev
+# Versions - v1.0.0, v1.1.0, v1.1.1, v1.2.0, v1.3.0, stable, latest, and dev
 DEFAULT_VER						:= stable
 VER								?= $(DEFAULT_VER)
 

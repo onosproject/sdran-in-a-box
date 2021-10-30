@@ -132,6 +132,18 @@ else ifeq ($(VER), v1.2.0)
 	@echo "Helm values.yaml file: $(HELM_VALUES_V1.2.0)"
 	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-V1.2.0)
 	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-V1.0.0)
+else ifeq ($(VER), v1.3.0)
+	$(eval VER=v1.3.0)
+	$(eval HELM_VALUES=$(HELM_VALUES_V1.3.0))
+	@echo "Helm values.yaml file: $(HELM_VALUES_V1.3.0)"
+	@cd $(AETHERCHARTDIR); git checkout $(AETHERCHARTCID-V1.3.0)
+ifeq ($(OPT), oai)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-V1.3.0)
+else ifeq ($(OPT), ric-e2ap101)
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-E2AP101-V1.3.0)
+else
+	@cd $(SDRANCHARTDIR); git checkout $(SDRANCHARTCID-V1.3.0)
+endif
 else ifeq ($(VER), stable)
 	$(eval VER=stable)
 	$(eval HELM_VALUES=$(HELM_VALUES_STABLE))
