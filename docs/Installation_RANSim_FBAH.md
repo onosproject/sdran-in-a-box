@@ -82,16 +82,16 @@ kube-system   atomix-controller-6b6d96775-fnjm2                        1/1     R
 kube-system   atomix-raft-storage-controller-77bd965f8d-97wql          1/1     Running   0          17m
 kube-system   calico-kube-controllers-6759976d49-zkvjt                 1/1     Running   0          3d7h
 kube-system   calico-node-n22vw                                        1/1     Running   0          3d7h
-kube-system   coredns-dff8fc7d-b8lvl                                   1/1     Running   52         3d7h
+kube-system   coredns-dff8fc7d-b8lvl                                   1/1     Running   0          3d7h
 kube-system   dns-autoscaler-5d74bb9b8f-5948j                          1/1     Running   0          3d7h
-kube-system   kube-apiserver-node1                                     1/1     Running   64         3d7h
-kube-system   kube-controller-manager-node1                            1/1     Running   64         3d7h
+kube-system   kube-apiserver-node1                                     1/1     Running   0          3d7h
+kube-system   kube-controller-manager-node1                            1/1     Running   0          3d7h
 kube-system   kube-multus-ds-amd64-wg99f                               1/1     Running   0          3d7h
 kube-system   kube-proxy-cvxz2                                         1/1     Running   1          3d7h
-kube-system   kube-scheduler-node1                                     1/1     Running   62         3d7h
-kube-system   kubernetes-dashboard-667c4c65f8-5kdcp                    1/1     Running   97         3d7h
-kube-system   kubernetes-metrics-scraper-54fbb4d595-slnlv              1/1     Running   63         3d7h
-kube-system   nodelocaldns-55nr9                                       1/1     Running   53         3d7h
+kube-system   kube-scheduler-node1                                     1/1     Running   0          3d7h
+kube-system   kubernetes-dashboard-667c4c65f8-5kdcp                    1/1     Running   0          3d7h
+kube-system   kubernetes-metrics-scraper-54fbb4d595-slnlv              1/1     Running   0          3d7h
+kube-system   nodelocaldns-55nr9                                       1/1     Running   0          3d7h
 kube-system   onos-operator-app-d56cb6f55-n25qc                        1/1     Running   0          17m
 kube-system   onos-operator-config-7986b568b-hr8qk                     1/1     Running   0          17m
 kube-system   onos-operator-topo-76fdf46db5-rlkth                      1/1     Running   0          17m
@@ -122,12 +122,12 @@ $ make test-kpimon
 ...
 *** Get KPIMON result through CLI ***
 Node ID          Cell Object ID       Cell Global ID            Time    RRC.Conn.Avg    RRC.Conn.Max    RRC.ConnEstabAtt.Sum    RRC.ConnEstabSucc.Sum    RRC.ConnReEstabAtt.HOFail    RRC.ConnReEstabAtt.Other    RRC.ConnReEstabAtt.Sum    RRC.ConnReEstabAtt.reconfigFail
-5153            13842601454c001             1454c001      22:26:21.0               1               1                       0                        0                            0                           0                         0                                  0
-5153            13842601454c002             1454c002      22:26:21.0               4               5                       0                        0                            0                           0                         0                                  0
-5153            13842601454c003             1454c003      22:26:21.0               0               1                       0                        0                            0                           0                         0                                  0
-5154            138426014550001             14550001      22:26:21.0               1               2                       0                        0                            0                           0                         0                                  0
-5154            138426014550002             14550002      22:26:21.0               4               5                       0                        0                            0                           0                         0                                  0
-5154            138426014550003             14550003      22:26:21.0               0               2                       0                        0                            0                           0                         0                                  0
+e2:1/5153       13842601454c001             1454c001      02:43:07.0               2               3                       0                        0                            0                           0                         0                                  0
+e2:1/5153       13842601454c002             1454c002      02:43:07.0               1               1                       0                        0                            0                           0                         0                                  0
+e2:1/5153       13842601454c003             1454c003      02:43:07.0               1               2                       0                        0                            0                           0                         0                                  0
+e2:1/5154       138426014550001             14550001      02:43:07.0               2               3                       0                        0                            0                           0                         0                                  0
+e2:1/5154       138426014550002             14550002      02:43:07.0               2               2                       0                        0                            0                           0                         0                                  0
+e2:1/5154       138426014550003             14550003      02:43:07.0               2               3                       0                        0                            0                           0                         0                                  0
 ```
 
 * Use Facebook-AirHop GUI page: for SD-RAN release 1.1, release 1.1.1, release 1.2, release 1.3, master-stable, latest, and dev versions
