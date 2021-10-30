@@ -145,7 +145,7 @@ $ make test-mho
 CGI              Num UEs          Handovers-in     Handovers-out
 138426014550001  1                4                4
 13842601454c001  0                4                4
-/bin/bash: line 2: @echo: command not found
+*** Get MHO result through CLI - UEs ***
 UeID     CellGlobalID     RrcState
 714cf2   138426014550001  CONNECTED
 ```
