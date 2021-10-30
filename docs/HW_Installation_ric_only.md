@@ -25,7 +25,7 @@ Then run the RIC components with the commands below.
 ```bash
 $ cd /path/to/sdran-in-a-box
 $ sudo apt install build-essential
-$ make ric
+$ make OPT=ric VER=<version>
 ```
 
 **Notice: The sdran-in-a-box-values.yaml contain the latest versions of the RIC components. In order to use the v1.0.0 or v1.1.0 versions make sure to respectively copy and paste to the sdran-in-a-box-values.yaml file the contents of the files sdran-in-a-box-values-v1.0.0.yaml and sdran-in-a-box-values-v1.1.0.yaml as needed.**
@@ -47,6 +47,18 @@ onos-e2t:
       enabled: true
     e2:
      nodePort: 36421
+```
+
+## Routing
+If RIC is running outside the OAI-CU/DU machine, run below command:
+```bash
+$ make routing-ric-external-ran
+```
+
+If there are multiple machines, we should manually add routing rules like:
+```bash
+$ sudo route add -host <CU IP address described in CU config file> gw <CU machine IP address> dev <RIC VM network interface name>
+$ sudo route add -host <DU IP address described in DU config file> gw <DU machine IP address> dev <RIC VM network interface name>
 ```
 
 ## Stop/Clean RIC

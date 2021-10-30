@@ -351,6 +351,20 @@ import:
 ## Change MakefileVar.mk file
 In the sdran-in-a-box directory, we can find `MakefileVar.mk` file. We should change that file accordingly. Go to the last block and change it as follows:
 ```
+# For RIC
+E2_F1_CU_INTERFACE				:= cu_e2f1_if
+E2_F1_CU_IPADDR					:= 192.168.200.21/24
+E2_F1_DU_INTERFACE				:= du_e2f1_if
+E2_F1_DU_IPADDR					:= 192.168.200.22/24
+S1MME_CU_INTERFACE				:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+NFAPI_DU_INTERFACE				:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+NFAPI_DU_IPADDR					:= $(shell ip -4 a show $(NFAPI_DU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
+NFAPI_UE_INTERFACE				:= $(shell ip -4 route list default | awk -F 'dev' '{ print $$2; exit }' | awk '{ print $$1 }')
+NFAPI_UE_IPADDR					:= $(shell ip -4 a show $(NFAPI_UE_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
+E2T_NODEPORT_INTERFACE			:= eno1
+E2T_NODEPORT_IPADDR				:= 192.168.10.22
+E2_F1_BRIDGE_NAME				:= br-e2f1-net
+
 # For routing configuarion
 ENB_SUBNET                  := 192.168.11.8/29
 ENB_GATEWAY                 := 192.168.11.9/29
