@@ -142,6 +142,8 @@ Then, we can see the xAPP webpage.
 
 *Note: If we put the mouse cursor over the black circles, some tool tips should pop up.*
 
+*Note: If we want to change the cell's location, please see push-cell-loc.sh file in scripts directory.*
+
 ### GUI [for SD-RAN release 1.1 and 1.1.1]
 
 To access GUI, we should open web browser like [Chrome](https://www.google.com/chrome/) or [Safari](https://www.apple.com/safari/).
