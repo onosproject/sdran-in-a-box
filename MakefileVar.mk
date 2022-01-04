@@ -73,7 +73,7 @@ HELM_SDRAN_URL					?= https://sdrancharts.onosproject.org
 KUBESPRAY_VERSION				?= release-2.14
 DOCKER_VERSION					?= 19.03
 K8S_VERSION						?= v1.18.9
-HELM_VERSION					?= v3.2.4
+HELM_VERSION					?= v3.7.0
 
 # OMEC parameters
 UE_IP_POOL						?= 172.250.0.0
