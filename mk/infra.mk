@@ -1,5 +1,5 @@
 # Copyright 2020-present Open Networking Foundation
-# SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
+# SPDX-License-Identifier: Apache-2.0
 
 # PHONY definitions
 INFRA_PHONY					:= infra-kubespray infra-k8s infra-fabric infra-atomix infra-onos-op infra-fabric-cu-du

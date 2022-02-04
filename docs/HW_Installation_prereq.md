@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Prerequisites
 
 This section explains how to install the requirements needed for the execution of an OAI component in a host machine connected to a USRP.

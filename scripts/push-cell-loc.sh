@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 kubectl exec -it deployment/onos-cli -n riab -- onos topo set entity e2:1/5154/14550001 --aspect onos.topo.Location='{"lat":52.504315,"lng":13.453262}'
 kubectl exec -it deployment/onos-cli -n riab -- onos topo set entity e2:1/5154/14550002 --aspect onos.topo.Location='{"lat":52.504315,"lng":13.453262}'
 kubectl exec -it deployment/onos-cli -n riab -- onos topo set entity e2:1/5154/14550003 --aspect onos.topo.Location='{"lat":52.504315,"lng":13.453262}'

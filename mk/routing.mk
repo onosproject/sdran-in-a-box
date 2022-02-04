@@ -1,5 +1,5 @@
 # Copyright 2020-present Open Networking Foundation
-# SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
+# SPDX-License-Identifier: Apache-2.0
 
 # Phony definition
 ROUTING_PHONY					:= routing-hw-oai routing-hw-omec routing-omec routing-external-ran routing-quagga routing-ric-external-ran

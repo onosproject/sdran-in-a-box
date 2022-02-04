@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Hardware Installation
 
 This installation shows how to run the ONF SDRAN setup using ONOS-RIC, OMEC, and OAI CU/DU and UE components. 
@@ -70,7 +76,7 @@ In the cloned source code of the folder sdran-in-a-box, overwrite the content of
 ```yaml
 # Copyright 2020-present Open Networking Foundation
 #
-# SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
+# SPDX-License-Identifier: Apache-2.0
 
 # cassandra values
 cassandra:

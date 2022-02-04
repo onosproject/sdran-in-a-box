@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Install RIC only
 
 This section explains how to execute only the RIC components (without RanSim/OAI) using the RiaB Makefile.

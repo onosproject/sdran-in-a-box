@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # SDRAN-in-a-Box (RiaB)
 SDRAN-in-a-Box (RiaB) is a SD-RAN cluster which is able to operate within a single host machine .
 It provides a development/test environment for developers/users in ONF SD-RAN community.

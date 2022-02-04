@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Install the ONOS-RIC
 
 This section explains how to install the RIC components using RiaB in the ONOS-RIC machine.
