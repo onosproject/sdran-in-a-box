@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Installation with RAN-Simulator and ONOS PCI xAPP
 This document covers how to install ONOS RIC services with RAN-Simulator.
 With this option, RiaB will deploy ONOS RIC services including ONOS-KPIMON (KPM 2.0 supported) and ONOS-PCI xAPPs together with RAN-Simulator

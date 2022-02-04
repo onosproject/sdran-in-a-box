@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2019-present Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # Installation with CU-CP and OAI nFAPI emulator for KPIMON & RSM
 This document covers how to install ONOS RIC services with CU-CP and OAI nFAPI emulator for KPIMON and RSM use-cases.
 With this option, RiaB will deploy ONOS RIC services including ONOS-KPIMON (KPM 2.0 supported) together with CU-CP, OAI DU (nFAPI), and OAI UE (nFAPI).

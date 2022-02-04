@@ -1,5 +1,5 @@
 # Copyright 2020-present Open Networking Foundation
-# SPDX-License-Identifier: LicenseRef-ONF-Member-Only-1.0
+# SPDX-License-Identifier: Apache-2.0
 
 # PHONY definitions
 OBS_PHONY					:= set-option-oai set-option-ransim set-option-fbah set-option-ric set-stable-aether-chart set-latest-sdran-chart set-v1.0.0-sdran-chart set-v1.1.0-sdran-chart set-v1.1.1-sdran-chart set-latest-riab-values set-v1.0.0-riab-values set-v1.1.0-riab-values set-v1.1.1-riab-values set-master-stable-riab-values atomix riab-oai riab-ransim riab-ric riab-fbah riab-oai-latest riab-ransim-latest riab-ric-latest riab-fbah-latest riab-oai-v1.0.0 riab-ransim-v1.0.0 riab-ric-v1.0.0 riab-oai-v1.1.0 riab-ransim-v1.1.0 riab-ric-v1.1.0 riab-fbah-v1.1.0 riab-oai-v1.1.1 riab-ransim-v1.1.1 riab-ric-v1.1.1 riab-fbah-v1.1.1 riab-oai-dev riab-ransim-dev riab-ric-dev riab-fbah-dev oai-enb-usrp oai-ue-usrp ric-oai-latest riab-oai-master-stable riab-ransim-master-stable riab-ric-master-stable riab-fbah-master-stable
