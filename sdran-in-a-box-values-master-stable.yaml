@@ -179,7 +179,7 @@ config:
     networks:
       e2:
         address: 127.0.0.1 # if we use RiaB, Makefile script will automatically apply appropriate interface name
-        port: 36421
+        port: 36401
 # for 5g core
 #  amf:
 #    ngapp:
@@ -299,7 +299,7 @@ onos-e2t:
     external:
       enabled: true
     e2:
-     nodePort: 36421
+     nodePort: 36401
 #   image:
 #     pullPolicy: IfNotPresent
 #     repository: onosproject/onos-e2t
