@@ -51,9 +51,7 @@ $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubesp
 $(M)/helm-ready: | $(M)/k8s-ready
 	helm repo add incubator $(HELM_INCUBATOR_URL)
 	helm repo add cord $(HELM_OPENCORD_URL)
-	@if [ "$$SDRAN_USERNAME" == "" ]; then read -r -p "Username for ONF SDRAN private chart: " SDRAN_USERNAME; \
-	read -r -p "Password for ONF SDRAN private chart: " SDRAN_PASSWORD; fi ;\
-	helm repo add sdran $(HELM_SDRAN_URL) --username $$SDRAN_USERNAME --password $$SDRAN_PASSWORD;
+	helm repo add sdran $(HELM_SDRAN_URL)
 	helm repo add atomix https://charts.atomix.io
 	helm repo add onos https://charts.onosproject.org
 	helm repo update
