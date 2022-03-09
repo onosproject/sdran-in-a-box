@@ -4,8 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-./run_ran_vm.sh
-
-./run_ric_vm.sh
-
-./run_omec_vm.sh
+echo Run OMEC node
+pushd omec
+sudo vagrant up
+popd
