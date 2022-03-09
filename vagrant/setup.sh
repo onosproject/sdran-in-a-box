@@ -22,10 +22,10 @@ sudo ovs-vsctl --may-exist add-br br0
 sudo ovs-vsctl show
 
 echo Run RAN node
-sudo vagrant ran.Vagrantfile up
+sudo vagrant up ran.Vagrantfile
 
 echo Run RIC node
-sudo vagrant ric.Vagrantfile up
+sudo vagrant up ric.Vagrantfile
 
 echo Run OMEC node
-sudo vagrant omec.Vagrantfile up
+sudo vagrant up omec.Vagrantfile
