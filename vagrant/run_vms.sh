@@ -6,15 +6,15 @@
 
 echo Run RAN node
 pushd ran
-sudo vagrant up ran.Vagrantfile
+sudo vagrant up
 popd
 
 echo Run RIC node
 pushd ric
-sudo vagrant up ric.Vagrantfile
+sudo vagrant up
 popd
 
 echo Run OMEC node
 pushd omec
-sudo vagrant up omec.Vagrantfile
+sudo vagrant up
 popd
