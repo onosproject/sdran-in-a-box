@@ -12,5 +12,11 @@ Vagrant.configure(2) do |config|
             v.cpus = 4
             v.memory = 8192
         end
+
+        omec.vm.provision "shell", run: 'always', inline: <<-SHELL
+            sudo ifconfig eth1 192.168.10.21/24 up
+            route add -net 192.168.11.0/24 dev eth1
+            route add -net 192.168.13.0/24 dev eth1
+        SHELL
     end
 end
