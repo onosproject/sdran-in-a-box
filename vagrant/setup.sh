@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 echo Install VM hypervisor and OpenVSwitch
+sudo apt update
 sudo apt install qemu libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base qemu-kvm libvirt-bin bridge-utils virt-manager openvswitch-switch -y
 
 echo Install Vagrant
