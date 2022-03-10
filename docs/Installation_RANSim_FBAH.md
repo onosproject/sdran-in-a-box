@@ -43,43 +43,6 @@ $ make riab OPT=fbah VER=dev # for dev version
 
 Once we push one of above commands, the deployment procedure starts.
 
-### Credentials
-In the deployment procedure, we should type some credentials on the prompt:
-* OpenCORD username and HTTPS key
-* GitHub username and password
-* Aether/SD-RAN Helm chart repository credentials
-
-```bash
-aether-helm-chart repo is not in /users/wkim/helm-charts directory. Start to clone - it requires HTTPS key
-Cloning into '/users/wkim/helm-charts/aether-helm-charts'...
-Username for 'https://gerrit.opencord.org': <OPENCORD_GERRIT_ID>
-Password for 'https://<OPENCORD_GERRIT_ID>@gerrit.opencord.org': <OPENCORD_GERRIT_HTTPS_KEY>
-remote: Total 1103 (delta 0), reused 1103 (delta 0)
-Receiving objects: 100% (1103/1103), 526.14 KiB | 5.31 MiB/s, done.
-Resolving deltas: 100% (604/604), done.
-sdran-helm-chart repo is not in /users/wkim/helm-charts directory. Start to clone - it requires Github credential
-Cloning into '/users/wkim/helm-charts/sdran-helm-charts'...
-Username for 'https://github.com': <ONOSPROJECT_GITHUB_ID>
-Password for 'https://<ONOSPROJECT_GITHUB_ID>@github.com': <ONOSPROJECT_GITHUB_PASSWORD>
-remote: Enumerating objects: 19, done.
-remote: Counting objects: 100% (19/19), done.
-remote: Compressing objects: 100% (17/17), done.
-remote: Total 2259 (delta 7), reused 3 (delta 2), pack-reused 2240
-Receiving objects: 100% (2259/2259), 559.35 KiB | 2.60 MiB/s, done.
-Resolving deltas: 100% (1558/1558), done.
-
-.....
-
-helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
-"incubator" has been added to your repositories
-helm repo add cord https://charts.opencord.org
-"cord" has been added to your repositories
-Username for ONF SDRAN private chart: <SDRAN_PRIVATE_CHART_REPO_ID>
-Password for ONF SDRAN private chart: <SDRAN_PRIVATE_CHART_REPO_PASSWORD>
-"sdran" has been added to your repositories
-touch /tmp/build/milestones/helm-ready
-```
-
 If we don't see any error or failure messages, everything is deployed.
 ```bash
 $ kubectl get po --all-namespaces
