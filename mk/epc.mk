@@ -4,10 +4,10 @@
 # PHONY definitions
 EPC_PHONY					:= omec 5gc
 
-omec: $(M)/fabric-core $(M)/omec
-5gc: $(M)/fabric-core $(M)/5gc
+omec: $(M)/omec
+5gc:  $(M)/5gc
 
-$(M)/omec: | version $(M)/helm-ready
+$(M)/omec: | version $(M)/helm-ready $(M)/fabric-core
 	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	helm repo update
 	helm dep up $(AETHERCHARTDIR)/omec/omec-control-plane
@@ -29,7 +29,7 @@ $(M)/omec: | version $(M)/helm-ready
 	kubectl wait pod -n $(RIAB_NAMESPACE) --for=condition=Ready -l release=omec-user-plane --timeout=300s
 	touch $@
 
-$(M)/5gc: | version $(M)/helm-ready
+$(M)/5gc: | version $(M)/helm-ready $(M)/fabric-core
 	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	helm repo update
 	helm dep up $(AETHERCHARTDIR)/omec/5g-control-plane
