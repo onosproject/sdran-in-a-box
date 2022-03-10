@@ -26,40 +26,6 @@ In the diagram above are presented the 4 machines described in this setup (NUC O
 
 In addition, this setup has three internal subnets: (i) enb subnet - 192.168.11.8/29, (ii) core subnet - 192.168.11.0/29, and (iii) access subnet - 192.168.11.16/29. The enb subnet is to make a connection between CU/DU machine and Quagga internal router in OMEC machine. The core subnet is for S1u interface whereas the access subnet is for Sgi interface.
 
-## Credentials
-The tutorials here presented utilize the sdRan-in-a-Box (RiaB) repository, while installing and running the RiaB components, we might have to write some credentials for (i) opencord gerrit, (ii) onosproject github, and (iii) sdran private Helm chart repository. Make sure you have this member-only credentials before starting to install RiaB.
-
-```bash
-aether-helm-chart repo is not in /users/wkim/helm-charts directory. Start to clone - it requires HTTPS key
-Cloning into '/users/wkim/helm-charts/aether-helm-charts'...
-Username for 'https://gerrit.opencord.org': <OPENCORD_GERRIT_ID>
-Password for 'https://<OPENCORD_GERRIT_ID>@gerrit.opencord.org': <OPENCORD_GERRIT_HTTPS_PASSWORD>
-remote: Total 1103 (delta 0), reused 1103 (delta 0)
-Receiving objects: 100% (1103/1103), 526.14 KiB | 5.31 MiB/s, done.
-Resolving deltas: 100% (604/604), done.
-sdran-helm-chart repo is not in /users/wkim/helm-charts directory. Start to clone - it requires Github credential
-Cloning into '/users/wkim/helm-charts/sdran-helm-charts'...
-Username for 'https://github.com': <ONOSPROJECT_GITHUB_ID>
-Password for 'https://<ONOSPROJECT_GITHUB_ID>@github.com': <ONOSPROJECT_GITHUB_PASSWORD>
-remote: Enumerating objects: 19, done.
-remote: Counting objects: 100% (19/19), done.
-remote: Compressing objects: 100% (17/17), done.
-remote: Total 2259 (delta 7), reused 3 (delta 2), pack-reused 2240
-Receiving objects: 100% (2259/2259), 559.35 KiB | 2.60 MiB/s, done.
-Resolving deltas: 100% (1558/1558), done.
-
-.....
-
-helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com/
-"incubator" has been added to your repositories
-helm repo add cord https://charts.opencord.org
-"cord" has been added to your repositories
-Username for ONF SDRAN private chart: <SDRAN_PRIVATE_CHART_REPO_ID>
-Password for ONF SDRAN private chart: <SDRAN_PRIVATE_CHART_REPO_PASSWORD>
-"sdran" has been added to your repositories
-touch /tmp/build/milestones/helm-ready
-```
-
 ## Get the RiaB source code 
 To get the source code, please see: `https://github.com/onosproject/sdran-in-a-box`.
 
@@ -389,3 +355,62 @@ OMEC_MACHINE_IP             := 192.168.10.21/29
 ```
 
 *Note: please do not forget to write the subnet mask at the end of IP address or subnet.*
+
+## Vagrantfiles (optional)
+If we want to test this hardware installation over VMs not baremetal server directly, RiaB supports Vagrantfiles for RIC, RAN, and OMEC.
+By using the below commands, we can deploy VMs on the single baremetal server (host machine).
+```
+# install virsh qemu, etc
+host$ sudo apt install qemu-kvm libvirt-bin bridge-utils virt-manager openvswitch-switch -y
+host$ sudo apt install qemu libvirt-daemon-system libvirt-clients libxslt-dev libxml2-dev libvirt-dev zlib1g-dev ruby-dev ruby-libvirt ebtables dnsmasq-base -y
+
+# Vagrant install
+host$ curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+host$ sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+host$ sudo apt-get update && sudo apt-get install vagrant -y
+host$ vagrant plugin install vagrant-libvirt
+host$ vagrant plugin install vagrant-mutate
+
+# OVS install
+host$ sudo apt update; sudo apt-get install openvswitch-switch -y
+
+# OVS setup
+host$ sudo ovs-vsctl --may-exist add-br br0
+
+# to create VMs
+host$ cd /path/to/sdran-in-a-box/vagrant
+host$ ./run.vms.sh
+
+# to stop VMs
+host$ cd /path/to/sdran-in-a-box/vagrant
+host$ ./halt_vms.sh
+
+# to destroy VMs
+host$ cd /path/to/sdran-in-a-box/vagrant
+host$ ./destroy_vms.sh
+
+# if we want to push a vagrant command
+host$ cd /path/to/sdran-in-a-box/vagrant
+host$ ./vcmd.sh ric <command> # for RIC VM
+host$ ./vcmd.sh ran <command> # for RIC VM
+host$ ./vcmd.sh ric <command> # for RIC VM
+
+# If we want to ssh each VM
+host$ cd /path/to/sdran-in-a-box/vagrant
+host$ ./vcmd.sh ric ssh # for RIC VM
+host$ ./vcmd.sh ran ssh # for RIC VM
+host$ ./vcmd.sh ric ssh # for RIC VM
+```
+
+*Note: If we want to deploy VMs on the multiple baremetal servers, we should create OpenVSwitch bridge `br0` for each baremetal server and create a VXLAN tunnel between bridges. Example:*
+```
+# on the first server
+host1$ sudo ovs-vsctl add-port br0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip=<host2 IP address>
+host1$ sudo ovs-vsctl add-port br0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip=<host3 IP address>
+
+# on the second server
+host2$ sudo ovs-vsctl add-port br0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip=<host1 IP address>
+
+# on the third server
+host3$ sudo ovs-vsctl add-port br0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip=<host1 IP address>
+```
