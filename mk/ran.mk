@@ -4,7 +4,7 @@
 # PHONY definitions
 RAN_PHONY					:= oai oai-hw oai-enb-cu oai-enb-cu-hw oai-enb-du oai-ue
 
-oai: infra-fabric-cu-du oai-enb-cu oai-enb-du oai-ue
+oai: oai-enb-cu oai-enb-du oai-ue
 oai-enb-cu: $(M)/oai-enb-cu
 oai-enb-du: $(M)/oai-enb-du
 oai-ue: $(M)/oai-ue
