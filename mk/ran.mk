@@ -12,7 +12,7 @@ oai-ue: $(M)/oai-ue
 oai-hw: oai-enb-cu-hw oai-enb-du
 oai-enb-cu-hw: $(M)/oai-enb-cu-hw
 
-$(M)/oai-enb-cu: | version $(M)/helm-ready $(M)/ric
+$(M)/oai-enb-cu: | version $(M)/helm-ready
 	$(eval cu_e2t_nodeport_ipaddr=$(shell echo $(E2T_NODEPORT_IPADDR) | awk -F '/' '{print $$1}'))
 	$(eval cu_e2_f1_cu_ipaddr=$(shell echo $(E2_F1_CU_IPADDR) | awk -F '/' '{print $$1}'))
 	$(eval cu_e2_f1_du_ipaddr=$(shell echo $(E2_F1_DU_IPADDR) | awk -F '/' '{print $$1}'))
