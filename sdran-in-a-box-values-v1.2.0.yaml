@@ -137,124 +137,124 @@ config:
 
 # for the development, we can use the custom images
 # For ONOS-RIC
-# onos-topo:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-topo
-#     tag: v0.7.10
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-uenib:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-uenib
-#     tag: v0.1.0
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-config:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-config
-#     tag: v0.8.4
-#   logging:
-#     loggers:
-#       root:
-#         level: info
+onos-topo:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-topo
+    tag: v0.7.10
+  logging:
+    loggers:
+      root:
+        level: info
+onos-uenib:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-uenib
+    tag: v0.1.0
+  logging:
+    loggers:
+      root:
+        level: info
+onos-config:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-config
+    tag: v0.8.4
+  logging:
+    loggers:
+      root:
+        level: info
 onos-e2t:
   service:
     external:
       enabled: true
     e2:
      nodePort: 36421
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-e2t
-#     tag: v0.7.38
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-cli:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-cli
-#     tag: v0.7.33
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# ran-simulator:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/ran-simulator
-#     tag: v0.7.56
-#   pci:
-#     modelName: "model"
-#     metricName: "metrics"
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-kpimon:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-kpimon
-#     tag: v0.1.26
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-pci:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-pci
-#     tag: v0.1.19
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-# onos-mlb:
-#   image:
-#     pullPolicy: IfNotPresent
-#     repository: onosproject/onos-mlb
-#     tag: v0.0.7
-#   logging:
-#     loggers:
-#       root:
-#         level: info
-#   config:
-#     mlb:
-#       e2tEndpoint: "onos-e2t:5150"
-#       thresholds:
-#         overload: 100
-#         target: 0
-#       config_json:
-#         controller:
-#           interval: 10
-# fb-ah-xapp:
-#   image:
-#     repository: onosproject/fb-ah-xapp
-#     tag: 0.0.4
-#     pullPolicy: IfNotPresent
-# fb-kpimon-xapp:
-#   image:
-#     repository: onosproject/fb-kpimon-xapp
-#     tag: 0.0.2
-#     pullPolicy: IfNotPresent
-# fb-ah-gui:
-#   image:
-#     repository: onosproject/fb-ah-gui
-#     tag: 0.0.2
-#     pullPolicy: IfNotPresent
-# ah-eson-test-server:
-#   image:
-#     repository: onosproject/ah-eson-test-server
-#     tag: 0.0.2
-#     pullPolicy: IfNotPresent
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-e2t
+    tag: v0.7.38
+  logging:
+    loggers:
+      root:
+        level: info
+onos-cli:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-cli
+    tag: v0.7.33
+  logging:
+    loggers:
+      root:
+        level: info
+ran-simulator:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/ran-simulator
+    tag: v0.7.56
+  pci:
+    modelName: "model"
+    metricName: "metrics"
+  logging:
+    loggers:
+      root:
+        level: info
+onos-kpimon:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-kpimon
+    tag: v0.1.26
+  logging:
+    loggers:
+      root:
+        level: info
+onos-pci:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-pci
+    tag: v0.1.19
+  logging:
+    loggers:
+      root:
+        level: info
+onos-mlb:
+  image:
+    pullPolicy: IfNotPresent
+    repository: onosproject/onos-mlb
+    tag: v0.0.7
+  logging:
+    loggers:
+      root:
+        level: info
+  config:
+    mlb:
+      e2tEndpoint: "onos-e2t:5150"
+      thresholds:
+        overload: 100
+        target: 0
+      config_json:
+        controller:
+          interval: 10
+fb-ah-xapp:
+  image:
+    repository: onosproject/fb-ah-xapp
+    tag: 0.0.4
+    pullPolicy: IfNotPresent
+fb-kpimon-xapp:
+  image:
+    repository: onosproject/fb-kpimon-xapp
+    tag: 0.0.2
+    pullPolicy: IfNotPresent
+fb-ah-gui:
+  image:
+    repository: onosproject/fb-ah-gui
+    tag: 0.0.2
+    pullPolicy: IfNotPresent
+ah-eson-test-server:
+  image:
+    repository: onosproject/ah-eson-test-server
+    tag: 0.0.2
+    pullPolicy: IfNotPresent
 
 
 # For OMEC & OAI
