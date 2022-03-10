@@ -62,7 +62,7 @@ reset-ric:
 reset-fabric:
 	kubectl delete -f $(RESOURCEDIR)/router.yaml || true
 	sudo apt remove --purge openvswitch-switch -y || true
-	cd $(M); rm -rf fabric
+	cd $(M); rm -rf fabric fabric-cu-du fabric-core
 
 reset-oai-test: reset-omec reset-fabric reset-oai reset-ric
 
