@@ -4,7 +4,7 @@
 # PHONY definitions
 RAN_PHONY					:= oai oai-hw oai-enb-cu oai-enb-cu-hw oai-enb-du oai-ue
 
-oai: infra-fabric-cu-du oai-enb-cu oai-enb-du oai-ue
+oai: oai-enb-cu oai-enb-du oai-ue
 oai-enb-cu: $(M)/oai-enb-cu
 oai-enb-du: $(M)/oai-enb-du
 oai-ue: $(M)/oai-ue
@@ -12,7 +12,7 @@ oai-ue: $(M)/oai-ue
 oai-hw: oai-enb-cu-hw oai-enb-du
 oai-enb-cu-hw: $(M)/oai-enb-cu-hw
 
-$(M)/oai-enb-cu: | version $(M)/helm-ready
+$(M)/oai-enb-cu: | version $(M)/helm-ready $(M)/ric
 	$(eval cu_e2t_nodeport_ipaddr=$(shell echo $(E2T_NODEPORT_IPADDR) | awk -F '/' '{print $$1}'))
 	$(eval cu_e2_f1_cu_ipaddr=$(shell echo $(E2_F1_CU_IPADDR) | awk -F '/' '{print $$1}'))
 	$(eval cu_e2_f1_du_ipaddr=$(shell echo $(E2_F1_DU_IPADDR) | awk -F '/' '{print $$1}'))

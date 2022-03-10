@@ -61,10 +61,8 @@ reset-ric:
 
 reset-fabric:
 	kubectl delete -f $(RESOURCEDIR)/router.yaml || true
-	sudo ovs-vsctl del-br br-enb-net || true
-	sudo ovs-vsctl del-br br-e2f1-net || true
 	sudo apt remove --purge openvswitch-switch -y || true
-	cd $(M); rm -rf fabric fabric-cu-du fabric-core
+	cd $(M); rm -rf fabric
 
 reset-oai-test: reset-omec reset-fabric reset-oai reset-ric
 
