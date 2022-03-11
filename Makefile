@@ -49,6 +49,9 @@ riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
 else ifeq ($(OPT), mho)
 riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
 	@echo Done
+else ifeq ($(OPT), rimedots)
+riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric
+	@echo Done
 else
 riab: option version
 	@echo "Invalid option"
@@ -101,6 +104,10 @@ else ifeq ($(OPT), mho)
 	$(eval OPT=ransim)
 	$(eval HELM_ARGS=$(HELM_ARGS_MHO))
 	@echo "Helm arguments for mho: $(HELM_ARGS_MHO)"
+else ifeq ($(OPT), rimedots)
+	$(eval OPT=ransim)
+	$(eval HELM_ARGS=$(HELM_ARGS_RIMEDOTS))
+	@echo "Helm arguments for rimedots: $(HELM_ARGS_RIMEDOTS)"
 else
 	$(eval OPT=ransim)
 	$(eval HELM_ARGS=$(HELM_ARGS_RANSIM))

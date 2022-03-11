@@ -40,6 +40,7 @@ HELM_ARGS_RIC_E2AP101			?= --set import.onos-pci.enabled=false --set import.onos
 HELM_ARGS_FBAH					?= --set import.fb-ah-xapp.enabled=true --set import.fb-ah-gui.enabled=true --set import.ah-eson-test-server.enabled=true --set import.ran-simulator.enabled=true --set import.fb-kpimon-xapp.enabled=true
 HELM_ARGS_MLB       	        ?= --set import.ran-simulator.enabled=true --set import.onos-pci.enabled=true --set import.onos-mlb.enabled=true --set ran-simulator.pci.modelName=three-cell-n-node-model --set ran-simulator.pci.metricName=three-cell-n-node-metrics
 HELM_ARGS_MHO           	    ?= --set import.ran-simulator.enabled=true --set import.onos-mho.enabled=true --set ran-simulator.pci.modelName=two-cell-two-node-model
+HELM_ARGS_RIMEDOTS           	?= --set import.ran-simulator.enabled=true --set import.rimedo-ts.enabled=true --set ran-simulator.pci.modelName=two-cell-two-node-model
 
 # Helm values file
 DEFAULT_HELM_VALUES				:= $(RIABDIR)/sdran-in-a-box-values-master-stable.yaml

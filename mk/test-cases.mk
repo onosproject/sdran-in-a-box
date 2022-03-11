@@ -53,3 +53,13 @@ test-mho: | $(M)/ric
 	kubectl exec -it deployment/onos-cli -n riab -- onos mho get cells;
 	@echo "*** Get MHO result through CLI - UEs ***"; \
 	kubectl exec -it deployment/onos-cli -n riab -- onos mho get ues;
+
+test-a1t: | $(M)/ric
+	@echo "*** Get A1T subscriptions through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos a1t get subscription
+	@echo "*** Get A1T policy type through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos a1t get policy type
+	@echo "*** Get A1T policy objects through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos a1t get policy object
+	@echo "*** Get A1T policy status through CLI ***"; \
+	kubectl exec -it deployment/onos-cli -n riab -- onos a1t get policy status
