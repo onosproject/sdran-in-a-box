@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # PHONY definitions
-INFRA_PHONY					:= infra-kubespray infra-k8s infra-fabric infra-atomix infra-onos-op infra-fabric-cu-du
+INFRA_PHONY					:= infra-kubespray infra-k8s infra-fabric infra-atomix infra-onos-op infra-fabric-cu-du infra-prom-op-servicemonitor
 
 infra-kubespray: $(BUILD)/kubespray $(M)/kubespray-requirements
 infra-k8s: infra-kubespray $(M)/k8s-ready $(M)/helm-ready
@@ -10,6 +10,7 @@ infra-fabric: $(M)/fabric
 infra-fabric-cu-du: $(M)/fabric-cu-du
 infra-atomix: $(M)/atomix
 infra-onos-op: $(M)/onos-operator
+infra-prom-op-servicemonitor: $(M)/prom-op-servicemonitor
 
 $(BUILD)/kubespray: | $(M)/setup
 	mkdir -p $(BUILD)
@@ -102,6 +103,10 @@ $(M)/fabric-cu-du: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	sudo ip addr add $(E2_F1_DU_IPADDR) dev $(E2_F1_DU_INTERFACE) || true
 	sudo ip link set $(E2_F1_CU_INTERFACE) up
 	sudo ip link set $(E2_F1_DU_INTERFACE) up
+	touch $@
+
+$(M)/prom-op-servicemonitor: | $(M)/k8s-ready
+	kubectl apply --server-side -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.54.0/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml || true
 	touch $@
 
 $(M)/atomix: | $(M)/k8s-ready
