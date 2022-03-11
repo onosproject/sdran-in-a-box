@@ -1,0 +1,21 @@
+{
+    "scope":{
+       "ueId":"<IMSI>"
+    },
+    "tspResources":[
+       {
+          "cellIdList":[
+             {
+                "plmnId":{
+                   "mcc":"138",
+                   "mnc":"426"
+                },
+                "cId":{
+                   "ncI":470106432
+                }
+             }
+          ],
+          "preference":"FORBID"
+       }
+    ]
+ }

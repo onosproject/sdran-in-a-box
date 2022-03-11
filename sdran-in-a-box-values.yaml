@@ -393,6 +393,11 @@ onos-rsm:
     repository: onosproject/onos-rsm
     tag: latest
     pullPolicy: IfNotPresent
+rimedo-ts:
+  image:
+    repository: onosproject/rimedo-ts
+    tag: latest
+    pullPolicy: IfNotPresent
 fb-ah-xapp:
   image:
     repository: onosproject/fb-ah-xapp
