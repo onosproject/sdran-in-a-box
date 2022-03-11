@@ -50,42 +50,43 @@ Once we push one of above commands, the deployment procedure starts.
 If we don't see any error or failure messages, everything is deployed.
 ```bash
 $ kubectl get po --all-namespaces
-NAMESPACE     NAME                                                     READY   STATUS    RESTARTS   AGE
-default       router                                                   1/1     Running   0          9m33s
-kube-system   atomix-controller-6b6d96775-smmft                        1/1     Running   0          8m39s
-kube-system   atomix-raft-storage-controller-77bd965f8d-psqnt          1/1     Running   0          8m14s
-kube-system   calico-kube-controllers-6759976d49-zkvjt                 1/1     Running   0          3d3h
-kube-system   calico-node-n22vw                                        1/1     Running   0          3d3h
-kube-system   coredns-dff8fc7d-b8lvl                                   1/1     Running   0         3d3h
-kube-system   dns-autoscaler-5d74bb9b8f-5948j                          1/1     Running   0          3d3h
-kube-system   kube-apiserver-node1                                     1/1     Running   0         3d3h
-kube-system   kube-controller-manager-node1                            1/1     Running   0         3d3h
-kube-system   kube-multus-ds-amd64-wg99f                               1/1     Running   0          3d3h
-kube-system   kube-proxy-cvxz2                                         1/1     Running   1          3d3h
-kube-system   kube-scheduler-node1                                     1/1     Running   0         3d3h
-kube-system   kubernetes-dashboard-667c4c65f8-5kdcp                    1/1     Running   0         3d3h
-kube-system   kubernetes-metrics-scraper-54fbb4d595-slnlv              1/1     Running   0         3d3h
-kube-system   nodelocaldns-55nr9                                       1/1     Running   0         3d3h
-kube-system   onos-operator-app-d56cb6f55-zhqb8                        1/1     Running   0          7m48s
-kube-system   onos-operator-config-7986b568b-z85jh                     1/1     Running   0          7m48s
-kube-system   onos-operator-topo-76fdf46db5-zfv68                      1/1     Running   0          7m48s
-riab          cassandra-0                                              1/1     Running   0          7m19s
-riab          hss-0                                                    1/1     Running   0          7m19s
-riab          mme-0                                                    4/4     Running   0          7m19s
-riab          oai-enb-cu-0                                             1/1     Running   0          4m20s
-riab          oai-enb-du-0                                             1/1     Running   0          3m9s
-riab          oai-ue-0                                                 1/1     Running   0          118s
-riab          onos-cli-9f75bc57c-k8q2p                                 1/1     Running   0          5m6s
-riab          onos-config-5d7cd9dd8c-7nbbs                             4/4     Running   0          5m6s
-riab          onos-consensus-store-0                                   1/1     Running   0          5m5s
-riab          onos-e2t-65cddb59cc-tzxvr                                3/3     Running   0          5m6s
-riab          onos-kpimon-6bdff5875c-dkvcs                             2/2     Running   0          5m6s
-riab          onos-rsm-59f79876ff-v4kvk                                2/2     Running   0          5m6s
-riab          onos-topo-775f5f946f-zq7rn                               3/3     Running   0          5m6s
-riab          onos-uenib-5b6445d58f-xl2v9                              3/3     Running   0          5m6s
-riab          pcrf-0                                                   1/1     Running   0          7m19s
-riab          spgwc-0                                                  2/2     Running   0          7m19s
-riab          upf-0                                                    4/4     Running   0          5m54s
+NAMESPACE     NAME                                              READY   STATUS    RESTARTS   AGE
+default       router                                            1/1     Running   0          9m25s
+kube-system   atomix-controller-99f978c7d-jv8vv                 1/1     Running   0          8m35s
+kube-system   atomix-raft-storage-controller-75979cfff8-npkw4   1/1     Running   0          8m10s
+kube-system   calico-kube-controllers-584ddbb8fb-nxb7l          1/1     Running   0          5h8m
+kube-system   calico-node-s5czk                                 1/1     Running   1          5h8m
+kube-system   coredns-dff8fc7d-nznzf                            1/1     Running   0          5h7m
+kube-system   dns-autoscaler-5d74bb9b8f-cfwvp                   1/1     Running   0          5h7m
+kube-system   kube-apiserver-node1                              1/1     Running   0          5h9m
+kube-system   kube-controller-manager-node1                     1/1     Running   0          5h9m
+kube-system   kube-multus-ds-amd64-r42zf                        1/1     Running   0          5h8m
+kube-system   kube-proxy-vp7k7                                  1/1     Running   1          5h9m
+kube-system   kube-scheduler-node1                              1/1     Running   0          5h9m
+kube-system   kubernetes-dashboard-667c4c65f8-cr6q5             1/1     Running   0          5h7m
+kube-system   kubernetes-metrics-scraper-54fbb4d595-t8rgz       1/1     Running   0          5h7m
+kube-system   nodelocaldns-rc6w7                                1/1     Running   0          5h7m
+kube-system   onos-operator-app-d56cb6f55-9jbkt                 1/1     Running   0          7m53s
+kube-system   onos-operator-config-7986b568b-9dznx              1/1     Running   0          7m53s
+kube-system   onos-operator-topo-76fdf46db5-sbblb               1/1     Running   0          7m53s
+riab          cassandra-0                                       1/1     Running   0          7m28s
+riab          hss-0                                             1/1     Running   0          7m28s
+riab          mme-0                                             4/4     Running   0          7m28s
+riab          oai-enb-cu-0                                      1/1     Running   0          4m52s
+riab          oai-enb-du-0                                      1/1     Running   0          3m41s
+riab          oai-ue-0                                          1/1     Running   0          2m30s
+riab          onos-a1t-84db77df99-mswp6                         2/2     Running   0          6m
+riab          onos-cli-6b746874c8-96zxc                         1/1     Running   0          6m
+riab          onos-config-7bd4b6f7f6-njdsj                      4/4     Running   0          6m
+riab          onos-consensus-store-0                            1/1     Running   0          6m
+riab          onos-e2t-58b4cd867-tkgcd                          3/3     Running   0          6m
+riab          onos-kpimon-966bdf77f-5nn6t                       2/2     Running   0          6m
+riab          onos-rsm-86df4894bd-clcsp                         2/2     Running   0          6m
+riab          onos-topo-7cc9d754d7-2qjng                        3/3     Running   0          6m
+riab          onos-uenib-779cb5dbd6-lprns                       3/3     Running   0          6m
+riab          pcrf-0                                            1/1     Running   0          7m28s
+riab          spgwc-0                                           2/2     Running   0          7m28s
+riab          upf-0                                             4/4     Running   0          6m24s
 ```
 
 NOTE: If we see any issue when deploying RiaB, please check [Troubleshooting](./troubleshooting.md)
@@ -140,7 +141,7 @@ HEAD is now at 9f79ab8 Fix the default SRIOV resource name for UPF user plane in
 HEAD is now at be1b9dd Fixing SM versions for E2T (#994)
 *** Get KPIMON result through CLI ***
 Node ID          Cell Object ID       Cell Global ID            Time    RRC.ConnEstabAtt.sum    RRC.ConnEstabSucc.sum    RRC.ConnMax    RRC.ConnMean    RRC.ConnReEstabAtt.sum
-e2:4/e00/2/64                    1                e0000      23:50:33.0                       1                        1              1               1                         0
+e2:4/e00/2/64                    1                e0000      03:39:24.0                       1                        1              1               1                         0
 ```
 
 * `make test-e2-subscription`: to see e2 connection and subscription
@@ -164,28 +165,10 @@ ID: e2:4/e00/3/c8
 Kind ID: e2node
 Labels: <None>
 Source Id's:
-Target Id's: uuid:6065c5aa-4351-446d-82b4-7702b991c365
+Target Id's: uuid:2c192472-c952-462e-b33d-4b9d5b46ff3b
 Aspects:
-- onos.topo.E2Node={"serviceModels":{"1.3.6.1.4.1.53148.1.1.2.102":{"oid":"1.3.6.1.4.1.53148.1.1.2.102","name":"ORAN-E2SM-RSM","ranFunctions":[{"@type":"type.googleapis.com/onos.topo.RSMRanFunction","ricSlicingNodeCapabilityList":[{"maxNumberOfSlicesDl":4,"maxNumberOfSlicesUl":4,"maxNumberOfUesPerSlice":4,"supportedConfig":[{},{"slicingConfigType":"E2_SM_RSM_COMMAND_SLICE_UPDATE"},{"slicingConfigType":"E2_SM_RSM_COMMAND_SLICE_DELETE"},{"slicingConfigType":"E2_SM_RSM_COMMAND_UE_ASSOCIATE"}]}]}]}}}
-- onos.topo.MastershipState={"term":"1","nodeId":"uuid:6065c5aa-4351-446d-82b4-7702b991c365"}
-
-ID: e2:onos-e2t-65cddb59cc-6vmvd
-Kind ID: e2t
-Labels: <None>
-Source Id's: uuid:c796eee5-d44d-44bc-87ec-b4d31f7647be, uuid:6065c5aa-4351-446d-82b4-7702b991c365
-Target Id's:
-Aspects:
-- onos.topo.Lease={"expiration":"2021-10-29T22:03:25.917310765Z"}
-- onos.topo.E2TInfo={"interfaces":[{"type":"INTERFACE_E2AP101","ip":"192.168.84.236","port":36421},{"type":"INTERFACE_E2T","ip":"192.168.84.236","port":5150}]}
-
-ID: e2:4/e00/2/64
-Kind ID: e2node
-Labels: <None>
-Source Id's: uuid:74c614b5-8666-67e9-d1a5-97d95ae83dcd
-Target Id's: uuid:c796eee5-d44d-44bc-87ec-b4d31f7647be
-Aspects:
-- onos.topo.MastershipState={"term":"1","nodeId":"uuid:c796eee5-d44d-44bc-87ec-b4d31f7647be"}
-- onos.topo.E2Node={"serviceModels":{"1.3.6.1.4.1.53148.1.1.2.102":{"oid":"1.3.6.1.4.1.53148.1.1.2.102","name":"ORAN-E2SM-RSM","ranFunctions":[{"@type":"type.googleapis.com/onos.topo.RSMRanFunction","ricSlicingNodeCapabilityList":[{"maxNumberOfSlicesDl":4,"maxNumberOfSlicesUl":4,"maxNumberOfUesPerSlice":4,"supportedConfig":[{"slicingConfigType":"E2_SM_RSM_COMMAND_EVENT_TRIGGERS"}]}]}]},"1.3.6.1.4.1.53148.1.2.2.2":{"oid":"1.3.6.1.4.1.53148.1.2.2.2","name":"ORAN-E2SM-KPM","ranFunctions":[{"@type":"type.googleapis.com/onos.topo.KPMRanFunction","reportStyles":[{"name":"O-CU-UP Measurement Container for the EPC connected deployment","type":6,"measurements":[{"id":"value:1","name":"RRC.ConnEstabAtt.sum"},{"id":"value:2","name":"RRC.ConnEstabSucc.sum"},{"id":"value:3","name":"RRC.ConnReEstabAtt.sum"},{"id":"value:4","name":"RRC.ConnMean"},{"id":"value:5","name":"RRC.ConnMax"}]}]}]}}}
+- onos.topo.E2Node={"serviceModels":{"1.3.6.1.4.1.53148.1.1.2.102":{"oid":"1.3.6.1.4.1.53148.1.1.2.102","name":"ORAN-E2SM-RSM","ranFunctions":[{"@type":"type.googleapis.com/onos.topo.RSMRanFunction","ricSlicingNodeCapabilityList":[{"maxNumberOfSlicesDl":4,"maxNumberOfSlicesUl":4,"maxNumberOfUesPerSlice":4,"supportedConfig":[{},{"slicingConfigType":"E2_SM_RSM_COMMAND_SLICE_UPDATE"},{"slicingConfigType":"E2_SM_RSM_COMMAND_SLICE_DELETE"},{"slicingConfigType":"E2_SM_RSM_COMMAND_UE_ASSOCIATE"}]}]}],"ranFunctionIDs":[1]}}}
+- onos.topo.MastershipState={"term":"1","nodeId":"uuid:2c192472-c952-462e-b33d-4b9d5b46ff3b"}
 
 ID: e2:4/e00/2/64/e0000
 Kind ID: e2cell
@@ -195,12 +178,39 @@ Target Id's: uuid:74c614b5-8666-67e9-d1a5-97d95ae83dcd
 Aspects:
 - onos.topo.E2Cell={"cellObjectId":"1","cellGlobalId":{"value":"e0000","type":"ECGI"},"kpiReports":{"RRC.ConnEstabAtt.sum":1,"RRC.ConnEstabSucc.sum":1,"RRC.ConnMax":1,"RRC.ConnMean":1,"RRC.ConnReEstabAtt.sum":0}}
 
-$ make test-uenib
-...
-*** Get UE-NIB result through CLI ***
-ID: 455f5d5e-0f8e-4b8d-a857-c56e9bd455cb
+ID: e2:onos-e2t-58b4cd867-tkgcd
+Kind ID: e2t
+Labels: <None>
+Source Id's: uuid:ff39c175-c492-4831-b626-2ace5105a1c3, uuid:2c192472-c952-462e-b33d-4b9d5b46ff3b
+Target Id's:
 Aspects:
-- onos.uenib.RsmUeInfo={"globalUeId":"455f5d5e-0f8e-4b8d-a857-c56e9bd455cb","ueIdList":{"duUeF1apId":{"value":"49781"},"cuUeF1apId":{"value":"49781"},"ranUeNgapId":{},"enbUeS1apId":{"value":14951620},"amfUeNgapId":{}},"bearerIdList":[{"drbID":{"fourGDrbID":{"value":5,"qci":{"value":9}}}}],"cellGlobalId":"e_utra_cgi:{p_lmnidentity:{value:\"\\x02\\xf8\\x10\"} e_utracell_identity:{value:{value:\"\\x00\\xe0\\x00\\x00\" len:28}}}","cuE2NodeId":"e2:4/e00/2/64","duE2NodeId":"e2:4/e00/3/c8","sliceList":[]}
+- onos.topo.E2TInfo={"interfaces":[{"type":"INTERFACE_E2AP200","ip":"192.168.84.169","port":36421},{"type":"INTERFACE_E2T","ip":"192.168.84.169","port":5150}]}
+- onos.topo.Lease={"expiration":"2022-03-11T03:40:21.092928231Z"}
+
+ID: a1:onos-a1t-84db77df99-mswp6
+Kind ID: a1t
+Labels: <None>
+Source Id's:
+Target Id's:
+Aspects:
+- onos.topo.A1TInfo={"interfaces":[{"type":"INTERFACE_A1AP","ip":"192.168.84.162","port":9639}]}
+
+ID: gnmi:onos-config-7bd4b6f7f6-njdsj
+Kind ID: onos-config
+Labels: <None>
+Source Id's:
+Target Id's:
+Aspects:
+- onos.topo.Lease={"expiration":"2022-03-11T03:40:22.243649952Z"}
+
+ID: e2:4/e00/2/64
+Kind ID: e2node
+Labels: <None>
+Source Id's: uuid:74c614b5-8666-67e9-d1a5-97d95ae83dcd
+Target Id's: uuid:ff39c175-c492-4831-b626-2ace5105a1c3
+Aspects:
+- onos.topo.E2Node={"serviceModels":{"1.3.6.1.4.1.53148.1.1.2.102":{"oid":"1.3.6.1.4.1.53148.1.1.2.102","name":"ORAN-E2SM-RSM","ranFunctions":[{"@type":"type.googleapis.com/onos.topo.RSMRanFunction","ricSlicingNodeCapabilityList":[{"maxNumberOfSlicesDl":4,"maxNumberOfSlicesUl":4,"maxNumberOfUesPerSlice":4,"supportedConfig":[{"slicingConfigType":"E2_SM_RSM_COMMAND_EVENT_TRIGGERS"}]}]}],"ranFunctionIDs":[2]},"1.3.6.1.4.1.53148.1.2.2.2":{"oid":"1.3.6.1.4.1.53148.1.2.2.2","name":"ORAN-E2SM-KPM","ranFunctions":[{"@type":"type.googleapis.com/onos.topo.KPMRanFunction","reportStyles":[{"name":"O-CU-UP Measurement Container for the EPC connected deployment","type":6,"measurements":[{"id":"value:1","name":"RRC.ConnEstabAtt.sum"},{"id":"value:2","name":"RRC.ConnEstabSucc.sum"},{"id":"value:3","name":"RRC.ConnReEstabAtt.sum"},{"id":"value:4","name":"RRC.ConnMean"},{"id":"value:5","name":"RRC.ConnMax"}]}]}],"ranFunctionIDs":[1]}}}
+- onos.topo.MastershipState={"term":"1","nodeId":"uuid:ff39c175-c492-4831-b626-2ace5105a1c3"}
 ```
 
 * Run `make test-kpimon` before and after phone detached: to check the number of active UEs changed
@@ -797,6 +807,8 @@ iperf3 killed (pid 19333)
 
 The measured bandwidth is around 17.6 Mbps which is the same as the default slice performance measured at step 1.
 Since the UE was switched from the slice 2 to the default slice due to the slice deletion, the performance is correct.
+
+*Note: if we want to create UL slice, we should change `--dlSliceID` to `--ulSliceID` and `--sliceType DL` to `--sliceType UL`. All other commands are the same.*
 
 ## Other commands
 ### Reset and delete RiaB environment

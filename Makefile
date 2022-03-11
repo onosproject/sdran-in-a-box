@@ -41,7 +41,7 @@ else ifeq ($(OPT), ric-e2ap101)
 riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric routing-ric-external-ran
 	@echo Done
 else ifeq ($(OPT), fbah)
-riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric enable-fbah-gui
+riab: option version preliminaries infra-k8s infra-atomix infra-onos-op infra-prom-op-servicemonitor ric enable-fbah-gui
 	@echo Done
 else ifeq ($(OPT), mlb)
 riab: option version preliminaries infra-k8s infra-atomix infra-onos-op ric

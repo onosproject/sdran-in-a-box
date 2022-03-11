@@ -46,36 +46,37 @@ Once we push one of above commands, the deployment procedure starts.
 If we don't see any error or failure messages, everything is deployed.
 ```bash
 $ kubectl get po --all-namespaces
-NAMESPACE     NAME                                                     READY   STATUS    RESTARTS   AGE
-kube-system   atomix-controller-6b6d96775-fnjm2                        1/1     Running   0          17m
-kube-system   atomix-raft-storage-controller-77bd965f8d-97wql          1/1     Running   0          17m
-kube-system   calico-kube-controllers-6759976d49-zkvjt                 1/1     Running   0          3d7h
-kube-system   calico-node-n22vw                                        1/1     Running   0          3d7h
-kube-system   coredns-dff8fc7d-b8lvl                                   1/1     Running   0          3d7h
-kube-system   dns-autoscaler-5d74bb9b8f-5948j                          1/1     Running   0          3d7h
-kube-system   kube-apiserver-node1                                     1/1     Running   0          3d7h
-kube-system   kube-controller-manager-node1                            1/1     Running   0          3d7h
-kube-system   kube-multus-ds-amd64-wg99f                               1/1     Running   0          3d7h
-kube-system   kube-proxy-cvxz2                                         1/1     Running   1          3d7h
-kube-system   kube-scheduler-node1                                     1/1     Running   0          3d7h
-kube-system   kubernetes-dashboard-667c4c65f8-5kdcp                    1/1     Running   0          3d7h
-kube-system   kubernetes-metrics-scraper-54fbb4d595-slnlv              1/1     Running   0          3d7h
-kube-system   nodelocaldns-55nr9                                       1/1     Running   0          3d7h
-kube-system   onos-operator-app-d56cb6f55-n25qc                        1/1     Running   0          17m
-kube-system   onos-operator-config-7986b568b-hr8qk                     1/1     Running   0          17m
-kube-system   onos-operator-topo-76fdf46db5-rlkth                      1/1     Running   0          17m
-riab          ah-eson-test-server-85dfc8694f-8vfbg                     1/1     Running   0          79s
-riab          fb-ah-gui-66bb7d75cc-6zhhn                               1/1     Running   0          79s
-riab          fb-ah-xapp-69bb4d6d89-9vfmr                              1/2     Running   3          79s
-riab          fb-kpimon-xapp-689f6c99dd-cn96l                          1/2     Running   3          79s
-riab          onos-cli-9f75bc57c-68zpt                                 1/1     Running   0          79s
-riab          onos-config-5d7cd9dd8c-zprwv                             4/4     Running   0          79s
-riab          onos-consensus-store-0                                   1/1     Running   0          79s
-riab          onos-e2t-ff696bc5d-svwvl                                 3/3     Running   0          79s
-riab          onos-kpimon-6bdff5875c-z5z9s                             2/2     Running   0          79s
-riab          onos-topo-775f5f946f-fchq4                               3/3     Running   0          79s
-riab          onos-uenib-5b6445d58f-2mrxq                              3/3     Running   0          79s
-riab          ran-simulator-66c897df5c-hwvjp                           1/1     Running   0          79s
+NAMESPACE     NAME                                              READY   STATUS    RESTARTS   AGE
+kube-system   atomix-controller-99f978c7d-85cpn                 1/1     Running   0          25m
+kube-system   atomix-raft-storage-controller-75979cfff8-4bsnz   1/1     Running   0          25m
+kube-system   calico-kube-controllers-584ddbb8fb-nxb7l          1/1     Running   0          4h42m
+kube-system   calico-node-s5czk                                 1/1     Running   1          4h42m
+kube-system   coredns-dff8fc7d-nznzf                            1/1     Running   0          4h42m
+kube-system   dns-autoscaler-5d74bb9b8f-cfwvp                   1/1     Running   0          4h42m
+kube-system   kube-apiserver-node1                              1/1     Running   0          4h43m
+kube-system   kube-controller-manager-node1                     1/1     Running   0          4h43m
+kube-system   kube-multus-ds-amd64-r42zf                        1/1     Running   0          4h42m
+kube-system   kube-proxy-vp7k7                                  1/1     Running   1          4h43m
+kube-system   kube-scheduler-node1                              1/1     Running   0          4h43m
+kube-system   kubernetes-dashboard-667c4c65f8-cr6q5             1/1     Running   0          4h42m
+kube-system   kubernetes-metrics-scraper-54fbb4d595-t8rgz       1/1     Running   0          4h42m
+kube-system   nodelocaldns-rc6w7                                1/1     Running   0          4h42m
+kube-system   onos-operator-app-d56cb6f55-stfkb                 1/1     Running   0          24m
+kube-system   onos-operator-config-7986b568b-f8dlq              1/1     Running   0          24m
+kube-system   onos-operator-topo-76fdf46db5-h2vvd               1/1     Running   0          24m
+riab          ah-eson-test-server-ccf5ccf5d-jcmj7               1/1     Running   0          2m52s
+riab          fb-ah-gui-64689f6986-tjvpc                        1/1     Running   0          88s
+riab          fb-ah-xapp-58b745fcf9-6bgbv                       2/2     Running   0          70s
+riab          fb-kpimon-xapp-5c78fd7486-ms6wq                   2/2     Running   2          2m52s
+riab          onos-a1t-84db77df99-4klzb                         2/2     Running   0          2m52s
+riab          onos-cli-6b746874c8-9cn82                         1/1     Running   0          2m52s
+riab          onos-config-7bd4b6f7f6-b24ws                      4/4     Running   0          2m52s
+riab          onos-consensus-store-0                            1/1     Running   0          2m51s
+riab          onos-e2t-58b4cd867-ljmpr                          3/3     Running   0          2m52s
+riab          onos-kpimon-966bdf77f-97pmr                       2/2     Running   0          2m51s
+riab          onos-topo-7cc9d754d7-kngj9                        3/3     Running   0          2m51s
+riab          onos-uenib-779cb5dbd6-tb7nm                       3/3     Running   0          2m51s
+riab          ran-simulator-85b945db79-ltjnd                    1/1     Running   0          2m51s
 ```
 
 NOTE: If we see any issue when deploying RiaB, please check [Troubleshooting](./troubleshooting.md)
@@ -91,12 +92,12 @@ $ make test-kpimon
 ...
 *** Get KPIMON result through CLI ***
 Node ID          Cell Object ID       Cell Global ID            Time    RRC.Conn.Avg    RRC.Conn.Max    RRC.ConnEstabAtt.Sum    RRC.ConnEstabSucc.Sum    RRC.ConnReEstabAtt.HOFail    RRC.ConnReEstabAtt.Other    RRC.ConnReEstabAtt.Sum    RRC.ConnReEstabAtt.reconfigFail
-e2:1/5153       13842601454c001             1454c001      02:43:07.0               2               3                       0                        0                            0                           0                         0                                  0
-e2:1/5153       13842601454c002             1454c002      02:43:07.0               1               1                       0                        0                            0                           0                         0                                  0
-e2:1/5153       13842601454c003             1454c003      02:43:07.0               1               2                       0                        0                            0                           0                         0                                  0
-e2:1/5154       138426014550001             14550001      02:43:07.0               2               3                       0                        0                            0                           0                         0                                  0
-e2:1/5154       138426014550002             14550002      02:43:07.0               2               2                       0                        0                            0                           0                         0                                  0
-e2:1/5154       138426014550003             14550003      02:43:07.0               2               3                       0                        0                            0                           0                         0                                  0
+e2:1/5153       13842601454c001             1454c001      03:11:28.0               2               2                       0                        0                            0                           0                         0                                  0
+e2:1/5153       13842601454c002             1454c002      03:11:28.0               3               3                       0                        0                            0                           0                         0                                  0
+e2:1/5153       13842601454c003             1454c003      03:11:28.0               2               2                       0                        0                            0                           0                         0                                  0
+e2:1/5154       138426014550001             14550001      03:11:51.0               1               1                       0                        0                            0                           0                         0                                  0
+e2:1/5154       138426014550002             14550002      03:11:51.0               2               2                       0                        0                            0                           0                         0                                  0
+e2:1/5154       138426014550003             14550003      03:11:50.0               1               1                       0                        0                            0                           0                         0                                  0
 ```
 
 * Use Facebook-AirHop GUI page: for SD-RAN release 1.1, release 1.1.1, release 1.2, release 1.3, master-stable, latest, and dev versions
