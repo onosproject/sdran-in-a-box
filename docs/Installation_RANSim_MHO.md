@@ -17,6 +17,7 @@ $ git clone https://github.com/onosproject/sdran-in-a-box
 ```bash
 $ cd /path/to/sdran-in-a-box
 $ git checkout v1.3.0 # for release 1.3
+$ git checkout v1.4.0 # for release 1.4
 $ git checkout master # for master
 ```
 
@@ -32,6 +33,7 @@ $ make riab OPT=mho VER=stable # or just make riab OPT=mho
 $ make riab OPT=mho VER=latest
 # for a specific version
 $ make riab OPT=mho VER=v1.3.0 # for release SD-RAN 1.3
+$ make riab OPT=mho VER=v1.4.0 # for release SD-RAN 1.4
 # for a "dev" version
 $ make riab OPT=mho VER=dev # for dev version
 ```

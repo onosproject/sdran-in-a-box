@@ -21,6 +21,7 @@ $ git checkout v1.1.0 # for release 1.1
 $ git checkout v1.1.1 # for release 1.1.1
 $ git checkout v1.2.0 # for release 1.2
 $ git checkout v1.3.0 # for release 1.3
+$ git checkout v1.4.0 # for release 1.4
 $ git checkout master # for master
 ```
 
@@ -40,6 +41,7 @@ $ make riab OPT=ransim VER=v1.1.0 # for release SD-RAN 1.1
 $ make riab OPT=ransim VER=v1.1.1 # for release SD-RAN 1.1.1
 $ make riab OPT=ransim VER=v1.2.0 # for release SD-RAN 1.2
 $ make riab OPT=ransim VER=v1.3.0 # for release SD-RAN 1.3
+$ make riab OPT=ransim VER=v1.4.0 # for release SD-RAN 1.4
 # for a "dev" version
 $ make riab OPT=ransim VER=dev # for dev version
 ```

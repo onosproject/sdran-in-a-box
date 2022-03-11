@@ -21,6 +21,7 @@ $ git checkout v1.1.0 # for release 1.1
 $ git checkout v1.1.1 # for release 1.1.1
 $ git checkout v1.2.0 # for release 1.2
 $ git checkout v1.3.0 # for release 1.3
+$ git checkout v1.4.0 # for release 1.4
 $ git checkout master # for master
 ```
 
@@ -41,6 +42,7 @@ $ make riab OPT=oai VER=v1.1.0 # for release SD-RAN 1.1 (KPIMON only)
 $ make riab OPT=oai VER=v1.1.1 # for release SD-RAN 1.1.1 (KPIMON only)
 $ make riab OPT=oai VER=v1.2.0 # for release SD-RAN 1.2 (KPIMON only)
 $ make riab OPT=oai VER=v1.3.0 # for release SD-RAN 1.3 (KPIMON and RSM)
+$ make riab OPT=oai VER=v1.4.0 # for release SD-RAN 1.4 (KPIMON and RSM)
 # for a "dev" version
 $ make riab OPT=oai VER=dev # for dev (KPIMON and RSM)
 ```
