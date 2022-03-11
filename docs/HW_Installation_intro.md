@@ -357,7 +357,7 @@ OMEC_MACHINE_IP             := 192.168.10.21/29
 *Note: please do not forget to write the subnet mask at the end of IP address or subnet.*
 
 ## Vagrantfiles (optional)
-If we want to test this hardware installation over VMs not baremetal server directly, RiaB supports Vagrantfiles for RIC, RAN, and OMEC.
+For this hardware installation over VMs not baremetal server directly, RiaB supports Vagrantfiles for RIC, RAN, and OMEC.
 By using the below commands, we can deploy VMs on the single baremetal server (host machine).
 ```
 # install virsh qemu, etc
@@ -392,14 +392,14 @@ host$ ./destroy_vms.sh
 # if we want to push a vagrant command
 host$ cd /path/to/sdran-in-a-box/vagrant
 host$ ./vcmd.sh ric <command> # for RIC VM
-host$ ./vcmd.sh ran <command> # for RIC VM
-host$ ./vcmd.sh ric <command> # for RIC VM
+host$ ./vcmd.sh ran <command> # for RAN VM
+host$ ./vcmd.sh omec <command> # for OMEC VM
 
 # If we want to ssh each VM
 host$ cd /path/to/sdran-in-a-box/vagrant
 host$ ./vcmd.sh ric ssh # for RIC VM
-host$ ./vcmd.sh ran ssh # for RIC VM
-host$ ./vcmd.sh ric ssh # for RIC VM
+host$ ./vcmd.sh ran ssh # for RAN VM
+host$ ./vcmd.sh omec ssh # for OMEC VM
 ```
 
 *Note: If we want to deploy VMs on the multiple baremetal servers, we should create OpenVSwitch bridge `br0` for each baremetal server and create a VXLAN tunnel between bridges. Example:*
@@ -413,4 +413,29 @@ host2$ sudo ovs-vsctl add-port br0 vxlan0 -- set interface vxlan0 type=vxlan opt
 
 # on the third server
 host3$ sudo ovs-vsctl add-port br0 vxlan0 -- set interface vxlan0 type=vxlan options:remote_ip=<host1 IP address>
+
+# then, deploy VMs for appropriate host machines
+# e.g., host1 - RIC, host2 - RAN, host3 - OMEC
+host1$ ./run_ric_vm.sh
+
+host2$ ./run_ran_vm.sh
+
+host3$ ./run_omec_vm.sh
+
+# if we want to stop VMs
+# e.g., host1 - RIC, host2 - RAN, host3 - OMEC
+host1$ ./halt_ric_vm.sh
+
+host2$ ./halt_ran_vm.sh
+
+host3$ ./halt_omec_vm.sh
+
+# if we want to destroy VMs
+# e.g., host1 - RIC, host2 - RAN, host3 - OMEC
+host1$ ./destroy_ric_vm.sh
+
+host2$ ./destroy_ran_vm.sh
+
+host3$ ./destroy_omec_vm.sh
 ```
+
