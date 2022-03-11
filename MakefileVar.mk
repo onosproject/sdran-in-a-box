@@ -28,7 +28,7 @@ SDRANCHARTCID-V1.1.0			?= 6670e6da25129b665b024a7c6d0fd79cfda52f25
 SDRANCHARTCID-V1.1.1			?= origin/rel-1.1.1
 SDRANCHARTCID-V1.2.0			?= origin/rel-1.2
 SDRANCHARTCID-V1.3.0			?= origin/rel-1.3
-SDRANCHARTCID-V1.4.0			?= sd-ran-1.4.0
+SDRANCHARTCID-V1.4.0			?= sd-ran-1.4.1
 
 #  Helm arguments
 DEFAULT_HELM_ARGS				:= --set import.ran-simulator.enabled=true --set import.onos-pci.enabled=true
