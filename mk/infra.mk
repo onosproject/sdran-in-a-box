@@ -161,7 +161,7 @@ else ifeq ($(VER), v1.2.0)
 else ifeq ($(VER), v1.3.0)
 	helm install onos-operator onos/onos-operator -n kube-system --version 0.4.14 --wait || true
 else ifeq ($(VER), v1.4.0)
-	helm install onos-operator onos/onos-operator -n kube-system --version 0.5.0 --wait || true
+	helm install onos-operator onos/onos-operator -n kube-system --version 0.5.2 --wait || true
 else ifeq ($(VER), stable)
 	helm install onos-operator onos/onos-operator -n kube-system --wait || true
 else ifeq ($(VER), latest)
