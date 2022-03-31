@@ -7,13 +7,30 @@ PRELIMINARIES_PHONY			:= preliminaries
 preliminaries: $(M) $(M)/system-check $(M)/setup
 
 $(M)/system-check: | $(M) $(M)/repos
-	@if [[ $(CPU_FAMILY) -eq 6 ]]; then \
-		if [[ $(CPU_MODEL) -lt 60 ]]; then \
-			echo "FATAL: haswell CPU or newer is required."; \
+	@if [[ $(CPU_VENDOR) == "GenuineIntel" ]]; then \
+		if [[ $(CPU_FAMILY) -eq 6 ]]; then \
+			if [[ $(CPU_MODEL) -lt 60 ]]; then \
+				echo "FATAL: haswell CPU or newer is required."; \
+				exit 1; \
+			fi \
+		else \
+			echo "FATAL: unsupported CPU family."; \
 			exit 1; \
 		fi \
-	else \
-		echo "FATAL: unsupported CPU family."; \
+	fi
+	@if [[ $(CPU_VENDOR) == "AuthenticAMD" ]]; then \
+		if [[ $(CPU_FAMILY) -gt 22 ]]; then \
+			if [[ $(CPU_MODEL) -lt 1 ]]; then \
+				echo "FATAL: ryzen 1 CPU or newer is required."; \
+				exit 1; \
+			fi \
+		else \
+			echo "FATAL: unsupported CPU family."; \
+			exit 1; \
+		fi \
+	fi
+	@if [[ ! (($(CPU_VENDOR) == "GenuineIntel") || ($(CPU_VENDOR) == "AuthenticAMD")) ]]; then \
+		echo "FATAL: unsupported CPU vendor."; \
 		exit 1; \
 	fi
 	@if [[ $(OS_VENDOR) =~ (Ubuntu) ]] || [[ $(OS_VENDOR) =~ (Debian) ]]; then \

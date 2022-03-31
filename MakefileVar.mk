@@ -87,6 +87,7 @@ STATIC_UE_IP_POOL				?= 172.249.0.0
 STATIC_UE_IP_MASK				?= 16
 
 # For system check
+CPU_VENDOR						:= $(shell lscpu | grep 'Vendor ID:' | awk '{print $$3}')
 CPU_FAMILY						:= $(shell lscpu | grep 'CPU family:' | awk '{print $$3}')
 CPU_MODEL						:= $(shell lscpu | grep 'Model:' | awk '{print $$2}')
 OS_VENDOR						:= $(shell lsb_release -i -s)
