@@ -75,9 +75,9 @@ HELM_OPENCORD_URL				?= https://charts.opencord.org
 HELM_SDRAN_URL					?= https://sdrancharts.onosproject.org
 
 # Infrastructure component version
-KUBESPRAY_VERSION				?= release-2.14
-DOCKER_VERSION					?= 19.03
-K8S_VERSION						?= v1.18.9
+KUBESPRAY_VERSION				?= release-2.18
+DOCKER_VERSION					?= '20.10'
+K8S_VERSION						?= v1.20.11
 HELM_VERSION					?= v3.7.0
 
 # OMEC parameters
