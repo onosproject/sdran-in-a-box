@@ -16,7 +16,7 @@ $(M)/system-check: | $(M) $(M)/repos
 		echo "FATAL: unsupported CPU family."; \
 		exit 1; \
 	fi
-	@if [[ $(OS_VENDOR) =~ (Ubuntu) ]]; then \
+	@if [[ $(OS_VENDOR) =~ (Ubuntu) ]] || [[ $(OS_VENDOR) =~ (Debian) ]]; then \
 		if [[ ! $(OS_RELEASE) =~ (18.04) ]] && [[ ! $(OS_RELEASE) =~ (20.04) ]]; then \
 			echo "WARN: $(OS_VENDOR) $(OS_RELEASE) has not been tested."; \
 		fi; \
