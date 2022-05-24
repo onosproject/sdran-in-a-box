@@ -69,6 +69,7 @@ $(M)/helm-ready: | $(M)/k8s-ready
 
 $(M)/fabric: | $(M)/setup /opt/cni/bin/simpleovs /opt/cni/bin/static
 	sudo apt install -y openvswitch-switch
+	sudo ovs-vsctl --if-exists del-br br-enb-net
 	sudo ovs-vsctl --may-exist add-br br-enb-net
 	sudo ovs-vsctl --may-exist add-port br-enb-net enb -- set Interface enb type=internal
 	sudo ip addr add $(OMEC_ENB_NET_IP) dev enb || true

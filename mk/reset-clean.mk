@@ -76,6 +76,9 @@ reset-test: reset-oai-test reset-5gc reset-ransim-test reset-prom-op-servicemoni
 
 clean: reset-test
 	helm repo remove sdran || true
+	@if [[ $(OS_VENDOR) =~ (Debian) ]]; then \
+		cp $(RESOURCEDIR)/kubespray-reset-defaults.yml $(BUILD)/kubespray/roles/reset/defaults/main.yml; \
+	fi
 	source "$(VENV)/bin/activate" && cd $(BUILD)/kubespray; \
 	ansible-playbook --extra-vars "reset_confirmation=yes" -b -i inventory/local/hosts.ini reset.yml || true
 	@if [ -d /usr/local/etc/emulab ]; then \
