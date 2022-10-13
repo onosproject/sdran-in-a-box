@@ -59,7 +59,7 @@ sudo mkdir -p /var/lib/libvirt
 sudo rm -rf /var/lib/libvirt/images
 
 # create symlinks to /mnt/extra partition
-for DIR in docker kubelet openstack-helm nova libvirt/images
+for DIR in docker containerd kubelet openstack-helm nova libvirt/images
 do
     sudo mkdir -p "/mnt/extra/$DIR"
     sudo chmod -R a+rwx "/mnt/extra/$DIR"
