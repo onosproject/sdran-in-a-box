@@ -76,15 +76,13 @@ HELM_SDRAN_URL					?= https://sdrancharts.onosproject.org
 
 # Infrastructure component version
 KUBESPRAY_VERSION				?= release-2.18
-DOCKER_VERSION					?= '20.10'
-K8S_VERSION						?= v1.20.11
-HELM_VERSION					?= v3.7.1
 
 # OMEC parameters
 UE_IP_POOL						?= 172.250.0.0
 UE_IP_MASK						?= 16
 STATIC_UE_IP_POOL				?= 172.249.0.0
 STATIC_UE_IP_MASK				?= 16
+MME_IP_ADDR						?= $(shell ip -4 a show $(S1MME_CU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
 
 # For system check
 CPU_FAMILY						:= $(shell lscpu | grep 'CPU family:' | awk '{print $$3}')

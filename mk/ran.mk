@@ -19,6 +19,7 @@ $(M)/oai-enb-cu: | version $(M)/helm-ready $(M)/ric
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
+		--set config.mme.address=$(MME_IP_ADDR) \
 		--set config.oai-enb-cu.networks.s1mme.interface=$(S1MME_CU_INTERFACE) \
 		--set config.onos-e2t.networks.e2.address=$(cu_e2t_nodeport_ipaddr) \
 		--set config.oai-enb-cu.networks.f1.interface=$(E2_F1_CU_INTERFACE) \
@@ -39,6 +40,7 @@ $(M)/oai-enb-cu-hw: | version $(M)/helm-ready
 	helm upgrade --install $(HELM_ARGS) \
 		--namespace $(RIAB_NAMESPACE) \
 		--values $(HELM_VALUES) \
+		--set config.mme.address=$(MME_IP_ADDR) \
 		--set config.oai-enb-cu.networks.s1mme.interface=$(S1MME_CU_INTERFACE) \
 		--set config.oai-enb-cu.networks.f1.interface=$(E2_F1_CU_INTERFACE) \
 		--set config.onos-e2t.networks.e2.address=$(cu_e2t_nodeport_ipaddr) \

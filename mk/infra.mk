@@ -29,18 +29,15 @@ $(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubesp
 	source "$(VENV)/bin/activate" && cd $(BUILD)/kubespray; \
 	ansible-playbook -b -i inventory/local/hosts.ini \
 		-e "{'override_system_hostname' : False, 'disable_swap' : True}" \
-		-e "{'docker_version' : $(DOCKER_VERSION)}" \
 		-e "{'docker_iptables_enabled' : True}" \
-		-e "{'kube_version' : $(K8S_VERSION)}" \
 		-e "{'kube_network_plugin_multus' : True, 'multus_version' : stable, 'multus_cni_version' : 0.3.1}" \
 		-e "{'kube_proxy_metrics_bind_address' : '0.0.0.0:10249'}" \
-		-e "{'kube_pods_subnet' : 192.168.0.0/17, 'kube_service_addresses' : 192.168.128.0/17}" \
+		-e "{'kube_pods_subnet' : 192.168.84.0/24, 'kube_service_addresses' : 192.168.85.0/24}" \
 		-e "{'kube_apiserver_node_port_range' : 2000-36767}" \
 		-e "{'kubeadm_enabled': True}" \
-		-e "{'kube_feature_gates' : [SCTPSupport=True]}" \
 		-e "{'kubelet_custom_flags' : [--allowed-unsafe-sysctls=net.*]}" \
 		-e "{'dns_min_replicas' : 1}" \
-		-e "{'helm_enabled' : True, 'helm_version' : $(HELM_VERSION)}" \
+		-e "{'helm_enabled' : True}" \
 		cluster.yml
 	mkdir -p $(HOME)/.kube
 	sudo cp -f /etc/kubernetes/admin.conf $(HOME)/.kube/config
@@ -135,17 +132,13 @@ else ifeq ($(VER), v1.4.0)
 	helm install -n kube-system atomix-controller atomix/atomix-controller --version 0.6.9 --wait || true
 	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --version 0.1.25 --wait || true
 else ifeq ($(VER), stable)
-	helm install -n kube-system atomix-controller atomix/atomix-controller --wait || true
-	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --wait || true
+	helm install -n kube-system atomix-runtime atomix/atomix-runtime --version 0.1.9 --wait || true
 else ifeq ($(VER), latest)
-	helm install -n kube-system atomix-controller atomix/atomix-controller --wait || true
-	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --wait || true
+	helm install -n kube-system atomix-runtime atomix/atomix-runtime --version 0.1.9 --wait || true
 else ifeq ($(VER), dev)
-	helm install -n kube-system atomix-controller atomix/atomix-controller --wait || true
-	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --wait || true
+	helm install -n kube-system atomix-runtime atomix/atomix-runtime --version 0.1.9 --wait || true
 else
-	helm install -n kube-system atomix-controller atomix/atomix-controller --wait || true
-	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --wait || true
+	helm install -n kube-system atomix-runtime atomix/atomix-runtime --version 0.1.9 --wait || true
 endif
 	touch $@
 
