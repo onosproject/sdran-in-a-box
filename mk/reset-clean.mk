@@ -77,15 +77,8 @@ reset-test: reset-oai-test reset-5gc reset-ransim-test reset-prom-op-servicemoni
 
 clean: reset-test
 	helm repo remove sdran || true
-	@if [[ $(OS_VENDOR) =~ (Debian) ]]; then \
-		cp $(RESOURCEDIR)/kubespray-reset-defaults.yml $(BUILD)/kubespray/roles/reset/defaults/main.yml; \
-	fi
-	source "$(VENV)/bin/activate" && cd $(BUILD)/kubespray; \
-	ansible-playbook --extra-vars "reset_confirmation=yes" -b -i inventory/local/hosts.ini reset.yml || true
-	@if [ -d /usr/local/etc/emulab ]; then \
-		mount | grep /mnt/extra/kubelet/pods | cut -d" " -f3 | sudo xargs umount; \
-		sudo rm -rf /mnt/extra/kubelet; \
-	fi
+	sudo /usr/local/bin/rke2-uninstall.sh || true
+	sudo rm -rf /usr/local/bin/kubectl
 	rm -rf $(M)
 
 clean-all: clean
