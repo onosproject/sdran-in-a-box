@@ -48,6 +48,9 @@ $(M)/k8s-ready: | $(M)/setup
 	touch $@
 
 $(M)/helm-ready: | $(M)/k8s-ready
+	curl -fsSL -o ${GET_HELM} https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+	chmod 700 ${GET_HELM}
+	sudo DESIRED_VERSION=$(HELM_VERSION) ./${GET_HELM}
 	helm repo add incubator $(HELM_INCUBATOR_URL)
 	helm repo add cord $(HELM_OPENCORD_URL)
 	helm repo add sdran $(HELM_SDRAN_URL)

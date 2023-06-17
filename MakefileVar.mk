@@ -84,6 +84,9 @@ HELM_SDRAN_URL					?= https://sdrancharts.onosproject.org
 RKE2_K8S_VERSION				?= v1.23.15+rke2r1
 LPP_VERSION						?= v0.0.24
 KUBECTL_VERSION					?= v1.23.15
+GET_HELM						= get_helm.sh
+HELM_VERSION					?= v3.10.3
+
 
 # OMEC parameters
 UE_IP_POOL						?= 172.250.0.0
