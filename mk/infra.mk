@@ -2,51 +2,55 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # PHONY definitions
-INFRA_PHONY					:= infra-kubespray infra-k8s infra-fabric infra-atomix infra-onos-op infra-fabric-cu-du infra-prom-op-servicemonitor
+INFRA_PHONY					:= infra-k8s infra-fabric infra-atomix infra-onos-op infra-fabric-cu-du infra-prom-op-servicemonitor
 
-infra-kubespray: $(BUILD)/kubespray $(M)/kubespray-requirements
-infra-k8s: infra-kubespray $(M)/k8s-ready $(M)/helm-ready
+infra-k8s: $(M)/k8s-ready $(M)/helm-ready
 infra-fabric: $(M)/fabric
 infra-fabric-cu-du: $(M)/fabric-cu-du
 infra-atomix: $(M)/atomix
 infra-onos-op: $(M)/onos-operator
 infra-prom-op-servicemonitor: $(M)/prom-op-servicemonitor
 
-$(BUILD)/kubespray: | $(M)/setup
-	mkdir -p $(BUILD)
-	cd $(BUILD); git clone https://github.com/kubernetes-incubator/kubespray.git -b $(KUBESPRAY_VERSION)
-
-$(VENV)/bin/activate: | $(M)/setup
-	sudo pip3 install virtualenv
-	virtualenv $(VENV)
-
-$(M)/kubespray-requirements: $(BUILD)/kubespray | $(VENV)/bin/activate
-	source "$(VENV)/bin/activate" && \
-	pip3 install -r $(BUILD)/kubespray/requirements.txt
-	touch $@
-
-$(M)/k8s-ready: | $(M)/setup $(BUILD)/kubespray $(VENV)/bin/activate $(M)/kubespray-requirements
-	source "$(VENV)/bin/activate" && cd $(BUILD)/kubespray; \
-	ansible-playbook -b -i inventory/local/hosts.ini \
-		-e "{'override_system_hostname' : False, 'disable_swap' : True}" \
-		-e "{'docker_iptables_enabled' : True}" \
-		-e "{'kube_network_plugin_multus' : True, 'multus_version' : stable, 'multus_cni_version' : 0.3.1}" \
-		-e "{'kube_proxy_metrics_bind_address' : '0.0.0.0:10249'}" \
-		-e "{'kube_pods_subnet' : 192.168.84.0/24, 'kube_service_addresses' : 192.168.85.0/24}" \
-		-e "{'kube_apiserver_node_port_range' : 2000-36767}" \
-		-e "{'kubeadm_enabled': True}" \
-		-e "{'kubelet_custom_flags' : [--allowed-unsafe-sysctls=net.*]}" \
-		-e "{'dns_min_replicas' : 1}" \
-		-e "{'helm_enabled' : True}" \
-		cluster.yml
+$(M)/k8s-ready: | $(M)/setup
+	sudo mkdir -p /etc/rancher/rke2/
+	[ -d /usr/local/etc/emulab ] && [ ! -e /var/lib/rancher ] && sudo ln -s /var/lib/rancher /mnt/extra/rancher || true  # that link gets deleted on cleanup
+	echo "cni: multus,calico" >> config.yaml
+	echo "cluster-cidr: 192.168.84.0/24" >> config.yaml
+	echo "service-cidr: 192.168.85.0/24" >> config.yaml
+	echo "kubelet-arg:" >> config.yaml
+	echo "- --allowed-unsafe-sysctls="net.*"" >> config.yaml
+	echo "- --node-ip="$(NODE_IP)"" >> config.yaml
+	echo "pause-image: k8s.gcr.io/pause:3.3" >> config.yaml
+	echo "kube-proxy-arg:" >> config.yaml
+	echo "- --metrics-bind-address="0.0.0.0:10249"" >> config.yaml
+	echo "- --proxy-mode="ipvs"" >> config.yaml
+	echo "kube-apiserver-arg:" >> config.yaml
+	echo "- --service-node-port-range="2000-36767"" >> config.yaml
+	sudo mv config.yaml /etc/rancher/rke2/
+	curl -sfL https://get.rke2.io | sudo INSTALL_RKE2_VERSION=$(RKE2_K8S_VERSION) sh -
+	sudo systemctl enable rke2-server.service
+	sudo systemctl start rke2-server.service
+	sudo /var/lib/rancher/rke2/bin/kubectl --kubeconfig /etc/rancher/rke2/rke2.yaml wait nodes --for=condition=Ready --all --timeout=300s
+	sudo /var/lib/rancher/rke2/bin/kubectl --kubeconfig /etc/rancher/rke2/rke2.yaml wait deployment -n kube-system --for=condition=available --all --timeout=300s
+	@$(eval STORAGE_CLASS := $(shell /var/lib/rancher/rke2/bin/kubectl --kubeconfig /etc/rancher/rke2/rke2.yaml get storageclass -o name))
+	@echo "STORAGE_CLASS: ${STORAGE_CLASS}"
+	if [ "$(STORAGE_CLASS)" == "" ]; then \
+		sudo /var/lib/rancher/rke2/bin/kubectl --kubeconfig /etc/rancher/rke2/rke2.yaml apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/$(LPP_VERSION)/deploy/local-path-storage.yaml --wait=true; \
+		sudo /var/lib/rancher/rke2/bin/kubectl --kubeconfig /etc/rancher/rke2/rke2.yaml patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'; \
+	fi
+	curl -LO "https://dl.k8s.io/release/$(KUBECTL_VERSION)/bin/linux/amd64/kubectl"
+	sudo chmod +x kubectl
+	sudo mv kubectl /usr/local/bin/
+	kubectl version --client
 	mkdir -p $(HOME)/.kube
-	sudo cp -f /etc/kubernetes/admin.conf $(HOME)/.kube/config
-	sudo chown $(shell id -u):$(shell id -g) $(HOME)/.kube/config
-	kubectl wait pod -n kube-system --for=condition=Ready --all --timeout=600s
-	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
+	sudo cp /etc/rancher/rke2/rke2.yaml $(HOME)/.kube/config
+	sudo chown -R $(shell id -u):$(shell id -g) $(HOME)/.kube
 	touch $@
 
 $(M)/helm-ready: | $(M)/k8s-ready
+	curl -fsSL -o ${GET_HELM} https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+	chmod 700 ${GET_HELM}
+	sudo DESIRED_VERSION=$(HELM_VERSION) ./${GET_HELM}
 	helm repo add incubator $(HELM_INCUBATOR_URL)
 	helm repo add cord $(HELM_OPENCORD_URL)
 	helm repo add sdran $(HELM_SDRAN_URL)
