@@ -82,6 +82,7 @@ HELM_SDRAN_URL					?= https://sdrancharts.onosproject.org
 
 # Infrastructure component version
 RKE2_K8S_VERSION				?= v1.23.15+rke2r1
+LPP_VERSION       ?= v0.0.24
 
 # OMEC parameters
 UE_IP_POOL						?= 172.250.0.0
