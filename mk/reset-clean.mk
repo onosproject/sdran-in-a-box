@@ -58,6 +58,7 @@ reset-onos-op:
 reset-ric:
 	helm delete -n $(RIAB_NAMESPACE) sd-ran || true
 	@until [ $$(kubectl get po -n $(RIAB_NAMESPACE) -l app=onos --no-headers | wc -l) == 0 ]; do sleep 1; done
+	kubectl delete namespace $(RIAB_NAMESPACE)
 	cd $(M); rm -f ric
 
 reset-fabric:

@@ -136,13 +136,13 @@ else ifeq ($(VER), v1.4.0)
 	helm install -n kube-system atomix-controller atomix/atomix-controller --version 0.6.9 --wait || true
 	helm install -n kube-system atomix-raft-storage atomix/atomix-raft-storage --version 0.1.25 --wait || true
 else ifeq ($(VER), stable)
-	helm install -n kube-system atomix-runtime atomix/atomix-runtime --version 0.1.9 --wait || true
+	helm install -n kube-system atomix-runtime atomix/atomix --version 1.1.2 --wait || true
 else ifeq ($(VER), latest)
-	helm install -n kube-system atomix-runtime atomix/atomix-runtime --version 0.1.9 --wait || true
+	helm install -n kube-system atomix-runtime atomix/atomix --wait || true
 else ifeq ($(VER), dev)
-	helm install -n kube-system atomix-runtime atomix/atomix-runtime --version 0.1.9 --wait || true
+	helm install -n kube-system atomix-runtime atomix/atomix --wait || true
 else
-	helm install -n kube-system atomix-runtime atomix/atomix-runtime --version 0.1.9 --wait || true
+	helm install -n kube-system atomix-runtime atomix/atomix --wait || true
 endif
 	touch $@
 
