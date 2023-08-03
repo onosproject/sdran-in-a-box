@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # PHONY definitions
-PRELIMINARIES_PHONY			:= preliminaries
+PRELIMINARIES_PHONY			:= preliminaries $(M)/proxy-setting
 
 preliminaries: $(M) $(M)/system-check $(M)/setup
 
@@ -57,7 +57,31 @@ $(M)/system-check: | $(M) $(M)/repos
 	fi
 	touch $@
 
-$(M)/setup: | $(M)/system-check
+$(M)/setup: | $(M)/system-check $(M)/proxy-setting
 	sudo $(SCRIPTDIR)/cloudlab-disksetup.sh
-	sudo apt update; sudo apt install -y software-properties-common python3-pip jq httpie ipvsadm ethtool
+	sudo apt update; sudo apt install -y software-properties-common python3-pip jq httpie ipvsadm ethtool net-tools
+	systemctl list-units --full -all | grep "docker.service" || sudo apt install -y docker.io
+	sudo adduser $(USER) docker || true
 	touch $@
+
+ifeq ($(PROXY_ENABLED),true)
+$(M)/proxy-setting: | $(M)
+	echo "Defaults env_keep += \"HTTP_PROXY HTTPS_PROXY NO_PROXY http_proxy https_proxy no_proxy\"" | sudo EDITOR='tee -a' visudo -f /etc/sudoers.d/proxy
+	echo "HTTP_PROXY=$(HTTP_PROXY)" >> rke2-server
+	echo "HTTPS_PROXY=$(HTTPS_PROXY)" >> rke2-server
+	echo "NO_PROXY=$(NO_PROXY),.cluster.local,.svc,$(NODE_IP),192.168.84.0/24,192.168.85.0/24,$(RAN_SUBNET)" >> rke2-server
+	sudo mv rke2-server /etc/default/
+	echo "[Service]" >> http-proxy.conf
+	echo "Environment='HTTP_PROXY=$(HTTP_PROXY)'" >> http-proxy.conf
+	echo "Environment='HTTPS_PROXY=$(HTTPS_PROXY)'" >> http-proxy.conf
+	echo "Environment='NO_PROXY=$(NO_PROXY)'" >> http-proxy.conf
+	sudo mkdir -p /etc/systemd/system/docker.service.d
+	sudo mv http-proxy.conf /etc/systemd/system/docker.service.d
+	sudo systemctl daemon-reload
+	sudo systemctl restart docker
+	touch $(M)/proxy-setting
+else
+$(M)/proxy-setting: | $(M)
+	@echo -n ""
+	touch $(M)/proxy-setting
+endif

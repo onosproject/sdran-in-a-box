@@ -14,6 +14,12 @@ AETHERCHARTDIR					?= $(CHARTDIR)/aether-helm-charts
 SDRANCHARTDIR					?= $(CHARTDIR)/sdran-helm-charts
 RESOURCEDIR						?= $(RIABDIR)/resources
 
+# Proxy config
+PROXY_ENABLED					?= false
+HTTP_PROXY						?= ${http_proxy}
+HTTPS_PROXY						?= ${https_proxy}
+NO_PROXY						?= ${no_proxy}
+
 # Commit IDs
 AETHERCHARTCID-V1.0.0			?= 6b3a267e428402d6bb8531bd921c1d202bb338b2
 AETHERCHARTCID-V1.3.0			?= 9f79ab87a96ae9ee2bb9a1540f4cd1574261611b
@@ -75,16 +81,19 @@ HELM_OPENCORD_URL				?= https://charts.opencord.org
 HELM_SDRAN_URL					?= https://sdrancharts.onosproject.org
 
 # Infrastructure component version
-KUBESPRAY_VERSION				?= release-2.18
-DOCKER_VERSION					?= '20.10'
-K8S_VERSION						?= v1.20.11
-HELM_VERSION					?= v3.7.1
+RKE2_K8S_VERSION				?= v1.23.15+rke2r1
+LPP_VERSION						?= v0.0.24
+KUBECTL_VERSION					?= v1.23.15
+GET_HELM						= get_helm.sh
+HELM_VERSION					?= v3.10.3
+
 
 # OMEC parameters
 UE_IP_POOL						?= 172.250.0.0
 UE_IP_MASK						?= 16
 STATIC_UE_IP_POOL				?= 172.249.0.0
 STATIC_UE_IP_MASK				?= 16
+MME_IP_ADDR						?= $(shell ip -4 a show $(S1MME_CU_INTERFACE) | grep inet | awk '{print $$2}' | awk -F '/' '{print $$1}' | tail -n 1)
 
 # For system check
 CPU_VENDOR						:= $(shell lscpu | grep 'Vendor ID:' | awk '{print $$3}')
