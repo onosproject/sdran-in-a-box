@@ -392,6 +392,11 @@ onos-e2t:
 #     repository: onosproject/onos-rsm
 #     tag: latest
 #     pullPolicy: IfNotPresent
+# onos-rsm-5g:
+#   image:
+#     repository: onosproject/onos-rsm-5g
+#     tag: latest
+#     pullPolicy: IfNotPresent
 # rimedo-ts:
 #   image:
 #     repository: onosproject/rimedo-ts
