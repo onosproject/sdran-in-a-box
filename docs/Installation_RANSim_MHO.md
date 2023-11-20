@@ -37,6 +37,7 @@ $ make riab OPT=mho VER=v1.4.0 # for release SD-RAN 1.4
 # for a "dev" version
 $ make riab OPT=mho VER=dev # for dev version
 ```
+**NOTE:We don't need to install anything, RiaB will take care of everything.**
 
 Once we push one of above commands, the deployment procedure starts.
 
