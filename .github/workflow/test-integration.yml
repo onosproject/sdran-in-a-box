@@ -1,0 +1,23 @@
+name: Test integration 
+
+on:
+  push:
+    branches:
+      - github-actions
+      - master
+  pull_request:
+
+jobs:
+  test-integration for ran-simulator option:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: deploy riab with ran-simulator option
+        run: |
+      - name: test
+        run: |
+            make test-e2-subscription
+            make test-kpimon
+            make test-pci
+            make test-rnib
+
