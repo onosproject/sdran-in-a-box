@@ -5,7 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 # SDRAN-in-a-Box (RiaB)
-SDRAN-in-a-Box (RiaB) is a SD-RAN cluster which is able to operate within a single host machine .
+SDRAN-in-a-Box (RiaB) is a SD-RAN cluster which is able to operate within a single host machine 
 It provides a development/test environment for developers/users in ONF SD-RAN community.
 RiaB deploys SD-RAN infrastructure - the EPC ([OMEC](https://github.com/omec-project)), emulated RAN (CU/DU/UE), and ONOS RAN Intelligent Controller (ONOS RIC) services - over Kubernetes.
 On top of the SD-RAN infrastructure, we can conduct end-to-end tests in terms of the user plane and the SD-RAN control plane.
