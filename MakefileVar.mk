@@ -25,7 +25,7 @@ AETHERCHARTCID-V1.0.0			?= 6b3a267e428402d6bb8531bd921c1d202bb338b2
 AETHERCHARTCID-V1.3.0			?= 9f79ab87a96ae9ee2bb9a1540f4cd1574261611b
 AETHERCHARTCID-V1.4.0			?= 9f79ab87a96ae9ee2bb9a1540f4cd1574261611b
 AETHERCHARTCID-LATEST			?= 9f79ab87a96ae9ee2bb9a1540f4cd1574261611b
-SDRANCHARTCID-LATEST			?= origin/master
+SDRANCHARTCID-LATEST			?= origin/ric-forum-demo
 SDRANCHARTCID-E2AP101-LATEST	?= origin/e2ap101
 SDRANCHARTCID-E2AP101-V1.3.0	?= sd-ran-1.2.129
 SDRANCHARTCID-E2AP101-V1.4.0	?= sd-ran-1.2.129
@@ -47,6 +47,7 @@ HELM_ARGS_FBAH					?= --set import.fb-ah-xapp.enabled=true --set import.fb-ah-gu
 HELM_ARGS_MLB       	        ?= --set import.ran-simulator.enabled=true --set import.onos-pci.enabled=true --set import.onos-mlb.enabled=true --set ran-simulator.pci.modelName=three-cell-n-node-model --set ran-simulator.pci.metricName=three-cell-n-node-metrics
 HELM_ARGS_MHO           	    ?= --set import.ran-simulator.enabled=true --set import.onos-mho.enabled=true --set ran-simulator.pci.modelName=two-cell-two-node-model
 HELM_ARGS_RIMEDOTS           	?= --set import.ran-simulator.enabled=true --set import.rimedo-ts.enabled=true --set ran-simulator.pci.modelName=two-cell-two-node-model
+HELM_ARGS_RIMEDOTS_V2           ?= --set import.ran-simulator.enabled=false --set import.rimedo-ts.enabled=true
 
 # Helm values file
 DEFAULT_HELM_VALUES				:= $(RIABDIR)/sdran-in-a-box-values-master-stable.yaml
