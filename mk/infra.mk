@@ -26,6 +26,7 @@ $(M)/k8s-ready: | $(M)/setup
 	echo "- --proxy-mode="ipvs"" >> config.yaml
 	echo "kube-apiserver-arg:" >> config.yaml
 	echo "- --service-node-port-range="2000-36767"" >> config.yaml
+	echo "disable: rke2-ingress-nginx" >> config.yaml
 	sudo mv config.yaml /etc/rancher/rke2/
 	curl -sfL https://get.rke2.io | sudo INSTALL_RKE2_VERSION=$(RKE2_K8S_VERSION) sh -
 	sudo systemctl enable rke2-server.service
