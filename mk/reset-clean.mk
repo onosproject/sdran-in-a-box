@@ -25,8 +25,7 @@ reset-oai-ue:
 	rm -f $(M)/oai-ue
 
 reset-omec:
-	helm delete -n $(RIAB_NAMESPACE) omec-control-plane || true
-	helm delete -n $(RIAB_NAMESPACE) omec-user-plane || true
+	helm delete -n $(RIAB_NAMESPACE) sd-core || true
 	cd $(M); rm -f omec
 
 reset-5gc:
