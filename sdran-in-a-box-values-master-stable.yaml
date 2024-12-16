@@ -137,6 +137,36 @@ omec-control-plane:
               type: excluding-this-app
               filter: exclude-app-name
 omec-user-plane:
+  resources:
+    enabled: true
+    bess:
+      requests:
+        cpu: 2
+        memory: 2Gi
+      limits:
+        cpu: 2
+        memory: 2Gi
+    routectl:
+      requests:
+        cpu: 256m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 128Mi
+    web:
+      requests:
+        cpu: 256m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 128Mi
+    cpiface:
+      requests:
+        cpu: 256m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 128Mi
   enable: true
   config:
     upf:

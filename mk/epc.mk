@@ -8,6 +8,8 @@ omec: $(M)/omec
 5gc:  $(M)/5gc
 
 $(M)/omec: | version $(M)/helm-ready $(M)/fabric
+	sudo sysctl -w fs.file-max=9223372036854775807
+	sudo sysctl -w fs.inotify.max_user_instances=1024
 	kubectl get namespace $(RIAB_NAMESPACE) 2> /dev/null || kubectl create namespace $(RIAB_NAMESPACE)
 	helm repo update
 	helm dep up $(AETHERCHARTDIR)/sdcore-helm-charts

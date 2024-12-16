@@ -137,6 +137,36 @@ omec-control-plane:
               type: excluding-this-app
               filter: exclude-app-name
 omec-user-plane:
+  resources:
+    enabled: true
+    bess:
+      requests:
+        cpu: 2
+        memory: 2Gi
+      limits:
+        cpu: 2
+        memory: 2Gi
+    routectl:
+      requests:
+        cpu: 256m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 128Mi
+    web:
+      requests:
+        cpu: 256m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 128Mi
+    cpiface:
+      requests:
+        cpu: 256m
+        memory: 128Mi
+      limits:
+        cpu: 256m
+        memory: 128Mi
   enable: true
   config:
     upf:
@@ -144,9 +174,13 @@ omec-user-plane:
       enb:
         subnet: 192.168.251.0/24
       access:
+        ipam: static
+        cniPlugin: simpleovs
         gateway: 192.168.252.1
         ip: 192.168.252.3/24
       core:
+        ipam: static
+        cniPlugin: simpleovs
         gateway: 192.168.250.1
         ip: 192.168.250.3/24
       name: "oaisim"
@@ -158,12 +192,21 @@ omec-user-plane:
       ipam: static
       cfgFiles:
         upf.jsonc:
-          mode: af_packet
+          mode: af_packet                # This mode implies no DPDK
+          hwcksum: true
+          log_level: "info"
           cpiface:
             dnn: "internet"
             hostname: "upf"
             enable_ue_ip_alloc: false
             ue_ip_pool: 172.250.0.0/16 # if we use RiaB, Makefile script will override this value with the value defined in MakefileVar.mk file.
+          slice_rate_limit_config:       # Slice-level rate limiting (also controlled by ROC)
+            # Uplink
+            n6_bps: 10000000000          # 10Gbps
+            n6_burst_bytes: 12500000     # 10ms * 10Gbps
+            # Downlink
+            n3_bps: 10000000000          # 10Gbps
+            n3_burst_bytes: 12500000     # 10ms * 10Gbps
 
 config:
   oai-enb-cu:
