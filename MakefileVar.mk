@@ -10,7 +10,7 @@ BUILD							?= $(WORKSPACE)/build
 VENV							?= $(BUILD)/venv/riab
 SCRIPTDIR						?= $(RIABDIR)/scripts
 CHARTDIR						?= $(WORKSPACE)/helm-charts
-AETHERCHARTDIR					?= $(CHARTDIR)/aether-helm-charts
+AETHERCHARTDIR					?= $(CHARTDIR)/sdcore-helm-charts
 SDRANCHARTDIR					?= $(CHARTDIR)/sdran-helm-charts
 RESOURCEDIR						?= $(RIABDIR)/resources
 
@@ -21,10 +21,10 @@ HTTPS_PROXY						?= ${https_proxy}
 NO_PROXY						?= ${no_proxy}
 
 # Commit IDs
-AETHERCHARTCID-V1.0.0			?= 6b3a267e428402d6bb8531bd921c1d202bb338b2
-AETHERCHARTCID-V1.3.0			?= 9f79ab87a96ae9ee2bb9a1540f4cd1574261611b
-AETHERCHARTCID-V1.4.0			?= 9f79ab87a96ae9ee2bb9a1540f4cd1574261611b
-AETHERCHARTCID-LATEST			?= 9f79ab87a96ae9ee2bb9a1540f4cd1574261611b
+AETHERCHARTCID-V1.0.0			?= 1.4.0
+AETHERCHARTCID-V1.3.0			?= 1.4.0
+AETHERCHARTCID-V1.4.0			?= 1.4.0
+AETHERCHARTCID-LATEST			?= 1.4.0
 SDRANCHARTCID-LATEST			?= origin/master
 SDRANCHARTCID-E2AP101-LATEST	?= origin/e2ap101
 SDRANCHARTCID-E2AP101-V1.3.0	?= sd-ran-1.2.129
@@ -74,7 +74,7 @@ DEFAULT_RIAB_NAMESPACE			:= riab
 RIAB_NAMESPACE					?= $(DEFAULT_RIAB_NAMESPACE)
 
 # URLs
-CORD_GERRIT_URL					?= https://gerrit.opencord.org
+CORD_GERRIT_URL					?= https://github.com/omec-project/sdcore-helm-charts
 ONOS_GITHUB_URL					?= https://github.com/onosproject
 HELM_INCUBATOR_URL				?= https://charts.helm.sh/incubator
 HELM_OPENCORD_URL				?= https://charts.opencord.org
