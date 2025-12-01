@@ -54,7 +54,7 @@ $(M)/helm-ready: | $(M)/k8s-ready
 	helm repo add incubator $(HELM_INCUBATOR_URL)
 	helm repo add cord $(HELM_OPENCORD_URL)
 	helm repo add sdran $(HELM_SDRAN_URL)
-	helm repo add atomix https://charts.atomix.io
+	helm repo add atomix https://atomix.github.io/charts.atomix.io
 	helm repo add onos https://charts.onosproject.org
 	helm repo update
 	touch $@
